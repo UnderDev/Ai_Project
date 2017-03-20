@@ -18,6 +18,40 @@ public class Sprite {
 		}
 	}
 	
+	
+	
+	
+	//=======================================> Added in class <========================================================
+	private double lifeforce = 500;
+	public double engage(double wepon, double anger){
+		
+		//Do One Of THE FOLLOWING
+		//Main Character moving and spartans
+		//get nn with fuzzy
+		
+		NeruralNetwork nn = NeuralNetworkFactory.getInstance().getNetwork("engage");
+		double [] inputs = {wepon,anger};
+		double result = nn.process(inputs);
+		lifeforce+=result;//losing life
+		
+
+		FIS fis = FuzzyLogicFactory.getInstance().getFIS("engage");
+		double fisResult = fis.evaluate(inputs);
+		lifeforce+=result;//losing life
+	
+		return anger;		
+	}
+	
+	public boolean isAlive(){
+		return lifeforce > 0;
+	}
+	//=======================================> End Added in class <====================================================
+	
+	
+	
+	
+	
+	
 	public BufferedImage getNext(){ //Returns the next image frame
 		int idx = index;
 		if (index < frames.length - 1){
