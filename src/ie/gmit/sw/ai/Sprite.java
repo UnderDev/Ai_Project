@@ -18,11 +18,8 @@ public class Sprite {
 		}
 	}
 	
-	
-	
-	
 	//=======================================> Added in class <========================================================
-	private double lifeforce = 500;
+	/*private double lifeforce = 500;
 	public double engage(double wepon, double anger){
 		
 		//Do One Of THE FOLLOWING
@@ -44,14 +41,10 @@ public class Sprite {
 	
 	public boolean isAlive(){
 		return lifeforce > 0;
-	}
+	}*/
 	//=======================================> End Added in class <====================================================
 	
-	
-	
-	
-	
-	
+		
 	public BufferedImage getNext(){ //Returns the next image frame
 		int idx = index;
 		if (index < frames.length - 1){
