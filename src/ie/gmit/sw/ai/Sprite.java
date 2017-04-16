@@ -2,15 +2,12 @@ package ie.gmit.sw.ai;
 
 import javax.imageio.*;
 import java.awt.image.*;
-import ie.gmit.sw.ai.traversers.*;
 
-public abstract class Sprite{
+public abstract class Sprite implements Interact{
 	
 	private String name; //The name of this sprite
 	private BufferedImage[] frames; //The set of image frames to animate
  	private int index = 0; //Initial starting index in array
- 	private Traversator traversator;
- 	
  	
 	public Sprite(String name, String... images) throws Exception{
 		super();
@@ -37,8 +34,6 @@ public abstract class Sprite{
 	public String getName(){
 		return this.name;
 	}
-	
-	public Traversator getType(){
-		return this.traversator;
-	}
+
+
 }

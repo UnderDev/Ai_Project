@@ -24,10 +24,8 @@ public class GameRunner implements KeyListener{
     	Sprite[] sprites = getSprites();
     	view.setSprites(sprites);
     	
-    	//FuzzyMonster[] fMonster = getFuzzyMonsters();
-    	//fMonster[1].getName();
-    	//view.setSprites(fMonster);
-   	
+    	System.out.println(sprites[11].fight(2,  1));
+ 	
     	placePlayer();
     	
     	Dimension d = new Dimension(GameView.DEFAULT_VIEW_SIZE, GameView.DEFAULT_VIEW_SIZE);
@@ -50,7 +48,7 @@ public class GameRunner implements KeyListener{
     	currentRow = (int) (MAZE_DIMENSION * Math.random());
     	currentCol = (int) (MAZE_DIMENSION * Math.random());
     	model.set(currentRow, currentCol, '5'); //A Spartan warrior is at index 5
-    	updateView(); 		
+    	updateView(); 	
 	}
 	
 	private void updateView(){
@@ -60,13 +58,17 @@ public class GameRunner implements KeyListener{
 
     public void keyPressed(KeyEvent e) {
         if (e.getKeyCode() == KeyEvent.VK_RIGHT && currentCol < MAZE_DIMENSION - 1) {
-        	if (isValidMove(currentRow, currentCol + 1)) currentCol++;   		
+        	if (isValidMove(currentRow, currentCol + 1)) 
+        		currentCol++;   		
         }else if (e.getKeyCode() == KeyEvent.VK_LEFT && currentCol > 0) {
-        	if (isValidMove(currentRow, currentCol - 1)) currentCol--;	
+        	if (isValidMove(currentRow, currentCol - 1)) 
+        		currentCol--;	
         }else if (e.getKeyCode() == KeyEvent.VK_UP && currentRow > 0) {
-        	if (isValidMove(currentRow - 1, currentCol)) currentRow--;
+        	if (isValidMove(currentRow - 1, currentCol)) 
+        		currentRow--;
         }else if (e.getKeyCode() == KeyEvent.VK_DOWN && currentRow < MAZE_DIMENSION - 1) {
-        	if (isValidMove(currentRow + 1, currentCol)) currentRow++;        	  	
+        	if (isValidMove(currentRow + 1, currentCol)) 
+        		currentRow++;        	  	
         }else if (e.getKeyCode() == KeyEvent.VK_Z){
         	view.toggleZoom();
         }else{
@@ -87,17 +89,6 @@ public class GameRunner implements KeyListener{
 		}else{
 			return false; //Can't move
 		}
-	}
-	
-	private FuzzyMonster[] getFuzzyMonsters() throws Exception {
-		
-		FuzzyMonster[] fMonster = new FuzzyMonster[IMAGE_COUNT];
-		fMonster[0] = new FuzzyMonster("Black Spider", "resources/black_spider_1.png", "resources/black_spider_2.png");
-		fMonster[1] = new FuzzyMonster("Blue Spider", "resources/blue_spider_1.png", "resources/blue_spider_2.png");
-		fMonster[2] = new FuzzyMonster("Brown Spider", "resources/brown_spider_1.png", "resources/brown_spider_2.png");
-		fMonster[3] = new FuzzyMonster("Green Spider", "resources/green_spider_1.png", "resources/green_spider_2.png");
-		
-		return fMonster;
 	}
 	
 	private Sprite[] getSprites() throws Exception{
@@ -124,28 +115,6 @@ public class GameRunner implements KeyListener{
 	
 	public static void main(String[] args) throws Exception{
 		new GameRunner();
-		
-//		String fileName = "fcl/fight.fcl";
-//        FIS fis = FIS.load(fileName,true);
-//        
-//        // Error while loading?
-//        if( fis == null ) { 
-//            System.err.println("Can't load file: '" + fileName + "'");
-//            return;
-//        }
-//        FunctionBlock functionBlock = fis.getFunctionBlock("fight");
-//
-//        // Show 
-//        JFuzzyChart.get().chart(functionBlock);
-//
-//        // Set inputs
-//        fis.setVariable("angerLevel", 8); //Apply a value to a variable
-//        fis.setVariable("weapon", 3);// Evaluate
-//        // Evaluate
-//        fis.evaluate();
-//        
-//        Variable damage = functionBlock.getVariable("damage");
-//        JFuzzyChart.get().chart(damage, damage.getDefuzzifier(), true);
-//        System.out.println(fis);
+
 	}
 }

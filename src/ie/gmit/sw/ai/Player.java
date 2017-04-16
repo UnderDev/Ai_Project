@@ -1,6 +1,6 @@
 package ie.gmit.sw.ai;
 
-public class Player extends Sprite implements Interact{
+public class Player extends ActiveSprites implements Interact{
 
 	public Player(String name, String... images) throws Exception {
 		super(name, images);
