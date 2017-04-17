@@ -11,6 +11,7 @@ public class Node {
 	private int row = -1;
 	private int col = -1;
 	private int distance;
+	private char feature;
 	
 	public Node(int row, int col) {
 		this.row = row;
@@ -39,6 +40,14 @@ public class Node {
 
 	public void setColor(Color color) {
 		this.color = color;
+	}
+	
+	public void setFeature(char feature){
+		this.feature=feature;
+	}
+	
+	public char getFeature(){
+		return this.feature;
 	}
 
 	

@@ -5,6 +5,8 @@ import java.awt.event.*;
 import java.util.ArrayList;
 
 import javax.swing.*;
+
+import ie.gmit.sw.ai.maze.Node;
 import net.sourceforge.jFuzzyLogic.FIS;
 import net.sourceforge.jFuzzyLogic.FunctionBlock;
 import net.sourceforge.jFuzzyLogic.plot.JFuzzyChart;
@@ -14,17 +16,18 @@ public class GameRunner implements KeyListener{
 	private static final int MAZE_DIMENSION = 100;
 	private static final int IMAGE_COUNT = 14;
 	private GameView view;
-	private Maze model;
+	private Node[][] model;
 	private int currentRow;
 	private int currentCol;
 	
 	public GameRunner() throws Exception{
-		model = new Maze(MAZE_DIMENSION);
+		Maze maze = new Maze(MAZE_DIMENSION);
+		model = maze.getMaze();
     	view = new GameView(model);
     	Sprite[] sprites = getSprites();
     	view.setSprites(sprites);
     	
-    	System.out.println(sprites[11].fight(2,  1));
+    	//System.out.println(sprites[11].fight(2,  1));
  	
     	placePlayer();
     	
@@ -47,8 +50,9 @@ public class GameRunner implements KeyListener{
 	private void placePlayer(){   	
     	currentRow = (int) (MAZE_DIMENSION * Math.random());
     	currentCol = (int) (MAZE_DIMENSION * Math.random());
-    	model.set(currentRow, currentCol, '5'); //A Spartan warrior is at index 5
-    	updateView(); 	
+    	//model.set(currentRow, currentCol, '5'); //A Spartan warrior is at index 5
+    	model[currentRow][currentCol].setFeature('5');
+    	updateView(); 		
 	}
 	
 	private void updateView(){
@@ -58,17 +62,13 @@ public class GameRunner implements KeyListener{
 
     public void keyPressed(KeyEvent e) {
         if (e.getKeyCode() == KeyEvent.VK_RIGHT && currentCol < MAZE_DIMENSION - 1) {
-        	if (isValidMove(currentRow, currentCol + 1)) 
-        		currentCol++;   		
+        	if (isValidMove(currentRow, currentCol + 1)) currentCol++;   		
         }else if (e.getKeyCode() == KeyEvent.VK_LEFT && currentCol > 0) {
-        	if (isValidMove(currentRow, currentCol - 1)) 
-        		currentCol--;	
+        	if (isValidMove(currentRow, currentCol - 1)) currentCol--;	
         }else if (e.getKeyCode() == KeyEvent.VK_UP && currentRow > 0) {
-        	if (isValidMove(currentRow - 1, currentCol)) 
-        		currentRow--;
+        	if (isValidMove(currentRow - 1, currentCol)) currentRow--;
         }else if (e.getKeyCode() == KeyEvent.VK_DOWN && currentRow < MAZE_DIMENSION - 1) {
-        	if (isValidMove(currentRow + 1, currentCol)) 
-        		currentRow++;        	  	
+        	if (isValidMove(currentRow + 1, currentCol)) currentRow++;        	  	
         }else if (e.getKeyCode() == KeyEvent.VK_Z){
         	view.toggleZoom();
         }else{
@@ -82,9 +82,9 @@ public class GameRunner implements KeyListener{
 
     
 	private boolean isValidMove(int row, int col){
-		if (row <= model.size() - 1 && col <= model.size() - 1 && model.get(row, col) == ' '){
-			model.set(currentRow, currentCol, '\u0020');
-			model.set(row, col, '5');
+		if (row <= model.length - 1 && col <= model.length - 1 && model[row][col].getFeature() == ' '){
+			model[currentRow][currentCol].setFeature('\u0020');
+			model[row][col].setFeature('5');
 			return true;
 		}else{
 			return false; //Can't move

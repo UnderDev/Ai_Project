@@ -3,12 +3,15 @@ package ie.gmit.sw.ai;
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
+
+import ie.gmit.sw.ai.maze.Node;
 public class GameView extends JPanel implements ActionListener{
 	private static final long serialVersionUID = 1L;
 	public static final int DEFAULT_VIEW_SIZE = 800;	
 	private int cellspan = 5;	
 	private int cellpadding = 2;
-	private Maze maze;
+	//private Maze maze;
+	private Node[][] maze;
 	private Sprite[] sprites;
 	private int enemy_state = 5;
 	private Timer timer;
@@ -19,7 +22,7 @@ public class GameView extends JPanel implements ActionListener{
 	private int offset = 48; //The number 0 is ASCII 48.
 	private Color[] reds = {new Color(255,160,122), new Color(139,0,0), new Color(255, 0, 0)}; //Animate enemy "dots" to make them easier to see
 	
-	public GameView(Maze maze) throws Exception{
+	public GameView(Node[][] maze) throws Exception{
 		this.maze = maze;
 		setBackground(Color.LIGHT_GRAY);
 		setDoubleBuffered(true);
@@ -30,8 +33,8 @@ public class GameView extends JPanel implements ActionListener{
 	public void setCurrentRow(int row) {
 		if (row < cellpadding){
 			currentRow = cellpadding;
-		}else if (row > (maze.size() - 1) - cellpadding){
-			currentRow = (maze.size() - 1) - cellpadding;
+		}else if (row > (maze.length - 1) - cellpadding){
+			currentRow = (maze.length - 1) - cellpadding;
 		}else{
 			currentRow = row;
 		}
@@ -40,8 +43,8 @@ public class GameView extends JPanel implements ActionListener{
 	public void setCurrentCol(int col) {
 		if (col < cellpadding){
 			currentCol = cellpadding;
-		}else if (col > (maze.size() - 1) - cellpadding){
-			currentCol = (maze.size() - 1) - cellpadding;
+		}else if (col > (maze.length - 1) - cellpadding){
+			currentCol = (maze.length - 1) - cellpadding;
 		}else{
 			currentCol = col;
 		}
@@ -51,7 +54,7 @@ public class GameView extends JPanel implements ActionListener{
         super.paintComponent(g);
         Graphics2D g2 = (Graphics2D)g;
               
-        cellspan = zoomOut ? maze.size() : 5;         
+        cellspan = zoomOut ? maze.length : 5;         
         final int size = DEFAULT_VIEW_SIZE/cellspan;
         g2.drawRect(0, 0, GameView.DEFAULT_VIEW_SIZE, GameView.DEFAULT_VIEW_SIZE);
         
@@ -63,7 +66,7 @@ public class GameView extends JPanel implements ActionListener{
         		char ch = '0';
        		
         		if (zoomOut){
-        			ch = maze.get(row, col);
+        			ch = maze[row][col].getFeature();
         			if (ch >= '5'){
 	        			if (row == currentRow && col == currentCol){
 	        				g2.setColor(Color.YELLOW);
@@ -73,7 +76,7 @@ public class GameView extends JPanel implements ActionListener{
         				g2.fillRect(x1, y1, size, size);
         			}
         		}else{
-        			ch = maze.get(currentRow - cellpadding + row, currentCol - cellpadding + col);
+        			ch = maze[currentRow - cellpadding + row][currentCol - cellpadding + col].getFeature();
         		}
         		
         		imageIndex = (int) ch;

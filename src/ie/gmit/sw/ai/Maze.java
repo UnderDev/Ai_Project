@@ -1,10 +1,14 @@
 package ie.gmit.sw.ai;
 
+import ie.gmit.sw.ai.maze.Node;
 
 public class Maze {
-	private char[][] maze;
+	
+	private Node[][] maze;
+	
 	public Maze(int dimension){
-		maze = new char[dimension][dimension];
+		
+		maze = new Node[dimension][dimension];
 		init();
 		buildMaze();
 		
@@ -28,7 +32,8 @@ public class Maze {
 	private void init(){
 		for (int row = 0; row < maze.length; row++){
 			for (int col = 0; col < maze[row].length; col++){
-				maze[row][col] = '0'; //Index 0 is a hedge...
+				maze[row][col] = new Node(row, col);
+				maze[row][col].setFeature('0'); //Index 0 is a hedge...
 			}
 		}
 	}
@@ -39,8 +44,8 @@ public class Maze {
 			int row = (int) (maze.length * Math.random());
 			int col = (int) (maze[0].length * Math.random());
 			
-			if (maze[row][col] == replace){
-				maze[row][col] = feature;
+			if (maze[row][col].getFeature() == replace){
+				maze[row][col].setFeature(feature);
 				counter++;
 			}
 		}
@@ -51,24 +56,24 @@ public class Maze {
 			for (int col = 1; col < maze[row].length - 1; col++){
 				int num = (int) (Math.random() * 10);
 				if (num > 5 && col + 1 < maze[row].length - 1){
-					maze[row][col + 1] = '\u0020'; //\u0020 = 0x20 = 32 (base 10) = SPACE
+					maze[row][col + 1].setFeature('\u0020'); //\u0020 = 0x20 = 32 (base 10) = SPACE
 				}else{
-					if (row + 1 < maze.length - 1)maze[row + 1][col] = '\u0020';
+					if (row + 1 < maze.length - 1)maze[row + 1][col].setFeature('\u0020');
 				}
 			}
 		}		
 	}
 	
-	public char[][] getMaze(){
+	public Node[][] getMaze(){
 		return this.maze;
 	}
 	
-	public char get(int row, int col){
+	public Node get(int row, int col){
 		return this.maze[row][col];
 	}
 	
 	public void set(int row, int col, char c){
-		this.maze[row][col] = c;
+		this.maze[row][col].setFeature(c);
 	}
 	
 	public int size(){
