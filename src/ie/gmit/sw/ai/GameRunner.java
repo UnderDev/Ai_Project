@@ -7,6 +7,8 @@ import java.util.ArrayList;
 import javax.swing.*;
 
 import ie.gmit.sw.ai.maze.Node;
+import ie.gmit.sw.ai.traversers.AStarTraversator;
+import ie.gmit.sw.ai.traversers.Traversator;
 import net.sourceforge.jFuzzyLogic.FIS;
 import net.sourceforge.jFuzzyLogic.FunctionBlock;
 import net.sourceforge.jFuzzyLogic.plot.JFuzzyChart;
@@ -19,6 +21,8 @@ public class GameRunner implements KeyListener{
 	private Node[][] model;
 	private int currentRow;
 	private int currentCol;
+	Player player; 
+	private Node goal;
 	
 	public GameRunner() throws Exception{
 		Maze maze = new Maze(MAZE_DIMENSION);
@@ -26,8 +30,8 @@ public class GameRunner implements KeyListener{
     	view = new GameView(model);
     	Sprite[] sprites = getSprites();
     	view.setSprites(sprites);
-    	
-    	//System.out.println(sprites[11].fight(2,  1));
+    	player = new Player("Spartan Warrior", "resources/spartan_1.png", "resources/spartan_2.png");
+    	System.out.println(sprites[11].fight(2,  1));
  	
     	placePlayer();
     	
@@ -52,12 +56,17 @@ public class GameRunner implements KeyListener{
     	currentCol = (int) (MAZE_DIMENSION * Math.random());
     	//model.set(currentRow, currentCol, '5'); //A Spartan warrior is at index 5
     	model[currentRow][currentCol].setFeature('5');
+    	model[currentRow][currentCol].setGoalNode(true);
+		goal = model[currentRow][currentCol];
     	updateView(); 		
 	}
 	
 	private void updateView(){
 		view.setCurrentRow(currentRow);
 		view.setCurrentCol(currentCol);
+		player.setPlayerNode(model[currentRow][currentCol]);
+    	System.out.println(player.getPlayerNode().toString());
+		goal = model[currentRow][currentCol];
 	}
 
     public void keyPressed(KeyEvent e) {
