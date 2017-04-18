@@ -1,10 +1,8 @@
 package ie.gmit.sw.ai;
 
-import ie.gmit.sw.ai.maze.Node;
-
 public class Player extends Sprite implements Interact{
 
-	private Node playerNode;
+	private Maze playerNode;
 	
 	public Player(String name, String... images) throws Exception {
 		super(name, images);
@@ -16,12 +14,12 @@ public class Player extends Sprite implements Interact{
 		return 0;
 	}
 	
-	public Node getPlayerNode()
+	public Maze getPlayerNode()
 	{
 		return playerNode;
 	}
 	
-	public void setPlayerNode(Node playerNode)
+	public void setPlayerNode(Maze playerNode)
 	{
 		this.playerNode = playerNode;
 	}
