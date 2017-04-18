@@ -12,7 +12,7 @@ public abstract class AbstractMazeGenerator {
 		maze = new Maze[rows][cols];
 		init();
 		generateMaze();
-		setGoalNode();
+		//setGoalNode();
 		unvisit();
 	}
 	

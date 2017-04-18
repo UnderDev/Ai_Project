@@ -56,10 +56,8 @@ public class BinaryTreeMazeGenerator extends AbstractMazeGenerator {
 				int num = (int) (Math.random() * 10);
 				if (num > 5 && col + 1 < maze[row].length - 1){
 					maze[row][col + 1].setCharType('\u0020'); //\u0020 = 0x20 = 32 (base 10) = SPACE
-					maze[row][col].addPath(Maze.Direction.West);
 				}else{
 					if (row + 1 < maze.length - 1)maze[row + 1][col].setCharType('\u0020');
-					maze[row][col].addPath(Maze.Direction.North);
 				}
 			}
 		}		

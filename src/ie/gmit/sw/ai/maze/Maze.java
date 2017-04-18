@@ -135,6 +135,8 @@ public class Maze {
 	public void setVisited(boolean visited) {
 		this.color = Color.BLUE;
 		this.visited = visited;
+			
+		setCharType('0');
 	}
 
 

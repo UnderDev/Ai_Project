@@ -19,7 +19,8 @@ public class GameRunner implements KeyListener{
 	private int currentRow;
 	private int currentCol;
 	private ArrayList<Character> spiderNames = new ArrayList<Character>();
-
+	private Player player;
+	
 	private Maze[][] maze;
 	private Maze goal;
 
@@ -27,12 +28,13 @@ public class GameRunner implements KeyListener{
 		MazeGenerator m = new MazeGenerator(MAZE_DIMENSION, MAZE_DIMENSION);				
 		maze = m.getMaze();
 		view = new GameView(maze);
-
+		player = new Player("Spartan Warrior", "resources/spartan_1.png", "resources/spartan_2.png");
+		
 		init();
 
 		Sprite[] sprites = getSprites();
 		view.setSprites(sprites);
-
+		view.toggleZoom();//testing only ******* REMOVE
 		placePlayer();
 
 		Dimension d = new Dimension(GameView.DEFAULT_VIEW_SIZE, GameView.DEFAULT_VIEW_SIZE);
@@ -71,12 +73,18 @@ public class GameRunner implements KeyListener{
 		currentRow = (int) (MAZE_DIMENSION * Math.random());
 		currentCol = (int) (MAZE_DIMENSION * Math.random());
 		maze[currentRow][currentCol].setCharType('5'); //A Spartan warrior is at index 5
-		updateView(); 		
+		maze[currentRow][currentCol].setGoal(true);
+		goal = maze[currentRow][currentCol];
+		updateView();
+		
 	}
 
 	private void updateView(){
 		view.setCurrentRow(currentRow);
 		view.setCurrentCol(currentCol);
+		player.setPlayerNode(maze[currentRow][currentCol]);
+    	System.out.println(player.getPlayerNode().toString());
+		goal = player.getPlayerNode();
 	}
 
 	public void keyPressed(KeyEvent e) {
@@ -104,7 +112,11 @@ public class GameRunner implements KeyListener{
 		//Move The Character to the space passed in if valid
 		if (row <= maze.length - 1 && col <= maze[row].length - 1 && maze[row][col].getCharType() == ' '){
 			maze[currentRow][currentCol].setCharType('\u0020');//Space
-			maze[row][col].setCharType('5');//Hero Char								
+			maze[currentRow][currentCol].setGoal(false);
+			
+			maze[row][col].setCharType('5');//Hero Char	
+			maze[row][col].setGoal(true);
+			
 			return true;
 		}else{
 
