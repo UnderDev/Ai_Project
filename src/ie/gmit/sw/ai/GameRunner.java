@@ -28,7 +28,7 @@ public class GameRunner implements KeyListener{
 		maze = m.getMaze();
 		view = new GameView(maze);
 
-		 init();
+		init();
 
 		Sprite[] sprites = getSprites();
 		view.setSprites(sprites);
@@ -55,7 +55,7 @@ public class GameRunner implements KeyListener{
 		Traversator t = new RecursiveDFSTraversator();
 		t.traverse(maze, maze[0][0]);
 	}
-	
+
 	private void init(){
 		spiderNames.add('\u0036');
 		spiderNames.add('\u0037');
@@ -108,6 +108,7 @@ public class GameRunner implements KeyListener{
 			return true;
 		}else{
 
+			//If Spider Encountered
 			if(spiderNames.contains(maze[row][col].getCharType())){
 				System.out.println("SPIDER Encountered!");
 			}			

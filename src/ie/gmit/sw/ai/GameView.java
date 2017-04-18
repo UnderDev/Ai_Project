@@ -67,9 +67,9 @@ public class GameView extends JPanel implements ActionListener{
 			for (int col = 0; col < cellspan; col++){  
 				int x1 = col * size;
 				int y1 = row * size;
-				
-        		int x2 = (col + 1) * size;
-        		int y2 = (row + 1) * size;
+
+				int x2 = (col + 1) * size;
+				int y2 = (row + 1) * size;
 
 				char ch = '0';
 
@@ -96,18 +96,18 @@ public class GameView extends JPanel implements ActionListener{
 					g2.drawImage(sprites[imageIndex].getNext(), x1, y1, null);
 				}
 				Direction[] paths = maze[row][col].getPaths();
-				
+
 				if(paths!=null)	{			
-				for (int i = 0; i < paths.length; i++){
-					if (paths[i] == Direction.North){
-						g2.drawLine(x1 + 1, y1, x2 - 1, y1); //N
-		    		}else if (paths[i] == Direction.South){     			
-		    			g2.drawLine(x1, y2, x2, y2); //S
-		    		}else if (paths[i] == Direction.East){           			
-		    			g2.drawLine(x2, y1, x2, y2); //E
-		    		}else if (paths[i] == Direction.West){ 
-		    			g2.drawLine(x1, y1 + 1, x1, y2 -1); //W
-					}}
+					for (int i = 0; i < paths.length; i++){
+						if (paths[i] == Direction.North){
+							g2.drawLine(x1 + 1, y1, x2 - 1, y1); //N
+						}else if (paths[i] == Direction.South){     			
+							g2.drawLine(x1, y2, x2, y2); //S
+						}else if (paths[i] == Direction.East){           			
+							g2.drawLine(x2, y1, x2, y2); //E
+						}else if (paths[i] == Direction.West){ 
+							g2.drawLine(x1, y1 + 1, x1, y2 -1); //W
+						}}
 				}
 			}
 		}

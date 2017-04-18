@@ -70,8 +70,8 @@ public class Maze {
 
 	public boolean hasDirection(Direction direction){	
 		if (paths==null)
-			return false;
-		
+			addPath(direction);
+
 		for (int i = 0; i < paths.length; i++) {
 			if (paths[i] == direction) return true;
 		}

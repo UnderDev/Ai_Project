@@ -1,7 +1,5 @@
 package ie.gmit.sw.ai;
 
-import ie.gmit.sw.ai.traversers.Traversator;
-
 public class FuzzyMonster extends Sprite implements Runnable{
 	
 	private static double Fullhealth = 20;
