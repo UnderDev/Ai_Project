@@ -7,9 +7,4 @@ public class Feature extends Sprite{
 		// TODO Auto-generated constructor stub
 	}
 
-	@Override
-	public double fight(double weapon, double angerLevel) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
 }

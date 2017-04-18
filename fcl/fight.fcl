@@ -39,7 +39,7 @@
 		ACT : MIN;	// Use 'min' activation method
 		ACCU : MAX;	// Use 'max' accumulation method
 	
-		RULE 1 : IF weapon IS poor OR angerLevel IS high THEN damage IS low;
+		RULE 1 : IF weapon IS poor OR angerLevel IS low THEN damage IS low;
 		RULE 2 : IF weapon IS good THEN damage IS medium; 
 		RULE 3 : IF weapon IS excellent AND angerLevel IS high THEN damage IS high;
 	END_RULEBLOCK

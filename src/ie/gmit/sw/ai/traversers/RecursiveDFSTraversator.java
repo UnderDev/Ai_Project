@@ -23,16 +23,15 @@ public class RecursiveDFSTraversator implements Traversator{
 
 		node.setVisited(true);
 		//Move Spiders Here
-		
+
 		
 		visitCount++;
 
 		if (node.isGoal()){
-
-			time = System.currentTimeMillis() - time; //Stop the clock
-			TraversatorStats.printStats(node, time, visitCount);
-			System.out.println("Location: [" +node.toString());
-			keepRunning = false;
+			System.out.println("Found you at " + node.toString());
+	        time = System.currentTimeMillis() - time; //Stop the clock
+	        TraversatorStats.printStats(node, time, visitCount);
+	        keepRunning = false;
 			return;
 		}
 

@@ -28,8 +28,9 @@ public class Maze {
 		return mapItem;
 	}
 
-	public void setMapItem(char charType) {
-		this.mapItem = charType;
+
+	public void setMapItem(char mapItem) {
+		this.mapItem = mapItem;
 	}
 
 	public int getRow() {

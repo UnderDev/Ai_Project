@@ -3,6 +3,7 @@ package ie.gmit.sw.ai;
 import java.awt.*;
 import java.awt.event.*;
 import java.util.ArrayList;
+import java.util.Random;
 
 import javax.swing.*;
 
@@ -19,8 +20,13 @@ public class GameRunner implements KeyListener{
 	private int currentRow;
 	private int currentCol;
 	private ArrayList<Character> spiderNames = new ArrayList<Character>();
-	private Player player;
 	
+	private Player player;
+
+	private ArrayList<Monster> spiders = new ArrayList<Monster>();
+	private Sprite[] sprites;
+
+
 	private Maze[][] maze;
 	private Maze goal;
 
@@ -29,14 +35,28 @@ public class GameRunner implements KeyListener{
 		maze = m.getMaze();
 		view = new GameView(maze);
 		player = new Player("Spartan Warrior", "resources/spartan_1.png", "resources/spartan_2.png");
-		
+
 		init();
-
-		Sprite[] sprites = getSprites();
+		sprites = getSprites();
+		spiders = getSpiders();
+		
+		Random r = new Random();
+		player.setWeapon(6);
+		spiders.get(0).setAngerLevel(Math.round(r.nextDouble()*10));
+		spiders.get(0).setHealth(Math.round(r.nextDouble()*100));
+		//spiders.get(0).setHealth(12);
+		System.out.println(spiders.get(0).getHealth());
+		System.out.println(spiders.get(0).isAlive(spiders.get(0).getHealth()));
 		view.setSprites(sprites);
-		view.toggleZoom();//testing only ******* REMOVE
-		placePlayer();
+		System.out.println(spiders.get(0).fight(player.getWeapon(), spiders.get(0).getAngerLevel()));
+		System.out.println(spiders.get(0).isAlive(spiders.get(0).getHealth()));
+		System.out.println(spiders.get(0).getHealth());
 
+		
+		placePlayer();
+		
+		
+		
 		Dimension d = new Dimension(GameView.DEFAULT_VIEW_SIZE, GameView.DEFAULT_VIEW_SIZE);
 		view.setPreferredSize(d);
 		view.setMinimumSize(d);
@@ -52,15 +72,12 @@ public class GameRunner implements KeyListener{
 		f.pack();
 		f.setVisible(true);    
 
-
 		Traversator t = new RecursiveDFSTraversator();
 		t.traverse(maze, maze[0][0]);
-		
-		
-		
 	}
 
 	private void init(){
+		
 		spiderNames.add('\u0036');
 		spiderNames.add('\u0037');
 		spiderNames.add('\u0038');
@@ -125,7 +142,6 @@ public class GameRunner implements KeyListener{
 			if(spiderNames.contains(maze[row][col].getMapItem())){
 				System.out.println("SPIDER Encountered!");
 			}			
-
 			return false; //Can't move
 		}
 	}
@@ -141,15 +157,29 @@ public class GameRunner implements KeyListener{
 		sprites[3] = new Feature("Bomb", "resources/bomb.png");
 		sprites[4] = new Feature("Hydrogen Bomb", "resources/h_bomb.png");
 		sprites[5] = new Player("Spartan Warrior", "resources/spartan_1.png", "resources/spartan_2.png");
-		sprites[6] = new FuzzyMonster("Black Spider", "resources/black_spider_1.png", "resources/black_spider_2.png");
-		sprites[7] = new FuzzyMonster("Blue Spider", "resources/blue_spider_1.png", "resources/blue_spider_2.png");
-		sprites[8] = new FuzzyMonster("Brown Spider", "resources/brown_spider_1.png", "resources/brown_spider_2.png");
-		sprites[9] = new FuzzyMonster("Green Spider", "resources/green_spider_1.png", "resources/green_spider_2.png");
-		sprites[10] = new FuzzyMonster("Grey Spider", "resources/grey_spider_1.png", "resources/grey_spider_2.png");
-		sprites[11] = new FuzzyMonster("Orange Spider", "resources/orange_spider_1.png", "resources/orange_spider_2.png");
-		sprites[12] = new FuzzyMonster("Red Spider", "resources/red_spider_1.png", "resources/red_spider_2.png");
-		sprites[13] = new FuzzyMonster("Yellow Spider", "resources/yellow_spider_1.png", "resources/yellow_spider_2.png");
+		sprites[6] = new Monster("Black Spider", "resources/black_spider_1.png", "resources/black_spider_2.png");
+		sprites[7] = new Monster("Blue Spider", "resources/blue_spider_1.png", "resources/blue_spider_2.png");
+		sprites[8] = new Monster("Brown Spider", "resources/brown_spider_1.png", "resources/brown_spider_2.png");
+		sprites[9] = new Monster("Green Spider", "resources/green_spider_1.png", "resources/green_spider_2.png");
+		sprites[10] = new Monster("Grey Spider", "resources/grey_spider_1.png", "resources/grey_spider_2.png");
+		sprites[11] = new Monster("Orange Spider", "resources/orange_spider_1.png", "resources/orange_spider_2.png");
+		sprites[12] = new Monster("Red Spider", "resources/red_spider_1.png", "resources/red_spider_2.png");
+		sprites[13] = new Monster("Yellow Spider", "resources/yellow_spider_1.png", "resources/yellow_spider_2.png");
+		spiders.add((Monster) sprites[6]);
 		return sprites;
+	}
+	
+	private ArrayList<Monster> getSpiders() throws Exception {
+
+		spiders.add(new Monster("Black Spider", "resources/black_spider_1.png", "resources/black_spider_2.png"));
+		spiders.add(new Monster("Blue Spider", "resources/blue_spider_1.png", "resources/blue_spider_2.png"));
+		spiders.add(new Monster("Brown Spider", "resources/brown_spider_1.png", "resources/brown_spider_2.png"));
+		spiders.add(new Monster("Green Spider", "resources/green_spider_1.png", "resources/green_spider_2.png"));
+		spiders.add(new Monster("Grey Spider", "resources/grey_spider_1.png", "resources/grey_spider_2.png"));
+		spiders.add(new Monster("Orange Spider", "resources/orange_spider_1.png", "resources/orange_spider_2.png"));
+		spiders.add(new Monster("Red Spider", "resources/red_spider_1.png", "resources/red_spider_2.png"));
+		spiders.add(new Monster("Yellow Spider", "resources/yellow_spider_1.png", "resources/yellow_spider_2.png"));
+		return spiders;
 	}
 
 	public static void main(String[] args) throws Exception{

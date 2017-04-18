@@ -58,6 +58,7 @@ public class BinaryTreeMazeGenerator extends AbstractMazeGenerator {
 					maze[row][col + 1].setMapItem('\u0020'); //\u0020 = 0x20 = 32 (base 10) = SPACE
 				}else{
 					if (row + 1 < maze.length - 1)maze[row + 1][col].setMapItem('\u0020');
+					maze[row][col].addPath(Maze.Direction.West);
 				}
 			}
 		}		
