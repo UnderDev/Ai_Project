@@ -19,7 +19,7 @@ public class Maze {
 	private int row = -1;
 	private int col = -1;
 	private int distance;
-	private char charType;
+	private char mapItem;
 
 
 	public Maze(int row, int col){
@@ -28,12 +28,12 @@ public class Maze {
 	}
 
 
-	public char getCharType() {
-		return charType;
+	public char getMapItem() {
+		return mapItem;
 	}
 
-	public void setCharType(char charType) {
-		this.charType = charType;
+	public void setMapItem(char mapItem) {
+		this.mapItem = mapItem;
 	}
 
 	public int getRow() {
@@ -70,7 +70,7 @@ public class Maze {
 
 	public boolean hasDirection(Direction direction){	
 		if (paths==null)
-			return false;
+			addPath(direction);
 		
 		for (int i = 0; i < paths.length; i++) {
 			if (paths[i] == direction) return true;

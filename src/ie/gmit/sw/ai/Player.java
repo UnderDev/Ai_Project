@@ -2,18 +2,15 @@ package ie.gmit.sw.ai;
 
 import ie.gmit.sw.ai.maze.Maze;
 
-public class Player extends Sprite implements Interact{
+public class Player extends Sprite{
 
 	private Maze playerNode;
+	private double weapon;
+	private double health = 100;
 	
 	public Player(String name, String... images) throws Exception {
 		super(name, images);
 		// TODO Auto-generated constructor stub
-	}
-
-	public double fight(double weapon, double angerLevel) {
-		// TODO Auto-generated method stub
-		return 0;
 	}
 	
 	public Maze getPlayerNode()
@@ -24,6 +21,28 @@ public class Player extends Sprite implements Interact{
 	public void setPlayerNode(Maze playerNode)
 	{
 		this.playerNode = playerNode;
+	}
+	
+	public void setWeapon(double weapon)
+	{
+		this.weapon=weapon;
+	}
+	
+	public double getWeapon()
+	{
+		return Math.round(weapon);
+	}
+	
+	public boolean isAlive(double health)
+	{
+		if(health > 0)
+		{
+			return true;
+		}
+		else
+		{
+			return false;
+		}
 	}
 
 }

@@ -12,19 +12,19 @@ public abstract class AbstractMazeGenerator {
 		maze = new Maze[rows][cols];
 		init();
 		generateMaze();
-		setGoalNode();
+		//setGoalNode();
 		unvisit();
 	}
 	
 	public abstract void generateMaze();
 
-	public void setGoalNode() {//ADD SPARTEN HERE
-		Random generator = new Random();
-		int randRow = generator.nextInt(maze.length);
-		int randCol = generator.nextInt(maze[0].length);
-		maze[randRow][randCol].setGoal(true);
-		goal = maze[randRow][randCol];
-	}
+//	public void setGoalNode() {//ADD SPARTEN HERE
+//		Random generator = new Random();
+//		int randRow = generator.nextInt(maze.length);
+//		int randCol = generator.nextInt(maze[0].length);
+//		maze[randRow][randCol].setGoal(true);
+//		goal = maze[randRow][randCol];
+//	}
 
 	public Maze getGoalNode() {
 		return goal;

@@ -21,7 +21,7 @@ public class HuntAndKillMazeGenerator extends AbstractMazeGenerator {
 		Maze node = maze[randRow][randCol];
 		
 		//Start random walk
-		/*while (node != null){			
+		while (node != null){			
 			node.setVisited(true);
 			Maze[] adjacents = node.adjacentNodes(maze);
 			super.shuffle(adjacents);
@@ -38,7 +38,7 @@ public class HuntAndKillMazeGenerator extends AbstractMazeGenerator {
 			}
 
 			if (look) node = hunt();			
-		}*/
+		}
 	}
 	
 	private Maze hunt(){
