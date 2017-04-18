@@ -4,13 +4,22 @@ import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 
+<<<<<<< HEAD
 import ie.gmit.sw.ai.Maze.Direction;
+=======
+import ie.gmit.sw.ai.maze.Node;
+>>>>>>> origin/FuzzyLogic
 public class GameView extends JPanel implements ActionListener{
 	private static final long serialVersionUID = 1L;
 	public static final int DEFAULT_VIEW_SIZE = 800;	
 	private int cellspan = 5;	
 	private int cellpadding = 2;
+<<<<<<< HEAD
 	private Maze maze[][];
+=======
+	//private Maze maze;
+	private Node[][] maze;
+>>>>>>> origin/FuzzyLogic
 	private Sprite[] sprites;
 	private int enemy_state = 5;
 	private Timer timer;
@@ -20,8 +29,13 @@ public class GameView extends JPanel implements ActionListener{
 	private int imageIndex = -1;
 	private int offset = 48; //The number 0 is ASCII 48.
 	private Color[] reds = {new Color(255,160,122), new Color(139,0,0), new Color(255, 0, 0)}; //Animate enemy "dots" to make them easier to see
+<<<<<<< HEAD
 
 	public GameView(Maze[][] maze) throws Exception{
+=======
+	
+	public GameView(Node[][] maze) throws Exception{
+>>>>>>> origin/FuzzyLogic
 		this.maze = maze;
 		setBackground(Color.LIGHT_GRAY);
 		setDoubleBuffered(true);
@@ -55,6 +69,7 @@ public class GameView extends JPanel implements ActionListener{
 	}
 
 	public void paintComponent(Graphics g) {
+<<<<<<< HEAD
 		super.paintComponent(g);
 		Graphics2D g2 = (Graphics2D)g;
 
@@ -110,6 +125,46 @@ public class GameView extends JPanel implements ActionListener{
 				}
 			}
 		}
+=======
+        super.paintComponent(g);
+        Graphics2D g2 = (Graphics2D)g;
+              
+        cellspan = zoomOut ? maze.length : 5;         
+        final int size = DEFAULT_VIEW_SIZE/cellspan;
+        g2.drawRect(0, 0, GameView.DEFAULT_VIEW_SIZE, GameView.DEFAULT_VIEW_SIZE);
+        
+        for(int row = 0; row < cellspan; row++) {
+        	for (int col = 0; col < cellspan; col++){  
+        		int x1 = col * size;
+        		int y1 = row * size;
+        		
+        		char ch = '0';
+       		
+        		if (zoomOut){
+        			ch = maze[row][col].getFeature();
+        			if (ch >= '5'){
+	        			if (row == currentRow && col == currentCol){
+	        				g2.setColor(Color.YELLOW);
+	        			}else{
+	        				g2.setColor(reds[(int) (Math.random() * 3)]);
+	        			}
+        				g2.fillRect(x1, y1, size, size);
+        			}
+        		}else{
+        			ch = maze[currentRow - cellpadding + row][currentCol - cellpadding + col].getFeature();
+        		}
+        		
+        		imageIndex = (int) ch;
+        		imageIndex -= offset;
+        		if (imageIndex < 0){
+        			g2.setColor(Color.LIGHT_GRAY);//Empty cell
+        			g2.fillRect(x1, y1, size, size);   			
+        		}else{
+        			g2.drawImage(sprites[imageIndex].getNext(), x1, y1, null);
+        		}
+        	}
+        }
+>>>>>>> origin/FuzzyLogic
 	}
 
 	public void toggleZoom(){

@@ -1,42 +1,39 @@
 package ie.gmit.sw.ai.traversers;
 
-<<<<<<< HEAD
-import ie.gmit.sw.ai.*;
-public class RecursiveDFSTraversator implements Traversator{
-	private Maze[][] maze;
-=======
+import java.awt.Color;
+
 import ie.gmit.sw.ai.maze.*;
-public class RecursiveDFSTraversator implements Traversator{
+public class IDDFSTraversator implements Traversator{
 	private Node[][] maze;
->>>>>>> origin/FuzzyLogic
 	private boolean keepRunning = true;
 	private long time = System.currentTimeMillis();
 	private int visitCount = 0;
 	
-<<<<<<< HEAD
-	public void traverse(Maze[][] maze, Maze node) {
-=======
-	public void traverse(Node[][] maze, Node node) {
->>>>>>> origin/FuzzyLogic
+	public void traverse(Node[][] maze, Node start) {
 		this.maze = maze;
-		dfs(node);
-	}
-	
-<<<<<<< HEAD
-	private void dfs(Maze node){
-=======
-	private void dfs(Node node){
->>>>>>> origin/FuzzyLogic
-		if (!keepRunning) return;
+		int limit = 1;
 		
+		while(keepRunning){
+			dfs(start, 0, limit);
+			
+			if (keepRunning){
+				try { //Pause before next iteration
+					Thread.sleep(500);
+		      		limit++;       		
+		      		unvisit();	
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}			
+			}
+      	}
+	}
+
+	private void dfs(Node node, int depth, int limit){
+		if (!keepRunning || depth > limit) return;		
 		node.setVisited(true);	
 		visitCount++;
 		
-<<<<<<< HEAD
-		if (node.isGoal()){
-=======
 		if (node.isGoalNode()){
->>>>>>> origin/FuzzyLogic
 	        time = System.currentTimeMillis() - time; //Stop the clock
 	        TraversatorStats.printStats(node, time, visitCount);
 	        keepRunning = false;
@@ -49,15 +46,21 @@ public class RecursiveDFSTraversator implements Traversator{
 			e.printStackTrace();
 		}
 		
-<<<<<<< HEAD
-		Maze[] children = node.children(maze);
-=======
 		Node[] children = node.children(maze);
->>>>>>> origin/FuzzyLogic
 		for (int i = 0; i < children.length; i++) {
 			if (children[i] != null && !children[i].isVisited()){
 				children[i].setParent(node);
-				dfs(children[i]);
+				dfs(children[i], depth + 1, limit);
+			}
+		}
+	} 
+		
+	private void unvisit(){
+		for (int i = 0; i < maze.length; i++){
+			for (int j = 0; j < maze[i].length; j++){
+				maze[i][j].setVisited(false);
+				maze[i][j].setParent(null);
+				maze[i][j].setColor(Color.BLACK);
 			}
 		}
 	}
