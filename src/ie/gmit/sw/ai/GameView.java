@@ -74,7 +74,7 @@ public class GameView extends JPanel implements ActionListener{
 				char ch = '0';
 
 				if (zoomOut){
-					ch = maze[row][col].getCharType();
+					ch = maze[row][col].getMapItem();
 					if (ch >= '5'){
 						if (row == currentRow && col == currentCol){
 							g2.setColor(Color.YELLOW);
@@ -84,7 +84,7 @@ public class GameView extends JPanel implements ActionListener{
 						g2.fillRect(x1, y1, size, size);
 					}
 				}else{
-					ch = maze[currentRow - cellpadding + row] [currentCol - cellpadding + col].getCharType();
+					ch = maze[currentRow - cellpadding + row] [currentCol - cellpadding + col].getMapItem();
 				}
 
 				imageIndex = (int) ch;

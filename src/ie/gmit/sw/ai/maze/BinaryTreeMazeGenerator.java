@@ -31,7 +31,7 @@ public class BinaryTreeMazeGenerator extends AbstractMazeGenerator {
 	private void ini(){
 		for (int row = 0; row < maze.length; row++){
 			for (int col = 0; col < maze[row].length; col++){
-				maze[row][col].setCharType('0'); //Index 0 is a hedge...
+				maze[row][col].setMapItem('0'); //Index 0 is a hedge...
 			}
 		}
 	}
@@ -42,8 +42,8 @@ public class BinaryTreeMazeGenerator extends AbstractMazeGenerator {
 			int row = (int) (maze.length * Math.random());
 			int col = (int) (maze[0].length * Math.random());
 
-			if (maze[row][col].getCharType() == replace){
-				maze[row][col].setCharType(feature);
+			if (maze[row][col].getMapItem() == replace){
+				maze[row][col].setMapItem(feature);
 				counter++;
 			}
 		}
@@ -55,9 +55,9 @@ public class BinaryTreeMazeGenerator extends AbstractMazeGenerator {
 			for (int col = 1; col < maze[row].length - 1; col++){
 				int num = (int) (Math.random() * 10);
 				if (num > 5 && col + 1 < maze[row].length - 1){
-					maze[row][col + 1].setCharType('\u0020'); //\u0020 = 0x20 = 32 (base 10) = SPACE
+					maze[row][col + 1].setMapItem('\u0020'); //\u0020 = 0x20 = 32 (base 10) = SPACE
 				}else{
-					if (row + 1 < maze.length - 1)maze[row + 1][col].setCharType('\u0020');
+					if (row + 1 < maze.length - 1)maze[row + 1][col].setMapItem('\u0020');
 				}
 			}
 		}		

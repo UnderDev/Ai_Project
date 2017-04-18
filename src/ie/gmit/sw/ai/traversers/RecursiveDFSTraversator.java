@@ -1,7 +1,5 @@
 package ie.gmit.sw.ai.traversers;
 
-import java.awt.Color;
-
 import ie.gmit.sw.ai.maze.Maze;
 
 public class RecursiveDFSTraversator implements Traversator{
@@ -24,6 +22,9 @@ public class RecursiveDFSTraversator implements Traversator{
 		if (!keepRunning) return;
 
 		node.setVisited(true);
+		//Move Spiders Here
+		
+		
 		visitCount++;
 
 		if (node.isGoal()){

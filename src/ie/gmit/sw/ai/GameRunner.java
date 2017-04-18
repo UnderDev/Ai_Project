@@ -41,7 +41,6 @@ public class GameRunner implements KeyListener{
 		view.setPreferredSize(d);
 		view.setMinimumSize(d);
 		view.setMaximumSize(d);
-		//view.setCurrentPosition(goal.getRow(), goal.getCol());
 
 		JFrame f = new JFrame("GMIT - B.Sc. in Computing (Software Development)");
 		f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -56,6 +55,9 @@ public class GameRunner implements KeyListener{
 
 		Traversator t = new RecursiveDFSTraversator();
 		t.traverse(maze, maze[0][0]);
+		
+		
+		
 	}
 
 	private void init(){
@@ -72,11 +74,10 @@ public class GameRunner implements KeyListener{
 	private void placePlayer(){   	
 		currentRow = (int) (MAZE_DIMENSION * Math.random());
 		currentCol = (int) (MAZE_DIMENSION * Math.random());
-		maze[currentRow][currentCol].setCharType('5'); //A Spartan warrior is at index 5
+		maze[currentRow][currentCol].setMapItem('5'); //A Spartan warrior is at index 5
 		maze[currentRow][currentCol].setGoal(true);
 		goal = maze[currentRow][currentCol];
-		updateView();
-		
+		updateView();		
 	}
 
 	private void updateView(){
@@ -110,18 +111,18 @@ public class GameRunner implements KeyListener{
 
 	private boolean isValidMove(int row, int col){
 		//Move The Character to the space passed in if valid
-		if (row <= maze.length - 1 && col <= maze[row].length - 1 && maze[row][col].getCharType() == ' '){
-			maze[currentRow][currentCol].setCharType('\u0020');//Space
+		if (row <= maze.length - 1 && col <= maze[row].length - 1 && maze[row][col].getMapItem() == ' '){
+			maze[currentRow][currentCol].setMapItem('\u0020');//Space
 			maze[currentRow][currentCol].setGoal(false);
 			
-			maze[row][col].setCharType('5');//Hero Char	
+			maze[row][col].setMapItem('5');//Hero Char	
 			maze[row][col].setGoal(true);
 			
 			return true;
 		}else{
 
 			//If Spider Encountered
-			if(spiderNames.contains(maze[row][col].getCharType())){
+			if(spiderNames.contains(maze[row][col].getMapItem())){
 				System.out.println("SPIDER Encountered!");
 			}			
 
