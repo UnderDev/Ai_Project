@@ -4,7 +4,8 @@ import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 
-import ie.gmit.sw.ai.Maze.Direction;
+import ie.gmit.sw.ai.maze.Maze;
+import ie.gmit.sw.ai.maze.Maze.Direction;
 public class GameView extends JPanel implements ActionListener{
 	private static final long serialVersionUID = 1L;
 	public static final int DEFAULT_VIEW_SIZE = 800;	

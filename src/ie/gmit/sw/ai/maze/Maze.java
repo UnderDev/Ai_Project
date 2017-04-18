@@ -1,4 +1,4 @@
-package ie.gmit.sw.ai;
+package ie.gmit.sw.ai.maze;
 
 import java.awt.Color;
 import java.util.ArrayList;

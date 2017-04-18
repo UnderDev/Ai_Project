@@ -1,5 +1,7 @@
 package ie.gmit.sw.ai;
 
+import ie.gmit.sw.ai.maze.Maze;
+
 public class Player extends Sprite implements Interact{
 
 	private Maze playerNode;

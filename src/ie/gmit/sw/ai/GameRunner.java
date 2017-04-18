@@ -7,6 +7,8 @@ import java.util.ArrayList;
 import javax.swing.*;
 
 import ie.gmit.sw.ai.traversers.RecursiveDFSTraversator;
+import ie.gmit.sw.ai.maze.Maze;
+import ie.gmit.sw.ai.maze.MazeGenerator;
 import ie.gmit.sw.ai.traversers.*;
 
 
