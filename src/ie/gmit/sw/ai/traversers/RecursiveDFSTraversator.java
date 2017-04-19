@@ -23,11 +23,10 @@ public class RecursiveDFSTraversator implements Traversator{
 
 		node.setVisited(true);
 
-
 		if (node.getRow() <= maze.length - 1 && node.getCol()  <= maze[node.getRow()].length - 1 && maze[node.getRow()][node.getCol() ].getMapItem() == ' '){
 			maze[node.getRow()][node.getCol()].setMapItem('\u0020');//Space
 
-			maze[node.getRow()][node.getCol()].setMapItem('\u003D');//Hero Char	
+			//maze[node.getRow()][node.getCol()].setMapItem('\u003D');//spider Char	
 		}
 
 
@@ -43,7 +42,7 @@ public class RecursiveDFSTraversator implements Traversator{
 		}
 
 		try { //Simulate processing each expanded node
-			Thread.sleep(15);
+			Thread.sleep(100);
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
