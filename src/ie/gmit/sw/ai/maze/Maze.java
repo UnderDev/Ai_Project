@@ -28,7 +28,6 @@ public class Maze {
 		return mapItem;
 	}
 
-
 	public void setMapItem(char mapItem) {
 		this.mapItem = mapItem;
 	}
@@ -132,8 +131,6 @@ public class Maze {
 	public void setVisited(boolean visited) {
 		//this.color = Color.BLUE;
 		this.visited = visited;
-
-		setMapItem('0'); //Paint a hedge 
 	}
 
 

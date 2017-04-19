@@ -79,7 +79,7 @@ public class GameView extends JPanel implements ActionListener{
 						if (row == currentRow && col == currentCol){
 							g2.setColor(Color.YELLOW);
 						}else{
-							g2.setColor(reds[(int) (Math.random() * 3)]);
+							g2.setColor(Color.red);
 						}
 						g2.fillRect(x1, y1, size, size);
 					}
@@ -93,7 +93,7 @@ public class GameView extends JPanel implements ActionListener{
 					g2.setColor(Color.LIGHT_GRAY);//Empty cell
 					g2.fillRect(x1, y1, size, size);   			
 				}else{
-					g2.drawImage(sprites[imageIndex].getNext(), x1, y1, null);
+					g2.drawImage(sprites[imageIndex].getNext(), x1, y1, null);					
 				}
 				Direction[] paths = maze[row][col].getPaths();
 

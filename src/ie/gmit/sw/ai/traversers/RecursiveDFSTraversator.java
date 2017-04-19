@@ -22,21 +22,28 @@ public class RecursiveDFSTraversator implements Traversator{
 		if (!keepRunning) return;
 
 		node.setVisited(true);
-		//Move Spiders Here
 
+		
+		if (node.getRow() <= maze.length - 1 && node.getCol()  <= maze[node.getRow()].length - 1 && maze[node.getRow()][node.getCol() ].getMapItem() == ' '){
+			maze[node.getRow()][node.getCol()].setMapItem('\u0020');//Space
+
+			maze[node.getRow()][node.getCol()].setMapItem('\u003D');//Hero Char	
+		}
+		
+		
 		
 		visitCount++;
 
 		if (node.isGoal()){
 			System.out.println("Found you at " + node.toString());
-	        time = System.currentTimeMillis() - time; //Stop the clock
-	        TraversatorStats.printStats(node, time, visitCount);
-	        keepRunning = false;
+			time = System.currentTimeMillis() - time; //Stop the clock
+			TraversatorStats.printStats(node, time, visitCount);
+			keepRunning = false;
 			return;
 		}
 
 		try { //Simulate processing each expanded node
-			Thread.sleep(5);
+			Thread.sleep(15);
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
@@ -45,6 +52,7 @@ public class RecursiveDFSTraversator implements Traversator{
 
 		for (int i = 0; i < children.length; i++) {
 			if (children[i] != null && !children[i].isVisited()){
+
 				children[i].setParent(node);
 				dfs(children[i]);
 			}

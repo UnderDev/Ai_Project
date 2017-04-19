@@ -8,9 +8,9 @@ import java.util.Random;
 import javax.swing.*;
 
 import ie.gmit.sw.ai.traversers.RecursiveDFSTraversator;
+import ie.gmit.sw.ai.traversers.Traversator;
 import ie.gmit.sw.ai.maze.Maze;
 import ie.gmit.sw.ai.maze.MazeGenerator;
-import ie.gmit.sw.ai.traversers.*;
 
 
 public class GameRunner implements KeyListener{
@@ -42,20 +42,15 @@ public class GameRunner implements KeyListener{
 		
 		Random r = new Random();
 		player.setWeapon(6);
-		spiders.get(0).setAngerLevel(Math.round(r.nextDouble()*10));
-		spiders.get(0).setHealth(Math.round(r.nextDouble()*100));
-		//spiders.get(0).setHealth(12);
-		System.out.println(spiders.get(0).getHealth());
-		System.out.println(spiders.get(0).isAlive(spiders.get(0).getHealth()));
-		view.setSprites(sprites);
 		System.out.println(spiders.get(0).fight(player.getWeapon(), spiders.get(0).getAngerLevel()));
-		System.out.println(spiders.get(0).isAlive(spiders.get(0).getHealth()));
-		System.out.println(spiders.get(0).getHealth());
 
 		
-		placePlayer();
+		view.toggleZoom(); //testing only ******* REMOVE
 		
-		
+
+		view.setSprites(sprites);
+
+		placePlayer();			
 		
 		Dimension d = new Dimension(GameView.DEFAULT_VIEW_SIZE, GameView.DEFAULT_VIEW_SIZE);
 		view.setPreferredSize(d);
@@ -72,8 +67,10 @@ public class GameRunner implements KeyListener{
 		f.pack();
 		f.setVisible(true);    
 
-		Traversator t = new RecursiveDFSTraversator();
-		t.traverse(maze, maze[0][0]);
+		placeMonsters();	
+		
+		//Traversator t = new RecursiveDFSTraversator();
+		//t.traverse(maze, maze[0][0]);
 	}
 
 	private void init(){
@@ -96,6 +93,19 @@ public class GameRunner implements KeyListener{
 		goal = maze[currentRow][currentCol];
 		updateView();		
 	}
+	
+	private void placeMonsters(){	
+		//for (int i = 0; i < 2; i++) {
+			currentRow = (int) (MAZE_DIMENSION * Math.random());
+			currentCol = (int) (MAZE_DIMENSION * Math.random());
+			maze[currentRow][currentCol].setMapItem('\u003D');
+			
+			Traversator t = new RecursiveDFSTraversator();
+			t.traverse(maze, maze[currentRow][currentCol]);
+		//}
+	}
+	
+	
 
 	private void updateView(){
 		view.setCurrentRow(currentRow);
@@ -105,6 +115,7 @@ public class GameRunner implements KeyListener{
 		goal = player.getPlayerNode();
 	}
 
+	
 	public void keyPressed(KeyEvent e) {
 		if (e.getKeyCode() == KeyEvent.VK_RIGHT && currentCol < MAZE_DIMENSION - 1) {
 			if (isValidMove(currentRow, currentCol + 1)) currentCol++;   		
@@ -165,7 +176,6 @@ public class GameRunner implements KeyListener{
 		sprites[11] = new Monster("Orange Spider", "resources/orange_spider_1.png", "resources/orange_spider_2.png");
 		sprites[12] = new Monster("Red Spider", "resources/red_spider_1.png", "resources/red_spider_2.png");
 		sprites[13] = new Monster("Yellow Spider", "resources/yellow_spider_1.png", "resources/yellow_spider_2.png");
-		spiders.add((Monster) sprites[6]);
 		return sprites;
 	}
 	
