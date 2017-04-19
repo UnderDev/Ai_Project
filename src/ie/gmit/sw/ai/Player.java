@@ -2,15 +2,16 @@ package ie.gmit.sw.ai;
 
 import ie.gmit.sw.ai.maze.Maze;
 
-public class Player extends Sprite{
+public class Player{
 
 	private Maze playerNode;
 	private double weapon;
-	private double health = 100;
+	private double health;
+	private FuzzyFight ffight;
+	private double result;
 
-	public Player(String name, String... images) throws Exception {
-		super(name, images);
-		// TODO Auto-generated constructor stub
+	public Player() {		
+		this.health=100;
 	}
 
 	public Maze getPlayerNode()
@@ -44,13 +45,12 @@ public class Player extends Sprite{
 		else return false;
 	}
 
-	//	public double fight(double angerLevel, double weapon) {
-	//		
-	//		ffight = new FuzzyFight();
-	//		result = Math.round(ffight.getFuzzy(angerLevel, weapon));
-	//		adjustHealth(result);
-	//		return result;
-	//	}
+	public double fight(double angerLevel, double weapon) {		
+		ffight = new FuzzyFight();
+		result = Math.round(ffight.getFuzzy(angerLevel, weapon));
+		takeHeath(result);
+		return result;
+	}
 
 	public void giveHealth(double life)
 	{

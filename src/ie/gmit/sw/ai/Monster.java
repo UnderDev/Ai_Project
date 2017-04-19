@@ -1,7 +1,7 @@
 
 package ie.gmit.sw.ai;
 
-public class Monster extends Sprite implements Interact{
+public class Monster implements Interact, Runnable{
 
 	private double health;
 	private FuzzyFight ffight;
@@ -9,14 +9,15 @@ public class Monster extends Sprite implements Interact{
 	private double angerLevel;
 
 	private char ch;
+	private int x;
+	private int y;
 
-	public Monster(String name, String... images) throws Exception {
-		super(name, images);
-	}
-
-	public Monster(char ch, String name, String... images) throws Exception {
-		super(name, images);
+	public Monster(double health, double angerLevel, char ch, int x, int y){
+		this.health=health;
+		this.angerLevel=angerLevel;
 		this.ch=ch;
+		this.x=x;
+		this.y=y;
 	}
 
 	public void setHealth(double health)
@@ -39,16 +40,11 @@ public class Monster extends Sprite implements Interact{
 		return angerLevel;
 	}
 
-	public boolean isAlive(double health)
+	public boolean isAlive()
 	{
-		if(health > 0)
-		{
-			return true;
-		}
-		else
-		{
-			return false;
-		}
+		if(health > 0)return true;
+		else return false;
+
 	}
 
 	public double fight(double angerLevel, double weapon) {
@@ -68,9 +64,29 @@ public class Monster extends Sprite implements Interact{
 	{
 		return ch;
 	}
+
+	public void setPos(int x, int y)
+	{
+		this.x=x;
+		this.y=y;
+	}
+
+	public int getX()
+	{
+		return x;
+	}
+
+	public int getY()
+	{
+		return y;
+	}
+
+
+	@Override
+	public void run() {
+		// TODO Auto-generated method stub
+
+	}
 }
-
-
-
 
 

@@ -3,7 +3,7 @@ package ie.gmit.sw.ai;
 import javax.imageio.*;
 import java.awt.image.*;
 
-public abstract class Sprite{
+public class Sprite{
 	
 	private String name; //The name of this sprite
 	private BufferedImage[] frames; //The set of image frames to animate
