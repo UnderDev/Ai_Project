@@ -1,0 +1,47 @@
+	FUNCTION_BLOCK fight	// Block definition (there may be more than one block per file)
+	
+	// Define input variables
+	VAR_INPUT				
+		weapon : REAL;
+		angerLevel : REAL;
+	END_VAR
+	
+	// Define output variable
+	VAR_OUTPUT				
+		damage : REAL;
+	END_VAR
+	
+	// Fuzzify input variable 'weapon': {'poor', 'good' , 'excellent'}
+	FUZZIFY weapon			
+		TERM poor := (0, 1) (4, 0) ; 
+		TERM good := (1, 0) (4,1) (6,1) (9,0);
+		TERM excellent := (6, 0) (9, 1);
+	END_FUZZIFY
+	
+	// Fuzzify input variable 'angerLevel': { 'low', 'high' }
+	FUZZIFY angerLevel			
+		TERM low := (0, 1) (1, 1) (4.5,0) ;
+		TERM high := (4.5,0) (9,1);
+	END_FUZZIFY
+	
+	// Defzzzify output variable 'damage' : {'low', 'medium', 'high' }
+	DEFUZZIFY damage			
+		TERM low := (0,0) (5,1) (10,0);
+		TERM medium := (10,0) (15,1) (20,0);
+		TERM high := (20,0) (25,1) (30,0);
+		METHOD : COG;		// Use 'Center Of Gravity' defuzzification method
+		DEFAULT := 0;		// Default value is 0 (if no rule activates defuzzifier)
+	END_DEFUZZIFY
+	
+	// Inference rules
+	RULEBLOCK No1
+		AND : MIN;	// Use 'min' for 'and'
+		ACT : MIN;	// Use 'min' activation method
+		ACCU : MAX;	// Use 'max' accumulation method
+	
+		RULE 1 : IF weapon IS poor OR angerLevel IS low THEN damage IS low;
+		RULE 2 : IF weapon IS good THEN damage IS medium; 
+		RULE 3 : IF weapon IS excellent AND angerLevel IS high THEN damage IS high;
+	END_RULEBLOCK
+	
+	END_FUNCTION_BLOCK

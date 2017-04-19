@@ -3,82 +3,127 @@ package ie.gmit.sw.ai;
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
+import ie.gmit.sw.ai.maze.Maze;
+import ie.gmit.sw.ai.maze.MazeGenerator;
+
+
+
 public class GameRunner implements KeyListener{
-	private static final int MAZE_DIMENSION = 100;
+	private static final int MAZE_DIMENSION = 50;
 	private static final int IMAGE_COUNT = 14;
 	private GameView view;
-	private Maze model;
 	private int currentRow;
 	private int currentCol;
-	
+	private Sprite[] sprites;
+	char item;
+
+	private Maze[][] maze;
+	Player player;
+
 	public GameRunner() throws Exception{
-		model = new Maze(MAZE_DIMENSION);
-    	view = new GameView(model);
-    	
-    	Sprite[] sprites = getSprites();
-    	view.setSprites(sprites);
-    	
-    	placePlayer();
-    	
-    	Dimension d = new Dimension(GameView.DEFAULT_VIEW_SIZE, GameView.DEFAULT_VIEW_SIZE);
-    	view.setPreferredSize(d);
-    	view.setMinimumSize(d);
-    	view.setMaximumSize(d);
-    	
-    	JFrame f = new JFrame("GMIT - B.Sc. in Computing (Software Development)");
-        f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        f.addKeyListener(this);
-        f.getContentPane().setLayout(new FlowLayout());
-        f.add(view);
-        f.setSize(1000,1000);
-        f.setLocation(100,100);
-        f.pack();
-        f.setVisible(true);
+		MazeGenerator m = new MazeGenerator(MAZE_DIMENSION, MAZE_DIMENSION);				
+		maze = m.getMaze();
+		view = new GameView(maze);
+		player = new Player();
+		sprites = getSprites();
+		view.setSprites(sprites);
+		placePlayer();
+		
+		
+		Dimension d = new Dimension(GameView.DEFAULT_VIEW_SIZE, GameView.DEFAULT_VIEW_SIZE);
+		view.setPreferredSize(d);
+		view.setMinimumSize(d);
+		view.setMaximumSize(d);
+		//view.setCurrentPosition(goal.getRow(), goal.getCol());
+
+		JFrame f = new JFrame("GMIT - B.Sc. in Computing (Software Development)");
+		f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		f.addKeyListener(this);
+		f.getContentPane().setLayout(new FlowLayout());
+		f.add(view);
+		f.setSize(1000,1000);
+		f.setLocation(100,100);
+		f.pack();
+		f.setVisible(true);    
+		
 	}
 	
 	private void placePlayer(){   	
-    	currentRow = (int) (MAZE_DIMENSION * Math.random());
-    	currentCol = (int) (MAZE_DIMENSION * Math.random());
-    	model.set(currentRow, currentCol, '5'); //A Spartan warrior is at index 5
-    	updateView(); 		
+		currentRow = (int) (MAZE_DIMENSION * Math.random());
+		currentCol = (int) (MAZE_DIMENSION * Math.random());
+		maze[currentRow][currentCol].setMapItem('5'); //A Spartan warrior is at index 5
+		maze[currentRow][currentCol].setGoal(true);
+		updateView(); 		
 	}
 	
 	private void updateView(){
 		view.setCurrentRow(currentRow);
 		view.setCurrentCol(currentCol);
+		player.setPlayerNode(maze[currentRow][currentCol]);
 	}
 
-    public void keyPressed(KeyEvent e) {
-        if (e.getKeyCode() == KeyEvent.VK_RIGHT && currentCol < MAZE_DIMENSION - 1) {
-        	if (isValidMove(currentRow, currentCol + 1)) currentCol++;   		
-        }else if (e.getKeyCode() == KeyEvent.VK_LEFT && currentCol > 0) {
-        	if (isValidMove(currentRow, currentCol - 1)) currentCol--;	
-        }else if (e.getKeyCode() == KeyEvent.VK_UP && currentRow > 0) {
-        	if (isValidMove(currentRow - 1, currentCol)) currentRow--;
-        }else if (e.getKeyCode() == KeyEvent.VK_DOWN && currentRow < MAZE_DIMENSION - 1) {
-        	if (isValidMove(currentRow + 1, currentCol)) currentRow++;        	  	
-        }else if (e.getKeyCode() == KeyEvent.VK_Z){
-        	view.toggleZoom();
-        }else{
-        	return;
-        }
-        
-        updateView();       
-    }
-    public void keyReleased(KeyEvent e) {} //Ignore
+	public void keyPressed(KeyEvent e) {
+		if (e.getKeyCode() == KeyEvent.VK_RIGHT && currentCol < MAZE_DIMENSION - 1) {
+			if (isValidMove(currentRow, currentCol + 1)) currentCol++;   		
+		}else if (e.getKeyCode() == KeyEvent.VK_LEFT && currentCol > 0) {
+			if (isValidMove(currentRow, currentCol - 1)) currentCol--;	
+		}else if (e.getKeyCode() == KeyEvent.VK_UP && currentRow > 0) {
+			if (isValidMove(currentRow - 1, currentCol)) currentRow--;
+		}else if (e.getKeyCode() == KeyEvent.VK_DOWN && currentRow < MAZE_DIMENSION - 1) {
+			if (isValidMove(currentRow + 1, currentCol)) currentRow++;        	  	
+		}else if (e.getKeyCode() == KeyEvent.VK_Z){
+			view.toggleZoom();
+		}else{
+			return;
+		}
+
+		updateView();       
+	}
+	public void keyReleased(KeyEvent e) {} //Ignore
 	public void keyTyped(KeyEvent e) {} //Ignore
 
-    
+
 	private boolean isValidMove(int row, int col){
-		if (row <= model.size() - 1 && col <= model.size() - 1 && model.get(row, col) == ' '){
-			model.set(currentRow, currentCol, '\u0020');
-			model.set(row, col, '5');
+		//Move The Character to the space passed in if valid
+		if (row <= maze.length - 1 && col <= maze[row].length - 1 && maze[row][col].getMapItem() == ' '){
+			maze[currentRow][currentCol].setMapItem('\u0020');//Space
+			maze[row][col].setMapItem('5');//Hero Char	
+			maze[currentRow][currentCol].setGoal(false);
+			maze[row][col].setGoal(true);
 			return true;
 		}else{
+			
+			item =  maze[row][col].getMapItem();
+			
+				switch(item)
+				{
+					case '1':
+						player.betterWeapon(5);
+						maze[row][col].setMapItem('0');
+						System.out.println("Weapon: " + player.getWeapon());
+						break;
+					case '2':
+						player.giveHealth(10);
+						maze[row][col].setMapItem('0');
+						System.out.println("Health: " + player.getHealth());
+						break;
+					case '3':
+						player.betterWeapon(10);
+						maze[row][col].setMapItem('0');
+						System.out.println("Weapon: " + player.getWeapon());
+						break;
+					case '4':
+						player.betterWeapon(20);
+						maze[row][col].setMapItem('0');
+						System.out.println("Weapon: " + player.getWeapon());
+					default:
+						break;
+				}
+
 			return false; //Can't move
 		}
 	}
-	
+
 	private Sprite[] getSprites() throws Exception{
 		//Read in the images from the resources directory as sprites. Note that each
 		//sprite will be referenced by its index in the array, e.g. a 3 implies a Bomb...
@@ -100,7 +145,7 @@ public class GameRunner implements KeyListener{
 		sprites[13] = new Sprite("Yellow Spider", "resources/yellow_spider_1.png", "resources/yellow_spider_2.png");
 		return sprites;
 	}
-	
+
 	public static void main(String[] args) throws Exception{
 		new GameRunner();
 	}
