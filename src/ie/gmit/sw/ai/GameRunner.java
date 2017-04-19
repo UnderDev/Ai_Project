@@ -19,12 +19,12 @@ public class GameRunner implements KeyListener{
 	private GameView view;
 	private int currentRow;
 	private int currentCol;
-	private ArrayList<Character> spiderNames = new ArrayList<Character>();
 	private ArrayList<Monster> spiders = new ArrayList<Monster>();
+	private ArrayList<MapItem> items = new ArrayList<MapItem>();
 	private Sprite[] sprites;
+	char item;
 
 	private Maze[][] maze;
-	private Maze goal;
 	Player player;
 
 	public GameRunner() throws Exception{
@@ -32,21 +32,13 @@ public class GameRunner implements KeyListener{
 		maze = m.getMaze();
 		view = new GameView(maze);
 		player = new Player("Spartan Warrior", "resources/spartan_1.png", "resources/spartan_2.png");
-		init();
 		sprites = getSprites();
 		spiders = getSpiders();
-		
-		Random r = new Random();
-		player.setWeapon(6);
-		spiders.get(0).setAngerLevel(Math.round(r.nextDouble()*10));
-		spiders.get(0).setHealth(Math.round(r.nextDouble()*100));
-		//spiders.get(0).setHealth(12);
-		System.out.println(spiders.get(0).getHealth());
-		System.out.println(spiders.get(0).isAlive(spiders.get(0).getHealth()));
+		items = getItems();
+		setUpSpiders();
+
+
 		view.setSprites(sprites);
-		System.out.println(spiders.get(0).fight(player.getWeapon(), spiders.get(0).getAngerLevel()));
-		System.out.println(spiders.get(0).isAlive(spiders.get(0).getHealth()));
-		System.out.println(spiders.get(0).getHealth());
 		placePlayer();
 		
 		
@@ -72,24 +64,12 @@ public class GameRunner implements KeyListener{
 		
 	}
 	
-	private void init(){
-		
-		spiderNames.add('\u0036');
-		spiderNames.add('\u0037');
-		spiderNames.add('\u0038');
-		spiderNames.add('\u0039');
-		spiderNames.add('\u003A');
-		spiderNames.add('\u003B');
-		spiderNames.add('\u003C');
-		spiderNames.add('\u003D');
-	}
-
 	private void placePlayer(){   	
 		currentRow = (int) (MAZE_DIMENSION * Math.random());
 		currentCol = (int) (MAZE_DIMENSION * Math.random());
 		maze[currentRow][currentCol].setMapItem('5'); //A Spartan warrior is at index 5
 		maze[currentRow][currentCol].setGoal(true);
-		goal = maze[currentRow][currentCol];
+		//goal = maze[currentRow][currentCol];
 		updateView(); 		
 	}
 
@@ -130,10 +110,68 @@ public class GameRunner implements KeyListener{
 			maze[row][col].setGoal(true);
 			return true;
 		}else{
+			
+			item =  maze[row][col].getMapItem();
+			System.out.println(item);
 
-			if(spiderNames.contains(maze[row][col].getMapItem())){
-				System.out.println("SPIDER Encountered!");
-			}			
+			for(int i=0; i<spiders.size(); i++)
+			{
+				//System.out.println(spiders.get(i).getChar() + " " + maze[row][col].getMapItem());
+				if(spiders.get(i).getChar() == item)
+				{
+					while(spiders.get(i).isAlive(spiders.get(i).getHealth()))
+					{
+						spiders.get(i).fight(player.getWeapon(), spiders.get(i).getAngerLevel());
+						System.out.println(spiders.get(i).getName());
+						System.out.println(spiders.get(i).getHealth());
+					}
+					System.out.println("Spider died");
+					
+				}
+			}
+				
+				switch(item)
+				{
+					case '1':
+						player.betterWeapon(5);
+						System.out.println("Weapon: " + player.getWeapon());
+						break;
+					case '2':
+						player.giveHealth(10);
+						System.out.println("Health: " + player.getHealth());
+						break;
+					case '3':
+						player.betterWeapon(10);
+						System.out.println("Weapon: " + player.getWeapon());
+						break;
+					case '4':
+						player.betterWeapon(20);
+						System.out.println("Weapon: " + player.getWeapon());
+					default:
+						break;
+				}
+			
+//				for(int j=0; j<items.size(); j++)
+//				{
+//					if(items.get(j).getChar() == maze[row][col].getMapItem())
+//					{
+//						if(items.get(j).getName() == "Sword")
+//						{
+//							player.betterWeapon(5);
+//							System.out.println(player.getWeapon());
+//						}
+//						else if(items.get(j).getName() == "Help")
+//						{
+//							player.giveHealth(10);
+//							System.out.println(player.getHealth());
+//						}
+//						else if(items.get(j).getName() == "Bomb")
+//						{
+//							player.betterWeapon(10);
+//							System.out.println(player.getWeapon());
+//						}
+//					}
+//				}
 
 			return false; //Can't move
 		}
@@ -144,11 +182,11 @@ public class GameRunner implements KeyListener{
 		//sprite will be referenced by its index in the array, e.g. a 3 implies a Bomb...
 		//Ideally, the array should dynamically created from the images... 
 		Sprite[] sprites = new Sprite[IMAGE_COUNT];
-		sprites[0] = new Feature("Hedge", "resources/hedge.png");
-		sprites[1] = new Feature("Sword", "resources/sword.png");
-		sprites[2] = new Feature("Help", "resources/help.png");
-		sprites[3] = new Feature("Bomb", "resources/bomb.png");
-		sprites[4] = new Feature("Hydrogen Bomb", "resources/h_bomb.png");
+		sprites[0] = new MapItem("Hedge", "resources/hedge.png");
+		sprites[1] = new MapItem("Sword", "resources/sword.png");
+		sprites[2] = new MapItem("Help", "resources/help.png");
+		sprites[3] = new MapItem("Bomb", "resources/bomb.png");
+		sprites[4] = new MapItem("Hydrogen Bomb", "resources/h_bomb.png");
 		sprites[5] = new Player("Spartan Warrior", "resources/spartan_1.png", "resources/spartan_2.png");
 		sprites[6] = new Monster("Black Spider", "resources/black_spider_1.png", "resources/black_spider_2.png");
 		sprites[7] = new Monster("Blue Spider", "resources/blue_spider_1.png", "resources/blue_spider_2.png");
@@ -158,21 +196,42 @@ public class GameRunner implements KeyListener{
 		sprites[11] = new Monster("Orange Spider", "resources/orange_spider_1.png", "resources/orange_spider_2.png");
 		sprites[12] = new Monster("Red Spider", "resources/red_spider_1.png", "resources/red_spider_2.png");
 		sprites[13] = new Monster("Yellow Spider", "resources/yellow_spider_1.png", "resources/yellow_spider_2.png");
-		spiders.add((Monster) sprites[6]);
 		return sprites;
 	}
 	
 	private ArrayList<Monster> getSpiders() throws Exception {
 
-		spiders.add(new Monster("Black Spider", "resources/black_spider_1.png", "resources/black_spider_2.png"));
-		spiders.add(new Monster("Blue Spider", "resources/blue_spider_1.png", "resources/blue_spider_2.png"));
-		spiders.add(new Monster("Brown Spider", "resources/brown_spider_1.png", "resources/brown_spider_2.png"));
-		spiders.add(new Monster("Green Spider", "resources/green_spider_1.png", "resources/green_spider_2.png"));
-		spiders.add(new Monster("Grey Spider", "resources/grey_spider_1.png", "resources/grey_spider_2.png"));
-		spiders.add(new Monster("Orange Spider", "resources/orange_spider_1.png", "resources/orange_spider_2.png"));
-		spiders.add(new Monster("Red Spider", "resources/red_spider_1.png", "resources/red_spider_2.png"));
-		spiders.add(new Monster("Yellow Spider", "resources/yellow_spider_1.png", "resources/yellow_spider_2.png"));
+		spiders.add(new Monster('\u0036', "Black Spider", "resources/black_spider_1.png", "resources/black_spider_2.png"));
+		spiders.add(new Monster('\u0037', "Blue Spider", "resources/blue_spider_1.png", "resources/blue_spider_2.png"));
+		spiders.add(new Monster('\u0038', "Brown Spider", "resources/brown_spider_1.png", "resources/brown_spider_2.png"));
+		spiders.add(new Monster('\u0039', "Green Spider", "resources/green_spider_1.png", "resources/green_spider_2.png"));
+		spiders.add(new Monster('\u003A', "Grey Spider", "resources/grey_spider_1.png", "resources/grey_spider_2.png"));
+		spiders.add(new Monster('\u003B', "Orange Spider", "resources/orange_spider_1.png", "resources/orange_spider_2.png"));
+		spiders.add(new Monster('\u003C', "Red Spider", "resources/red_spider_1.png", "resources/red_spider_2.png"));
+		spiders.add(new Monster('\u003D', "Yellow Spider", "resources/yellow_spider_1.png", "resources/yellow_spider_2.png"));
 		return spiders;
+	}
+	
+	private void setUpSpiders()
+	{
+		Random r = new Random();
+		
+		for(int i=0; i<spiders.size(); i++)
+		{
+			spiders.get(i).setAngerLevel(Math.round(r.nextDouble()*10));
+			spiders.get(i).setHealth(Math.round(r.nextDouble()*100));
+		}
+	
+	}
+	
+	private ArrayList<MapItem> getItems() throws Exception
+	{
+		items.add(new MapItem('\u0031', "Sword", "resources/sword.png"));
+		items.add(new MapItem('\u0032', "Help", "resources/help.png"));
+		items.add(new MapItem('\u0033', "Bomb", "resources/bomb.png"));
+		items.add(new MapItem('\u0034', "Hydrogen Bomb", "resources/bomb.png"));
+		
+		return items;
 	}
 
 	public static void main(String[] args) throws Exception{

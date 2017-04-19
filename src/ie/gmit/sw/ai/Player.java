@@ -33,6 +33,11 @@ public class Player extends Sprite{
 		return Math.round(weapon);
 	}
 	
+	public void betterWeapon(double power)
+	{
+		this.weapon=weapon+power;
+	}
+	
 	public boolean isAlive(double health)
 	{
 		if(health > 0)
@@ -43,6 +48,29 @@ public class Player extends Sprite{
 		{
 			return false;
 		}
+	}
+	
+//	public double fight(double angerLevel, double weapon) {
+//		
+//		ffight = new FuzzyFight();
+//		result = Math.round(ffight.getFuzzy(angerLevel, weapon));
+//		adjustHealth(result);
+//		return result;
+//	}
+	
+	public void giveHealth(double life)
+	{
+		this.health=health+life;
+	}
+	
+	public void takeHeath(double damage)
+	{
+		this.health=health-damage;
+	}
+	
+	public double getHealth()
+	{
+		return health;
 	}
 
 }

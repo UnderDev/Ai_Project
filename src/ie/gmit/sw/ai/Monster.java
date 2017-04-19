@@ -8,9 +8,15 @@ public class Monster extends Sprite implements Interact{
 	private FuzzyFight ffight;
 	private double result;
 	private double angerLevel;
+	private char ch;
 
 	public Monster(String name, String... images) throws Exception {
 		super(name, images);
+	}
+	
+	public Monster(char ch, String name, String... images) throws Exception {
+		super(name, images);
+		this.ch=ch;
 	}
 
 	public void setHealth(double health)
@@ -57,6 +63,11 @@ public class Monster extends Sprite implements Interact{
 		public void adjustHealth(double damage)
 		{
 			this.health=health-damage;
+		}
+		
+		public char getChar()
+		{
+			return ch;
 		}
 
 
