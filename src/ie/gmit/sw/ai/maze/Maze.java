@@ -5,10 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-
 public class Maze {
-	private char[][] maze;
-
 	public enum Direction {North, South, East, West};
 	private Maze parent;
 	private Color color = Color.BLACK;
@@ -18,7 +15,6 @@ public class Maze {
 
 	private int row = -1;
 	private int col = -1;
-	private int distance;
 	private char mapItem;
 
 
@@ -71,7 +67,7 @@ public class Maze {
 	public boolean hasDirection(Direction direction){	
 		if (paths==null)
 			addPath(direction);
-		
+
 		for (int i = 0; i < paths.length; i++) {
 			if (paths[i] == direction) return true;
 		}
@@ -133,7 +129,7 @@ public class Maze {
 	}
 
 	public void setVisited(boolean visited) {
-		this.color = Color.BLUE;
+		//this.color = Color.BLUE;
 		this.visited = visited;
 	}
 
@@ -145,14 +141,6 @@ public class Maze {
 		double y2 = goal.getRow();
 		double d = 1;
 		return (int)(d * Math.abs(x1 - x2) - Math.abs(y1-y2));
-	}
-
-	public int getPathCost() {
-		return distance;
-	}
-
-	public void setPathCost(int distance) {
-		this.distance = distance;
 	}
 
 

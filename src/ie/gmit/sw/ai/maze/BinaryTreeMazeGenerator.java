@@ -31,7 +31,7 @@ public class BinaryTreeMazeGenerator extends AbstractMazeGenerator {
 	private void ini(){
 		for (int row = 0; row < maze.length; row++){
 			for (int col = 0; col < maze[row].length; col++){
-				maze[row][col].setMapItem('0'); //Index 0 is a hedge...
+				maze[row][col].setMapItem('0'); //Index 0 is a hedge
 			}
 		}
 	}
@@ -44,6 +44,7 @@ public class BinaryTreeMazeGenerator extends AbstractMazeGenerator {
 
 			if (maze[row][col].getMapItem() == replace){
 				maze[row][col].setMapItem(feature);
+				
 				counter++;
 			}
 		}
@@ -56,10 +57,9 @@ public class BinaryTreeMazeGenerator extends AbstractMazeGenerator {
 				int num = (int) (Math.random() * 10);
 				if (num > 5 && col + 1 < maze[row].length - 1){
 					maze[row][col + 1].setMapItem('\u0020'); //\u0020 = 0x20 = 32 (base 10) = SPACE
-					maze[row][col].addPath(Maze.Direction.West);
 				}else{
 					if (row + 1 < maze.length - 1)maze[row + 1][col].setMapItem('\u0020');
-					maze[row][col].addPath(Maze.Direction.North);
+					maze[row][col].addPath(Maze.Direction.West);
 				}
 			}
 		}		
