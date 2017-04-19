@@ -2,7 +2,12 @@ package ie.gmit.sw.ai;
 
 import java.awt.*;
 import java.awt.event.*;
+import java.util.ArrayList;
+
 import javax.swing.*;
+
+import ie.gmit.sw.ai.traversers.RecursiveDFSTraversator;
+import ie.gmit.sw.ai.traversers.Traversator;
 import ie.gmit.sw.ai.maze.Maze;
 import ie.gmit.sw.ai.maze.MazeGenerator;
 
@@ -14,27 +19,35 @@ public class GameRunner implements KeyListener{
 	private GameView view;
 	private int currentRow;
 	private int currentCol;
+
+	private Player player;
+	private Maze goal;
+
 	private Sprite[] sprites;
 	char item;
 
 	private Maze[][] maze;
-	Player player;
 
 	public GameRunner() throws Exception{
 		MazeGenerator m = new MazeGenerator(MAZE_DIMENSION, MAZE_DIMENSION);				
 		maze = m.getMaze();
 		view = new GameView(maze);
+
 		player = new Player();
+
 		sprites = getSprites();
 		view.setSprites(sprites);
 		placePlayer();
-		
-		
+
+		view.toggleZoom(); //testing only ******* REMOVE	
+		view.setSprites(sprites);
+
+		placePlayer();			
+
 		Dimension d = new Dimension(GameView.DEFAULT_VIEW_SIZE, GameView.DEFAULT_VIEW_SIZE);
 		view.setPreferredSize(d);
 		view.setMinimumSize(d);
 		view.setMaximumSize(d);
-		//view.setCurrentPosition(goal.getRow(), goal.getCol());
 
 		JFrame f = new JFrame("GMIT - B.Sc. in Computing (Software Development)");
 		f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -45,22 +58,42 @@ public class GameRunner implements KeyListener{
 		f.setLocation(100,100);
 		f.pack();
 		f.setVisible(true);    
-		
+
+		//Traversator t = new RecursiveDFSTraversator();
+		//t.traverse(maze, maze[0][0]);
 	}
-	
+
+
 	private void placePlayer(){   	
 		currentRow = (int) (MAZE_DIMENSION * Math.random());
 		currentCol = (int) (MAZE_DIMENSION * Math.random());
 		maze[currentRow][currentCol].setMapItem('5'); //A Spartan warrior is at index 5
 		maze[currentRow][currentCol].setGoal(true);
-		updateView(); 		
+
+		goal = maze[currentRow][currentCol];
+		updateView();		
 	}
-	
+
+	private void placeMonsters(){	
+		//for (int i = 0; i < 2; i++) {
+		currentRow = (int) (MAZE_DIMENSION * Math.random());
+		currentCol = (int) (MAZE_DIMENSION * Math.random());
+		maze[currentRow][currentCol].setMapItem('\u003D');
+
+		Traversator t = new RecursiveDFSTraversator();
+		t.traverse(maze, maze[currentRow][currentCol]);
+		//}		
+	}
+
 	private void updateView(){
 		view.setCurrentRow(currentRow);
 		view.setCurrentCol(currentCol);
 		player.setPlayerNode(maze[currentRow][currentCol]);
+
+		System.out.println(player.getPlayerNode().toString());
+		//goal = player.getPlayerNode();
 	}
+
 
 	public void keyPressed(KeyEvent e) {
 		if (e.getKeyCode() == KeyEvent.VK_RIGHT && currentCol < MAZE_DIMENSION - 1) {
@@ -87,38 +120,39 @@ public class GameRunner implements KeyListener{
 		//Move The Character to the space passed in if valid
 		if (row <= maze.length - 1 && col <= maze[row].length - 1 && maze[row][col].getMapItem() == ' '){
 			maze[currentRow][currentCol].setMapItem('\u0020');//Space
-			maze[row][col].setMapItem('5');//Hero Char	
 			maze[currentRow][currentCol].setGoal(false);
+
+			maze[row][col].setMapItem('5');//Hero Char	
 			maze[row][col].setGoal(true);
+
 			return true;
-		}else{
-			
+		}else{			
 			item =  maze[row][col].getMapItem();
-			
-				switch(item)
-				{
-					case '1':
-						player.betterWeapon(5);
-						maze[row][col].setMapItem('0');
-						System.out.println("Weapon: " + player.getWeapon());
-						break;
-					case '2':
-						player.giveHealth(10);
-						maze[row][col].setMapItem('0');
-						System.out.println("Health: " + player.getHealth());
-						break;
-					case '3':
-						player.betterWeapon(10);
-						maze[row][col].setMapItem('0');
-						System.out.println("Weapon: " + player.getWeapon());
-						break;
-					case '4':
-						player.betterWeapon(20);
-						maze[row][col].setMapItem('0');
-						System.out.println("Weapon: " + player.getWeapon());
-					default:
-						break;
-				}
+
+			switch(item)
+			{
+			case '1':
+				player.betterWeapon(5);
+				maze[row][col].setMapItem('0');
+				System.out.println("Weapon: " + player.getWeapon());
+				break;
+			case '2':
+				player.giveHealth(10);
+				maze[row][col].setMapItem('0');
+				System.out.println("Health: " + player.getHealth());
+				break;
+			case '3':
+				player.betterWeapon(10);
+				maze[row][col].setMapItem('0');
+				System.out.println("Weapon: " + player.getWeapon());
+				break;
+			case '4':
+				player.betterWeapon(20);
+				maze[row][col].setMapItem('0');
+				System.out.println("Weapon: " + player.getWeapon());
+			default:
+				break;
+			}			
 
 			return false; //Can't move
 		}
