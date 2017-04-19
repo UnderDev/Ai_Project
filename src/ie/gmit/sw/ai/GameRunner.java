@@ -14,7 +14,7 @@ import ie.gmit.sw.ai.maze.MazeGenerator;
 
 
 public class GameRunner implements KeyListener{
-	private static final int MAZE_DIMENSION = 50;
+	private static final int MAZE_DIMENSION = 100;
 	private static final int IMAGE_COUNT = 14;
 	private GameView view;
 	private int currentRow;
@@ -39,7 +39,7 @@ public class GameRunner implements KeyListener{
 		view.setSprites(sprites);
 		placePlayer();
 
-		view.toggleZoom(); //testing only ******* REMOVE	
+		//view.toggleZoom(); //testing only ******* REMOVE	
 		view.setSprites(sprites);
 
 		placePlayer();			
@@ -74,23 +74,23 @@ public class GameRunner implements KeyListener{
 		updateView();		
 	}
 
-	private void placeMonsters(){	
-		//for (int i = 0; i < 2; i++) {
-		currentRow = (int) (MAZE_DIMENSION * Math.random());
-		currentCol = (int) (MAZE_DIMENSION * Math.random());
-		maze[currentRow][currentCol].setMapItem('\u003D');
-
-		Traversator t = new RecursiveDFSTraversator();
-		t.traverse(maze, maze[currentRow][currentCol]);
-		//}		
-	}
+//	private void placeMonsters(){	
+//		//for (int i = 0; i < 2; i++) {
+//		currentRow = (int) (MAZE_DIMENSION * Math.random());
+//		currentCol = (int) (MAZE_DIMENSION * Math.random());
+//		maze[currentRow][currentCol].setMapItem('\u003D');
+//
+//		Traversator t = new RecursiveDFSTraversator();
+//		t.traverse(maze, maze[currentRow][currentCol]);
+//		//}		
+//	}
 
 	private void updateView(){
 		view.setCurrentRow(currentRow);
 		view.setCurrentCol(currentCol);
 		player.setPlayerNode(maze[currentRow][currentCol]);
 
-		System.out.println(player.getPlayerNode().toString());
+		//System.out.println(player.getPlayerNode().toString());
 		//goal = player.getPlayerNode();
 	}
 

@@ -1,12 +1,19 @@
 
 package ie.gmit.sw.ai;
 
+import ie.gmit.sw.ai.maze.Maze;
+import ie.gmit.sw.ai.traversers.RecursiveDFSTraversator;
+import ie.gmit.sw.ai.traversers.Traversator;
+
 public class Monster implements Interact, Runnable{
 
 	private double health;
 	private FuzzyFight ffight;
 	private double result;
 	private double angerLevel;
+	Traversator t;
+	Maze[][] m;
+	Maze coords;
 
 	private char ch;
 	private int x;
@@ -80,11 +87,18 @@ public class Monster implements Interact, Runnable{
 	{
 		return y;
 	}
+	
+	public void setMaze(Maze[][] m)
+	{
+		this.m=m;
+	}
 
-
-	@Override
 	public void run() {
-		// TODO Auto-generated method stub
+		
+		//System.out.println("I'm a spider");
+		t = new RecursiveDFSTraversator();
+		t.traverse(m, m[getX()][getY()]);
+		//System.out.println("Traversing");
 
 	}
 }

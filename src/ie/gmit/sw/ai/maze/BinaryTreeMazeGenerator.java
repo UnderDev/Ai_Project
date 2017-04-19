@@ -1,10 +1,15 @@
 package ie.gmit.sw.ai.maze;
 
+import java.util.*;
 
+import ie.gmit.sw.ai.Monster;
 
 public class BinaryTreeMazeGenerator extends AbstractMazeGenerator {
 
 	private Maze [][] maze;
+	private static List<Monster> monsters = new ArrayList<Monster>();
+	private Monster m;
+	Thread t;
 	public BinaryTreeMazeGenerator(int rows, int cols) 
 	{
 		super(rows, cols);
@@ -17,7 +22,7 @@ public class BinaryTreeMazeGenerator extends AbstractMazeGenerator {
 		addFeature('\u0033', '0', featureNumber); //3 is a bomb, 0 is a hedge
 		addFeature('\u0034', '0', featureNumber); //4 is a hydrogen bomb, 0 is a hedge
 
-		featureNumber = (int)((rows * cols) * 0.01);
+		featureNumber = (int)((rows * cols) * 0.0001);
 		addFeature('\u0036', '0', featureNumber); //6 is a Black Spider, 0 is a hedge
 		addFeature('\u0037', '0', featureNumber); //7 is a Blue Spider, 0 is a hedge
 		addFeature('\u0038', '0', featureNumber); //8 is a Brown Spider, 0 is a hedge
@@ -38,12 +43,68 @@ public class BinaryTreeMazeGenerator extends AbstractMazeGenerator {
 
 	private void addFeature(char feature, char replace, int number){
 		int counter = 0;
+		Random r = new Random();
 		while (counter < feature){
 			int row = (int) (maze.length * Math.random());
 			int col = (int) (maze[0].length * Math.random());
 
 			if (maze[row][col].getMapItem() == replace){
 				maze[row][col].setMapItem(feature);
+				
+				switch(feature)
+				{
+				case '6':
+					m = new Monster(r.nextDouble()*10, r.nextDouble()*100, feature, row, col);
+					t = new Thread(m);
+					m.setMaze(maze);
+					t.start();
+					break;
+				case '7':
+					m = new Monster(r.nextDouble()*10, r.nextDouble()*100, feature, row, col);
+					t = new Thread(m);
+					m.setMaze(maze);
+					t.start();
+					break;
+				case '8':
+					m = new Monster(r.nextDouble()*10, r.nextDouble()*100, feature, row, col);
+					t = new Thread(m);
+					m.setMaze(maze);
+					t.start();
+					break;
+				case '9':
+					m = new Monster(r.nextDouble()*10, r.nextDouble()*100, feature, row, col);
+					t = new Thread(m);
+					m.setMaze(maze);
+					t.start();
+					break;
+				case ':':
+					m = new Monster(r.nextDouble()*10, r.nextDouble()*100, feature, row, col);
+					t = new Thread(m);
+					m.setMaze(maze);
+					t.start();
+					break;
+				case ';':
+					m = new Monster(r.nextDouble()*10, r.nextDouble()*100, feature, row, col);
+					t = new Thread(m);
+					m.setMaze(maze);
+					t.start();
+					break;
+				case '<':
+					m = new Monster(r.nextDouble()*10, r.nextDouble()*100, feature, row, col);
+					t = new Thread(m);
+					m.setMaze(maze);
+					t.start();
+					break;
+				case '=':
+					m = new Monster(r.nextDouble()*10, r.nextDouble()*100, feature, row, col);
+					t = new Thread(m);
+					m.setMaze(maze);
+					t.start();
+					break;
+				default:
+					break;
+				}			
+				
 				
 				counter++;
 			}
