@@ -19,30 +19,28 @@ public class RecursiveDFSTraversator implements Traversator{
 
 	private void dfs(Maze node){
 
-		if (!keepRunning) return;
+		//if (!keepRunning) return;
 
-		node.setVisited(true);
+		//node.setVisited(true);
 
 		if (node.getRow() <= maze.length - 1 && node.getCol()  <= maze[node.getRow()].length - 1 && maze[node.getRow()][node.getCol() ].getMapItem() == ' '){
-			maze[node.getRow()][node.getCol()].setMapItem('\u0020');//Space
-
-			//maze[node.getRow()][node.getCol()].setMapItem('\u003D');//spider Char	
+			maze[node.getParent().getRow()][node.getParent().getCol()].setMapItem('\u0020');//Space
+			maze[node.getRow()][node.getCol()].setMapItem('\u003D');//spider Char	
 		}
-
-
 
 		visitCount++;
 
 		if (node.isGoal()){
 			System.out.println("Found you at " + node.toString());
-			time = System.currentTimeMillis() - time; //Stop the clock
+			
+			//time = System.currentTimeMillis() - time; //Stop the clock
 			TraversatorStats.printStats(node, time, visitCount);
-			keepRunning = false;
-			return;
+			//keepRunning = false;
+			//return;
 		}
 
 		try { //Simulate processing each expanded node
-			Thread.sleep(100);
+			Thread.sleep(500);
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}

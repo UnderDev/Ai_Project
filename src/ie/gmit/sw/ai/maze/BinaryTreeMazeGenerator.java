@@ -50,7 +50,7 @@ public class BinaryTreeMazeGenerator extends AbstractMazeGenerator {
 
 			if (maze[row][col].getMapItem() == replace){
 				maze[row][col].setMapItem(feature);
-				
+
 				switch(feature)
 				{
 				case '6':
@@ -104,8 +104,6 @@ public class BinaryTreeMazeGenerator extends AbstractMazeGenerator {
 				default:
 					break;
 				}			
-				
-				
 				counter++;
 			}
 		}
@@ -116,10 +114,11 @@ public class BinaryTreeMazeGenerator extends AbstractMazeGenerator {
 		for (int row = 1; row < maze.length - 1; row++){
 			for (int col = 1; col < maze[row].length - 1; col++){
 				int num = (int) (Math.random() * 10);
-				if (num > 5 && col + 1 < maze[row].length - 1){
+				if (num > 5 && col + 1 < maze[row].length - 1)
 					maze[row][col + 1].setMapItem('\u0020'); //\u0020 = 0x20 = 32 (base 10) = SPACE
-				}else{
-					if (row + 1 < maze.length - 1)maze[row + 1][col].setMapItem('\u0020');
+				else{
+					if (row + 1 < maze.length - 1) 
+						maze[row + 1][col].setMapItem('\u0020');
 					maze[row][col].addPath(Maze.Direction.West);
 				}
 			}

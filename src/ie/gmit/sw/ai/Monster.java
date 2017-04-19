@@ -93,13 +93,11 @@ public class Monster implements Interact, Runnable{
 		this.m=m;
 	}
 
-	public void run() {
-		
+	public void run() {		
 		//System.out.println("I'm a spider");
 		t = new RecursiveDFSTraversator();
-		t.traverse(m, m[getX()][getY()]);
-		//System.out.println("Traversing");
-
+		t.traverse(m, m[x][y]);
+		//System.out.println("Traversing: "+ m[x][y].toString());
 	}
 }
 
