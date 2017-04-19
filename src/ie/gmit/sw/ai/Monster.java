@@ -1,3 +1,4 @@
+
 package ie.gmit.sw.ai;
 
 public class Monster extends Sprite implements Interact{
@@ -6,19 +7,16 @@ public class Monster extends Sprite implements Interact{
 	private FuzzyFight ffight;
 	private double result;
 	private double angerLevel;
-	private int location;
 
-
-	public int getLocation() {
-		return location;
-	}
-
-	public void setLocation(int location) {
-		this.location = location;
-	}
+	private char ch;
 
 	public Monster(String name, String... images) throws Exception {
 		super(name, images);
+	}
+
+	public Monster(char ch, String name, String... images) throws Exception {
+		super(name, images);
+		this.ch=ch;
 	}
 
 	public void setHealth(double health)
@@ -53,7 +51,6 @@ public class Monster extends Sprite implements Interact{
 		}
 	}
 
-
 	public double fight(double angerLevel, double weapon) {
 
 		ffight = new FuzzyFight();
@@ -67,7 +64,13 @@ public class Monster extends Sprite implements Interact{
 		this.health=health-damage;
 	}
 
+	public char getChar()
+	{
+		return ch;
+	}
 }
+
+
 
 
 
