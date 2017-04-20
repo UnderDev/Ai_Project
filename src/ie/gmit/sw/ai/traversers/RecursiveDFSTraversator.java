@@ -2,6 +2,7 @@ package ie.gmit.sw.ai.traversers;
 
 import java.util.LinkedList;
 
+import ie.gmit.sw.ai.Monster;
 import ie.gmit.sw.ai.maze.Maze;
 
 public class RecursiveDFSTraversator implements Traversator{
@@ -13,7 +14,7 @@ public class RecursiveDFSTraversator implements Traversator{
 	private LinkedList<Maze> queue = new LinkedList<Maze>();
 
 
-	public void traverse(Maze[][] maze, Maze node) {		
+	public void traverse(Maze[][] maze, Maze node, Monster monster) {		
 		this.maze = maze;
 		dfs(node);
 		System.out.println("Start Node: "+node);
@@ -28,7 +29,6 @@ public class RecursiveDFSTraversator implements Traversator{
 
 		if (node.isGoal()){
 			System.out.println("Found you at " + node.toString());
-			System.out.println("Path " + queue);
 			time = System.currentTimeMillis() - time; //Stop the clock
 			TraversatorStats.printStats(node, time, visitCount);
 			keepRunning = false;

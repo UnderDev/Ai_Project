@@ -23,7 +23,7 @@ public class BinaryTreeMazeGenerator extends AbstractMazeGenerator {
 
 		featureNumber = (int)((rows * cols) * 0.001);
 		addFeature('\u0036', '0', 1); //6 is a Black Spider, 0 is a hedge
-		//addFeature('\u0037', '0', featureNumber); //7 is a Blue Spider, 0 is a hedge
+		addFeature('\u0037', '0', 1); //7 is a Blue Spider, 0 is a hedge
 		//addFeature('\u0038', '0', featureNumber); //8 is a Brown Spider, 0 is a hedge
 		//addFeature('\u0039', '0', featureNumber); //9 is a Green Spider, 0 is a hedge
 		//addFeature('\u003A', '0', featureNumber); //: is a Grey Spider, 0 is a hedge
@@ -43,62 +43,62 @@ public class BinaryTreeMazeGenerator extends AbstractMazeGenerator {
 	private void addFeature(char feature, char replace, int number){
 		int counter = 0;
 		Random r = new Random();
-		
+
 		while (counter < number){
 			int row = (int) (maze.length * Math.random());
 			int col = (int) (maze[0].length * Math.random());
 
 			if (maze[row][col].getMapItem() == replace){
 				maze[row][col].setMapItem(feature);
-				
+
 				switch(feature)
 				{
 				case '6':
 					m = new Monster(r.nextDouble()*10, r.nextDouble()*100, feature, row, col);
+					m.setMaze(maze.clone());
 					t = new Thread(m);
-					m.setMaze(maze);
 					t.start();
 					break;
-				/*case '7':
+				case '7':
 					m = new Monster(r.nextDouble()*10, r.nextDouble()*100, feature, row, col);
+					m.setMaze(maze.clone());
 					t = new Thread(m);
-					m.setMaze(maze);
 					t.start();
 					break;
-				case '8':
+					/*case '8':
 					m = new Monster(r.nextDouble()*10, r.nextDouble()*100, feature, row, col);
-					t = new Thread(m);
 					m.setMaze(maze);
+					t = new Thread(m);
 					t.start();
 					break;
 				case '9':
 					m = new Monster(r.nextDouble()*10, r.nextDouble()*100, feature, row, col);
-					t = new Thread(m);
 					m.setMaze(maze);
+					t = new Thread(m);
 					t.start();
 					break;
 				case ':':
 					m = new Monster(r.nextDouble()*10, r.nextDouble()*100, feature, row, col);
-					t = new Thread(m);
 					m.setMaze(maze);
+					t = new Thread(m);
 					t.start();
 					break;
 				case ';':
 					m = new Monster(r.nextDouble()*10, r.nextDouble()*100, feature, row, col);
-					t = new Thread(m);
 					m.setMaze(maze);
+					t = new Thread(m);
 					t.start();
 					break;
 				case '<':
 					m = new Monster(r.nextDouble()*10, r.nextDouble()*100, feature, row, col);
-					t = new Thread(m);
 					m.setMaze(maze);
+					t = new Thread(m);
 					t.start();
 					break;
 				case '=':
 					m = new Monster(r.nextDouble()*10, r.nextDouble()*100, feature, row, col);
-					t = new Thread(m);
 					m.setMaze(maze);
+					t = new Thread(m);
 					t.start();
 					break;*/
 				default:
@@ -125,8 +125,8 @@ public class BinaryTreeMazeGenerator extends AbstractMazeGenerator {
 		}		
 	}*/
 
-	
-	
+
+
 	/*public void generateMaze(){
 		this.maze = super.getMaze();
 		for (int row = 0; row < maze.length; row++){
@@ -140,8 +140,8 @@ public class BinaryTreeMazeGenerator extends AbstractMazeGenerator {
 			}
 		}
 	}*/
-	
-	
+
+
 	public void generateMaze(){ 
 		this.maze = super.getMaze();
 		for (int row = 1; row < maze.length - 1; row++){
@@ -155,25 +155,8 @@ public class BinaryTreeMazeGenerator extends AbstractMazeGenerator {
 			}
 		}		
 	}	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+
+
 	public Maze[][] getMaze(){
 		return this.maze;
 	}

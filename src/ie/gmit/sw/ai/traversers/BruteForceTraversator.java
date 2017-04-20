@@ -1,5 +1,6 @@
 package ie.gmit.sw.ai.traversers;
 
+import ie.gmit.sw.ai.Monster;
 import ie.gmit.sw.ai.maze.*;
 
 import java.util.*;
@@ -10,7 +11,7 @@ public class BruteForceTraversator implements Traversator{
 		this.dfs = depthFirst;
 	}
 	
-	public void traverse(Maze[][] maze, Maze node) {
+	public void traverse(Maze[][] maze, Maze node, Monster monster) {
         long time = System.currentTimeMillis();
     	int visitCount = 0;
     	
