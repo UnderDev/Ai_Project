@@ -1,8 +1,11 @@
 
 package ie.gmit.sw.ai;
 
+import java.util.ArrayList;
+import java.util.Collections;
+
 import ie.gmit.sw.ai.maze.Maze;
-import ie.gmit.sw.ai.traversers.RecursiveDFSTraversator;
+import ie.gmit.sw.ai.traversers.BFS;
 import ie.gmit.sw.ai.traversers.Traversator;
 
 public class Monster implements Interact, Runnable{
@@ -11,9 +14,19 @@ public class Monster implements Interact, Runnable{
 	private FuzzyFight ffight;
 	private double result;
 	private double angerLevel;
+	private boolean found = false;
+
+	public void setFound(boolean found) {
+		this.found = found;
+	}
+
 	Traversator t;
 	Maze[][] m;
-	Maze coords;
+	ArrayList<Maze> path = new ArrayList<Maze>();
+
+	public void setPath(ArrayList<Maze> path) {
+		this.path = path;
+	}
 
 	private char ch;
 	private int x;
@@ -78,28 +91,35 @@ public class Monster implements Interact, Runnable{
 		this.y=y;
 	}
 
-	public int getX()
-	{
-		return x;
-	}
-
-	public int getY()
-	{
-		return y;
-	}
-	
 	public void setMaze(Maze[][] m)
 	{
 		this.m=m;
 	}
 
-	public void run() {
-		
-		//System.out.println("I'm a spider");
-		t = new RecursiveDFSTraversator();
-		t.traverse(m, m[getX()][getY()]);
-		//System.out.println("Traversing");
+	public void run() {		
+		t = new BFS();
+		//t = new BruteForceTraversator(true);
+		//t = new RecursiveDFSTraversator();
+		t.traverse(m, m[x][y], this);
 
+		//while (found){
+		if(!path.isEmpty() && path != null){		
+			Collections.reverse(path);
+			path.remove(0);// Takes out the position it currently is in
+			for (Maze node :path) {
+
+				try { //Simulate processing each expanded node
+					Thread.sleep(100);
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+
+				m[node.getRow()][node.getCol()].setMapItem(this.ch);
+				m[x][y].setMapItem(' ');
+				this.setPos(node.getRow(),node.getCol());
+			}
+		}
+		//	}
 	}
 }
 

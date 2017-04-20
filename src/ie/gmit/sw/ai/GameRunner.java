@@ -2,19 +2,15 @@ package ie.gmit.sw.ai;
 
 import java.awt.*;
 import java.awt.event.*;
-import java.util.ArrayList;
-
 import javax.swing.*;
 
-import ie.gmit.sw.ai.traversers.RecursiveDFSTraversator;
-import ie.gmit.sw.ai.traversers.Traversator;
 import ie.gmit.sw.ai.maze.Maze;
 import ie.gmit.sw.ai.maze.MazeGenerator;
 
 
 
 public class GameRunner implements KeyListener{
-	private static final int MAZE_DIMENSION = 100;
+	private static final int MAZE_DIMENSION = 50;
 	private static final int IMAGE_COUNT = 14;
 	private GameView view;
 	private int currentRow;
@@ -24,7 +20,6 @@ public class GameRunner implements KeyListener{
 	private Maze goal;
 
 	private Sprite[] sprites;
-	char item;
 
 	private Maze[][] maze;
 
@@ -39,10 +34,7 @@ public class GameRunner implements KeyListener{
 		view.setSprites(sprites);
 		placePlayer();
 
-		//view.toggleZoom(); //testing only ******* REMOVE	
-		view.setSprites(sprites);
-
-		placePlayer();			
+		view.toggleZoom(); //testing only ******* REMOVE	
 
 		Dimension d = new Dimension(GameView.DEFAULT_VIEW_SIZE, GameView.DEFAULT_VIEW_SIZE);
 		view.setPreferredSize(d);
@@ -58,12 +50,9 @@ public class GameRunner implements KeyListener{
 		f.setLocation(100,100);
 		f.pack();
 		f.setVisible(true);    
-
-		//Traversator t = new RecursiveDFSTraversator();
-		//t.traverse(maze, maze[0][0]);
 	}
 
-
+	//Places the player in the maze
 	private void placePlayer(){   	
 		currentRow = (int) (MAZE_DIMENSION * Math.random());
 		currentCol = (int) (MAZE_DIMENSION * Math.random());
@@ -74,27 +63,17 @@ public class GameRunner implements KeyListener{
 		updateView();		
 	}
 
-//	private void placeMonsters(){	
-//		//for (int i = 0; i < 2; i++) {
-//		currentRow = (int) (MAZE_DIMENSION * Math.random());
-//		currentCol = (int) (MAZE_DIMENSION * Math.random());
-//		maze[currentRow][currentCol].setMapItem('\u003D');
-//
-//		Traversator t = new RecursiveDFSTraversator();
-//		t.traverse(maze, maze[currentRow][currentCol]);
-//		//}		
-//	}
-
+	//Update the View
 	private void updateView(){
 		view.setCurrentRow(currentRow);
 		view.setCurrentCol(currentCol);
 		player.setPlayerNode(maze[currentRow][currentCol]);
 
-		//System.out.println(player.getPlayerNode().toString());
+		System.out.println(player.getPlayerNode().toString());
 		//goal = player.getPlayerNode();
 	}
 
-
+	// Get the key Down Event
 	public void keyPressed(KeyEvent e) {
 		if (e.getKeyCode() == KeyEvent.VK_RIGHT && currentCol < MAZE_DIMENSION - 1) {
 			if (isValidMove(currentRow, currentCol + 1)) currentCol++;   		
@@ -115,7 +94,7 @@ public class GameRunner implements KeyListener{
 	public void keyReleased(KeyEvent e) {} //Ignore
 	public void keyTyped(KeyEvent e) {} //Ignore
 
-
+	//Check to see if the person can move to the passed in Row/Col
 	private boolean isValidMove(int row, int col){
 		//Move The Character to the space passed in if valid
 		if (row <= maze.length - 1 && col <= maze[row].length - 1 && maze[row][col].getMapItem() == ' '){
@@ -127,37 +106,42 @@ public class GameRunner implements KeyListener{
 
 			return true;
 		}else{			
-			item =  maze[row][col].getMapItem();
+			char item =  maze[row][col].getMapItem();
 
-			switch(item)
-			{
-			case '1':
-				player.betterWeapon(5);
-				maze[row][col].setMapItem('0');
-				System.out.println("Weapon: " + player.getWeapon());
-				break;
-			case '2':
-				player.giveHealth(10);
-				maze[row][col].setMapItem('0');
-				System.out.println("Health: " + player.getHealth());
-				break;
-			case '3':
-				player.betterWeapon(10);
-				maze[row][col].setMapItem('0');
-				System.out.println("Weapon: " + player.getWeapon());
-				break;
-			case '4':
-				player.betterWeapon(20);
-				maze[row][col].setMapItem('0');
-				System.out.println("Weapon: " + player.getWeapon());
-			default:
-				break;
-			}			
-
+			checkItemFound(item, row, col);			
 			return false; //Can't move
 		}
 	}
 
+	//Checks to see if an item was found by the Player
+	private void checkItemFound(char item, int row, int col) {
+		switch(item)
+		{
+		case '1':
+			player.betterWeapon(5);
+			maze[row][col].setMapItem('0');
+			System.out.println("Weapon: " + player.getWeapon());
+			break;
+		case '2':
+			player.giveHealth(10);
+			maze[row][col].setMapItem('0');
+			System.out.println("Health: " + player.getHealth());
+			break;
+		case '3':
+			player.betterWeapon(10);
+			maze[row][col].setMapItem('0');
+			System.out.println("Weapon: " + player.getWeapon());
+			break;
+		case '4':
+			player.betterWeapon(20);
+			maze[row][col].setMapItem('0');
+			System.out.println("Weapon: " + player.getWeapon());
+		default:
+			break;
+		}
+	}
+
+	//Create the Sprite Array 
 	private Sprite[] getSprites() throws Exception{
 		//Read in the images from the resources directory as sprites. Note that each
 		//sprite will be referenced by its index in the array, e.g. a 3 implies a Bomb...
