@@ -1,16 +1,19 @@
 package ie.gmit.sw.ai.maze;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
 
 import ie.gmit.sw.ai.Monster;
+import ie.gmit.sw.ai.maze.Maze.Direction;
 
-public class BinaryTreeMazeGenerator extends AbstractMazeGenerator {
-
+public class HuntAndKillMazeGenerator extends AbstractMazeGenerator {
+	
 	private Maze [][] maze;
 	private Monster m;
 	private Thread t;
-	public BinaryTreeMazeGenerator(int rows, int cols) 
-	{
+	
+	public HuntAndKillMazeGenerator(int rows, int cols) {
 		super(rows, cols);
 		ini();
 		generateMaze();
@@ -23,7 +26,7 @@ public class BinaryTreeMazeGenerator extends AbstractMazeGenerator {
 
 		featureNumber = (int)((rows * cols) * 0.001);
 		addFeature('\u0036', '0', 1); //6 is a Black Spider, 0 is a hedge
-		addFeature('\u0037', '0', 1); //7 is a Blue Spider, 0 is a hedge
+		//addFeature('\u0037', '0', featureNumber); //7 is a Blue Spider, 0 is a hedge
 		//addFeature('\u0038', '0', featureNumber); //8 is a Brown Spider, 0 is a hedge
 		//addFeature('\u0039', '0', featureNumber); //9 is a Green Spider, 0 is a hedge
 		//addFeature('\u003A', '0', featureNumber); //: is a Grey Spider, 0 is a hedge
@@ -55,50 +58,50 @@ public class BinaryTreeMazeGenerator extends AbstractMazeGenerator {
 				{
 				case '6':
 					m = new Monster(r.nextDouble()*10, r.nextDouble()*100, feature, row, col);
-					m.setMaze(maze.clone());
 					t = new Thread(m);
-					t.start();
-					break;
-				case '7':
-					m = new Monster(r.nextDouble()*10, r.nextDouble()*100, feature, row, col);
-					m.setMaze(maze.clone());
-					t = new Thread(m);
-					t.start();
-					break;
-					/*case '8':
-					m = new Monster(r.nextDouble()*10, r.nextDouble()*100, feature, row, col);
 					m.setMaze(maze);
+					t.start();
+					break;
+					/*case '7':
+					m = new Monster(r.nextDouble()*10, r.nextDouble()*100, feature, row, col);
 					t = new Thread(m);
+					m.setMaze(maze);
+					t.start();
+					break;
+				case '8':
+					m = new Monster(r.nextDouble()*10, r.nextDouble()*100, feature, row, col);
+					t = new Thread(m);
+					m.setMaze(maze);
 					t.start();
 					break;
 				case '9':
 					m = new Monster(r.nextDouble()*10, r.nextDouble()*100, feature, row, col);
-					m.setMaze(maze);
 					t = new Thread(m);
+					m.setMaze(maze);
 					t.start();
 					break;
 				case ':':
 					m = new Monster(r.nextDouble()*10, r.nextDouble()*100, feature, row, col);
-					m.setMaze(maze);
 					t = new Thread(m);
+					m.setMaze(maze);
 					t.start();
 					break;
 				case ';':
 					m = new Monster(r.nextDouble()*10, r.nextDouble()*100, feature, row, col);
-					m.setMaze(maze);
 					t = new Thread(m);
+					m.setMaze(maze);
 					t.start();
 					break;
 				case '<':
 					m = new Monster(r.nextDouble()*10, r.nextDouble()*100, feature, row, col);
-					m.setMaze(maze);
 					t = new Thread(m);
+					m.setMaze(maze);
 					t.start();
 					break;
 				case '=':
 					m = new Monster(r.nextDouble()*10, r.nextDouble()*100, feature, row, col);
-					m.setMaze(maze);
 					t = new Thread(m);
+					m.setMaze(maze);
 					t.start();
 					break;*/
 				default:
@@ -109,55 +112,46 @@ public class BinaryTreeMazeGenerator extends AbstractMazeGenerator {
 		}
 	}
 
-	/*public void generateMaze(){ 
+	//No stack or storage enables Hunt and Kill to create very large mazes.  tends to make Mazes with a high "river" factor, but not as high as the recursive backtracker. 
+	//You can make this generate Mazes with a lower river factor by choosing to enter "hunt" mode more often.
+	public void generateMaze(){
 		this.maze = super.getMaze();
-		for (int row = 1; row < maze.length - 1; row++){
-			for (int col = 1; col < maze[row].length - 1; col++){
-				int num = (int) (Math.random() * 10);
-				if (num > 5 && col + 1 < maze[row].length - 1){
-					maze[row][col + 1].setMapItem('\u0020'); //\u0020 = 0x20 = 32 (base 10) = SPACE
-				}
-				else{
-					if (row + 1 < maze.length - 1) maze[row + 1][col].setMapItem('\u0020');
-					maze[row][col].addPath(Maze.Direction.West);
+
+		Random generator = new Random();
+		int randRow = generator.nextInt(maze.length);
+		int randCol = generator.nextInt(maze[0].length);
+		Maze node = maze[randRow][randCol];
+		
+		//Start random walk
+		while (node != null){			
+			node.setVisited(true);
+			Maze[] adjacents = node.adjacentNodes(maze);
+			super.shuffle(adjacents);
+
+			boolean look = true;
+			for (int i = 0; i < adjacents.length && look; i++) {
+				if (!adjacents[i].isVisited()){
+					Direction dir = getDirection(node, adjacents[i]);
+					node.addPath(dir);
+					adjacents[i].addPath(opposite(dir));
+					
+
+					node = adjacents[i];
 				}
 			}
-		}		
-	}*/
 
+			if (look) node = hunt();			
+		}
+	}
 
+	private Maze hunt(){
+		Maze[][] maze = super.getMaze();
 
-	/*public void generateMaze(){
-		this.maze = super.getMaze();
-		for (int row = 0; row < maze.length; row++){
-			for (int col = 0; col < maze[row].length; col++){
-				int num = (int) (Math.random() * 10);
-				if (col > 0 && (row == 0 || num >= 5)){
-					maze[row][col].addPath(Maze.Direction.West); 
-				}else{
-					maze[row][col].addPath(Maze.Direction.North);
-				}				
+		for (int i = 0; i < maze.length; i++){
+			for (int j = 0; j < maze[i].length; j++){
+				if (!maze[i][j].isVisited()) return maze[i][j];
 			}
 		}
-	}*/
-
-
-	public void generateMaze(){ 
-		this.maze = super.getMaze();
-		for (int row = 1; row < maze.length - 1; row++){
-			for (int col = 1; col < maze[row].length - 1; col++){
-				int num = (int) (Math.random() * 10);
-				if (num > 5 && col + 1 < maze[row].length - 1){
-					maze[row ][col+1].setMapItem('\u0020');
-				}else{
-					if (row + 1 < maze.length - 1)maze[row + 1][col].setMapItem('\u0020');
-				}
-			}
-		}		
-	}	
-
-
-	public Maze[][] getMaze(){
-		return this.maze;
+		return null;
 	}
 }

@@ -79,7 +79,8 @@ public class GameView extends JPanel implements ActionListener{
 						if (row == currentRow && col == currentCol){
 							g2.setColor(Color.YELLOW);
 						}else{
-							g2.setColor(Color.red);
+							//g2.setColor(reds[(int) (Math.random() * 3)]);
+							g2.setColor(Color.MAGENTA);
 						}
 						g2.fillRect(x1, y1, size, size);
 					}
@@ -125,6 +126,14 @@ public class GameView extends JPanel implements ActionListener{
 		}
 		this.repaint();
 	}
+
+	//	public void updateEnemyPos(Maze[][] curr, Maze[][] next, char ch)
+	//	{
+	//		
+	//		g2.setColor(Color.LIGHT_GRAY);//Empty cell
+	//		g2.fillRect(x1, y1, size, size);  
+	//		g2.drawImage(sprites[imageIndex], x1, y1, null);
+	//	}
 
 	public void setSprites(Sprite[] sprites){
 		this.sprites = sprites;

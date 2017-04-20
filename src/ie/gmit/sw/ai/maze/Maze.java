@@ -1,6 +1,5 @@
 package ie.gmit.sw.ai.maze;
 
-import java.awt.Color;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -8,7 +7,7 @@ import java.util.List;
 public class Maze {
 	public enum Direction {North, South, East, West};
 	private Maze parent;
-	private Color color = Color.BLACK;
+	//private Color color = Color.BLACK;
 	private Direction[] paths = null;
 	public boolean visited =  false;
 	public boolean goal;
@@ -46,14 +45,6 @@ public class Maze {
 
 	public void setParent(Maze parent) {
 		this.parent = parent;
-	}
-
-	public Color getColor() {
-		return color;
-	}
-
-	public void setColor(Color color) {
-		this.color = color;
 	}
 
 	public boolean isGoal() {
@@ -129,7 +120,6 @@ public class Maze {
 	}
 
 	public void setVisited(boolean visited) {
-		//this.color = Color.BLUE;
 		this.visited = visited;
 	}
 
