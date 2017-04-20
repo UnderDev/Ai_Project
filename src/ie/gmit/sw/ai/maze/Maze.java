@@ -47,13 +47,13 @@ public class Maze {
 		this.parent = parent;
 	}
 
-//	public Color getColor() {
-//		return color;
-//	}
-//
-//	public void setColor(Color color) {
-//		this.color = color;
-//	}
+	//	public Color getColor() {
+	//		return color;
+	//	}
+	//
+	//	public void setColor(Color color) {
+	//		this.color = color;
+	//	}
 
 	public boolean isGoal() {
 		return goal;

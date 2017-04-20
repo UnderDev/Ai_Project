@@ -19,6 +19,7 @@ public class MazeGenerator {
 	private void buildMaze()
 	{
 		BinaryTreeMazeGenerator btMaze = new BinaryTreeMazeGenerator(rows, cols);
+		//HuntAndKillMazeGenerator btMaze = new HuntAndKillMazeGenerator(rows, cols);
 		this.maze = btMaze.getMaze();
 	}	
 }

@@ -2,6 +2,7 @@
 package ie.gmit.sw.ai;
 
 import ie.gmit.sw.ai.maze.Maze;
+import ie.gmit.sw.ai.traversers.BFS;
 import ie.gmit.sw.ai.traversers.RecursiveDFSTraversator;
 import ie.gmit.sw.ai.traversers.Traversator;
 
@@ -94,8 +95,9 @@ public class Monster implements Interact, Runnable{
 	}
 
 	public void run() {		
-		//System.out.println("I'm a spider");
-		t = new RecursiveDFSTraversator();
+		t = new BFS();
+		//t = new BruteForceTraversator(true);
+		//t = new RecursiveDFSTraversator();
 		t.traverse(m, m[x][y]);
 		//System.out.println("Traversing: "+ m[x][y].toString());
 	}
