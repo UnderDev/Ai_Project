@@ -124,7 +124,7 @@ public class HuntAndKillMazeGenerator extends AbstractMazeGenerator {
 		
 		//Start random walk
 		while (node != null){			
-			node.setVisited(true);
+			//node.setVisited(true);
 			Maze[] adjacents = node.adjacentNodes(maze);
 			super.shuffle(adjacents);
 

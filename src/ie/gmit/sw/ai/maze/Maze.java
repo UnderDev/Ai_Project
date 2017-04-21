@@ -9,8 +9,8 @@ public class Maze {
 	private Maze parent;
 	//private Color color = Color.BLACK;
 	private Direction[] paths = null;
-	public boolean visited =  false;
-	public boolean goal;
+	private boolean visited =  false;
+	private boolean goal;
 
 	private int row = -1;
 	private int col = -1;
@@ -19,9 +19,8 @@ public class Maze {
 
 	public Maze(int row, int col){
 		this.row = row;
-		this.col = col;		
+		this.col = col;	
 	}
-
 
 	public char getMapItem() {
 		return mapItem;
@@ -123,7 +122,6 @@ public class Maze {
 		this.visited = visited;
 	}
 
-
 	public int getHeuristic(Maze goal){
 		double x1 = this.col;
 		double y1 = this.row;
@@ -132,7 +130,6 @@ public class Maze {
 		double d = 1;
 		return (int)(d * Math.abs(x1 - x2) - Math.abs(y1-y2));
 	}
-
 
 	public String toString() {
 		return "[" + row + "/" + col + "]";
