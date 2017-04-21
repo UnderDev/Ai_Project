@@ -53,18 +53,6 @@ public class HuntAndKillMazeGenerator extends AbstractMazeGenerator {
 
 			if (maze[row][col].getMapItem() == replace){
 				maze[row][col].setMapItem(feature);
-
-				switch(feature)
-				{
-				case '6':
-					m = new Monster(r.nextDouble()*10, r.nextDouble()*100, feature, row, col,maze);
-					t = new Thread(m);
-					m.setMaze(maze);
-					t.start();
-					break;
-				default:
-					break;
-				}			
 				counter++;
 			}
 		}
