@@ -76,21 +76,24 @@ public class GameView extends JPanel implements ActionListener{
 
 				if (zoomOut){
 					ch = maze[row][col].getMapItem();
-					if (ch >= '5'){
-						if (row == currentRow && col == currentCol){
-							g2.setColor(Color.YELLOW);
-						}/*else{
-							//g2.setColor(reds[(int) (Math.random() * 3)]);
-							g2.setColor(Color.MAGENTA);
-						}*/
-						else if (ch >= '7'){
-							g2.setColor(Color.blue);
-						}
-						else if (ch >= '6'){
-							g2.setColor(Color.ORANGE);
-						}
-						g2.fillRect(x1, y1, size, size);
-					}					
+					if (ch == '5')
+						g2.setColor(Color.YELLOW);
+					else if (ch == '6')
+						g2.setColor(Color.BLACK);				
+					else if (ch == '7')
+						g2.setColor(Color.BLUE);
+					else if (ch == '8')
+						g2.setColor(Color.cyan);
+					else if (ch == ';')
+						g2.setColor(Color.MAGENTA);
+					else if (ch == ':')
+						g2.setColor(Color.GRAY);
+					else if (ch == '<')
+						g2.setColor(Color.RED);
+					else if (ch == '=')
+						g2.setColor(Color.PINK);
+					
+					g2.fillRect(x1, y1, size, size);
 				}else{
 					ch = maze[currentRow - cellpadding + row] [currentCol - cellpadding + col].getMapItem();
 				}

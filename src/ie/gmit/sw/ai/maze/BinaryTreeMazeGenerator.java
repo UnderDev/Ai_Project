@@ -18,12 +18,12 @@ public class BinaryTreeMazeGenerator extends AbstractMazeGenerator {
 		featureNumber = (int)((rows * cols) * 0.001);
 		addFeature('\u0036', '0', 1); //6 is a Black Spider, 0 is a hedge
 		addFeature('\u0037', '0', 1); //7 is a Blue Spider, 0 is a hedge
-		//addFeature('\u0038', '0', featureNumber); //8 is a Brown Spider, 0 is a hedge
-		//addFeature('\u0039', '0', featureNumber); //9 is a Green Spider, 0 is a hedge
-		//addFeature('\u003A', '0', featureNumber); //: is a Grey Spider, 0 is a hedge
-		//addFeature('\u003B', '0', featureNumber); //; is a Orange Spider, 0 is a hedge
-		//addFeature('\u003C', '0', featureNumber); //< is a Red Spider, 0 is a hedge
-		//addFeature('\u003D', '0', featureNumber); //= is a Yellow Spider, 0 is a hedge
+		addFeature('\u0038', '0', 1); //8 is a Brown Spider, 0 is a hedge
+		addFeature('\u0039', '0', 1); //9 is a MAGENTA Spider, 0 is a hedge
+		addFeature('\u003A', '0', 1); //: is a Grey Spider, 0 is a hedge
+		addFeature('\u003B', '0', 1); //; is a Orange Spider, 0 is a hedge
+		addFeature('\u003C', '0', 1); //< is a Red Spider, 0 is a hedge
+		addFeature('\u003D', '0', 1); //= is a Pink Spider, 0 is a hedge
 	}
 
 	private void ini(){

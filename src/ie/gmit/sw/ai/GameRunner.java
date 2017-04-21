@@ -9,8 +9,8 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.Random;
-import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.ThreadPoolExecutor;
 
 import javax.swing.*;
 
@@ -27,10 +27,11 @@ public class GameRunner implements KeyListener{
 	private Player player;
 	private Maze goal;
 
+	private ThreadPoolExecutor executor;
+
 	private Sprite[] sprites;
 	private Maze[][] maze;
 	private ArrayList<Monster> monsters = new ArrayList<Monster>();
-	private ExecutorService executor = Executors.newFixedThreadPool(50);
 
 	public GameRunner() throws Exception{
 		MazeGenerator m = new MazeGenerator(MAZE_DIMENSION, MAZE_DIMENSION);				
@@ -64,49 +65,34 @@ public class GameRunner implements KeyListener{
 		updateView();	
 	}
 
-
 	private void startMonsters() {
+		executor = (ThreadPoolExecutor) Executors.newFixedThreadPool(20);
 		Random r = new Random();
 		Monster monster;
 		Thread t;
-		char ch;
+		int spiderNum =1;
 		for (int row = 0; row < maze.length; row++){
 			for (int col = 0; col < maze[row].length; col++){
-				ch = maze[row][col].getMapItem(); //Index 0 is a hedge
+				char ch = maze[row][col].getMapItem(); //Index 0 is a hedge
 
-				switch(ch)
-				{
-				case '6':
+				if(ch > '5'){
 					monster = new Monster(r.nextDouble()*10, r.nextDouble()*100, ch, row, col, maze, "bfs", player);
 					monster.setMaze((Maze[][])copy(maze));//Deep Copy
 					//scheduledExecutorService.schedule(m, 1, TimeUnit.SECONDS);
+					executor.execute(monster);
 					//t = new Thread(monster);
-					//t.setName("Spider 1");
+					//t.setName("Spider "+ spiderNum++);
 					//t.start();
-					monsters.add(monster);
-					break;
-				case '7':
-					monster = new Monster(r.nextDouble()*10, r.nextDouble()*100, ch, row, col,maze,"dfs", player);
-					monster.setMaze((Maze[][])copy(maze));
-					//scheduledExecutorService.schedule(m, 1, TimeUnit.SECONDS);
-//					t = new Thread(monster);
-//					t.setName("Spider 2");
-					//t.start();
-					monsters.add(monster);
-					break;					
-				default:
-					break;
-
-				}
+				}								
 			}
 		}
-		
+
 		for (Monster tr: monsters) {
 			executor.execute(tr);
 		}
 	}
 
-
+	//Create a deep copy of the Maze
 	public static Object copy(Object orig) {
 		Object obj = null;
 		try {
@@ -133,9 +119,7 @@ public class GameRunner implements KeyListener{
 	}
 
 
-
 	//Places the player in the maze
-
 	private void placePlayer(){   	
 		currentRow = (int) (MAZE_DIMENSION * Math.random());
 		currentCol = (int) (MAZE_DIMENSION * Math.random());
@@ -148,7 +132,6 @@ public class GameRunner implements KeyListener{
 
 
 	//Update the View
-
 	private void updateView(){
 		view.setCurrentRow(currentRow);
 		view.setCurrentCol(currentCol);

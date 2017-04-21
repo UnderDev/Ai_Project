@@ -125,33 +125,34 @@ public class Monster implements Interact, Runnable{
 	public void run() {	
 		System.out.println("Starting: "+ Thread.currentThread().getName());
 		//if(Thread.currentThread().getName() == "Spider 1")
-			if(algo.equals("bfs")){
-				t = new BFS();	
+		if(algo.equals("bfs")){
+			t = new BFS();	
+		}
+		else if(algo.equals("dfs")){
+			t = new RecursiveDFSTraversator();	
+		}
+		System.out.println("Pos " + x + " " + y);
+		t.traverse(mazeCopy, mazeCopy[x][y], this);
+
+
+		Collections.reverse(path);
+		path.remove(0);// Takes out the position it currently is in
+		for (Maze node :path) {
+
+			try { //Simulate processing each expanded node
+				Thread.sleep(800);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
 			}
-			else if(algo.equals("dfs")){
-				t = new RecursiveDFSTraversator();	
-			}
-			System.out.println("Pos " + x + " " + y);
-			t.traverse(mazeCopy, mazeCopy[x][y], this);
-
-
-			Collections.reverse(path);
-			path.remove(0);// Takes out the position it currently is in
-			for (Maze node :path) {
-
-				try { //Simulate processing each expanded node
-					Thread.sleep(100);
-				} catch (InterruptedException e) {
-					e.printStackTrace();
-				}
-
+			if(mainMaze[node.getRow()][node.getCol()].getMapItem() == ' '){
 				mainMaze[node.getRow()][node.getCol()].setMapItem(this.ch);
 				mainMaze[x][y].setMapItem(' ');
 				this.setPos(node.getRow(),node.getCol());
 			}
-			fight(this.angerLevel, this.player.getWeapon());
-		
-			if(!this.isAlive())
+		}
+		fight(this.angerLevel, this.player.getWeapon());
+
+		if(!this.isAlive())
 			mainMaze[this.x][this.y].setMapItem(' ');
 	}
 }
