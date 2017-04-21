@@ -1,27 +1,27 @@
 package ie.gmit.sw.ai.maze;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 
-public class Maze {
+public  class Maze implements  Serializable{
+	private static final long serialVersionUID = 1L;
+
 	public enum Direction {North, South, East, West};
 	private Maze parent;
-	//private Color color = Color.BLACK;
 	private Direction[] paths = null;
-	public boolean visited =  false;
-	public boolean goal;
+	private boolean visited =  false;
+	private boolean goal;
 
 	private int row = -1;
 	private int col = -1;
 	private char mapItem;
 
-
 	public Maze(int row, int col){
 		this.row = row;
-		this.col = col;		
+		this.col = col;	
 	}
-
 
 	public char getMapItem() {
 		return mapItem;
@@ -123,7 +123,6 @@ public class Maze {
 		this.visited = visited;
 	}
 
-
 	public int getHeuristic(Maze goal){
 		double x1 = this.col;
 		double y1 = this.row;
@@ -132,7 +131,6 @@ public class Maze {
 		double d = 1;
 		return (int)(d * Math.abs(x1 - x2) - Math.abs(y1-y2));
 	}
-
 
 	public String toString() {
 		return "[" + row + "/" + col + "]";

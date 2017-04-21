@@ -6,6 +6,7 @@ import javax.swing.*;
 
 import ie.gmit.sw.ai.maze.Maze;
 import ie.gmit.sw.ai.maze.Maze.Direction;
+
 public class GameView extends JPanel implements ActionListener{
 	private static final long serialVersionUID = 1L;
 	public static final int DEFAULT_VIEW_SIZE = 800;	
@@ -78,12 +79,18 @@ public class GameView extends JPanel implements ActionListener{
 					if (ch >= '5'){
 						if (row == currentRow && col == currentCol){
 							g2.setColor(Color.YELLOW);
-						}else{
+						}/*else{
 							//g2.setColor(reds[(int) (Math.random() * 3)]);
 							g2.setColor(Color.MAGENTA);
+						}*/
+						else if (ch >= '7'){
+							g2.setColor(Color.blue);
+						}
+						else if (ch >= '6'){
+							g2.setColor(Color.ORANGE);
 						}
 						g2.fillRect(x1, y1, size, size);
-					}
+					}					
 				}else{
 					ch = maze[currentRow - cellpadding + row] [currentCol - cellpadding + col].getMapItem();
 				}
@@ -126,14 +133,6 @@ public class GameView extends JPanel implements ActionListener{
 		}
 		this.repaint();
 	}
-
-	//	public void updateEnemyPos(Maze[][] curr, Maze[][] next, char ch)
-	//	{
-	//		
-	//		g2.setColor(Color.LIGHT_GRAY);//Empty cell
-	//		g2.fillRect(x1, y1, size, size);  
-	//		g2.drawImage(sprites[imageIndex], x1, y1, null);
-	//	}
 
 	public void setSprites(Sprite[] sprites){
 		this.sprites = sprites;

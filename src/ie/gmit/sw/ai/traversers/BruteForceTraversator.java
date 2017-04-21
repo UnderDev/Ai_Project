@@ -20,12 +20,12 @@ public class BruteForceTraversator implements Traversator{
 		
 		while (!queue.isEmpty()){
 			node = queue.poll();
-			node.setVisited(true);
+			//node.setVisited(true);
 			visitCount++;
 			
 			if (node.isGoal()){
 		        time = System.currentTimeMillis() - time; //Stop the clock
-		        TraversatorStats.printStats(node, time, visitCount);
+		        //TraversatorStats.printStats(node, time, visitCount);
 				break;
 			}
 			
@@ -39,9 +39,6 @@ public class BruteForceTraversator implements Traversator{
 			for (int i = 0; i < children.length; i++) {
 				if (children[i] != null && !children[i].isVisited()){
 					children[i].setParent(node);
-					
-					children[i].setMapItem('\u003D');//spider Char
-					children[i].getParent().setMapItem('\u0020');//Space
 					
 					if (dfs){
 						queue.addFirst(children[i]);

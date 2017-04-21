@@ -2,12 +2,17 @@ package ie.gmit.sw.ai;
 
 import java.awt.*;
 import java.awt.event.*;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.util.Random;
+
 import javax.swing.*;
 
 import ie.gmit.sw.ai.maze.Maze;
 import ie.gmit.sw.ai.maze.MazeGenerator;
-
-
 
 public class GameRunner implements KeyListener{
 	private static final int MAZE_DIMENSION = 50;
@@ -20,7 +25,6 @@ public class GameRunner implements KeyListener{
 	private Maze goal;
 
 	private Sprite[] sprites;
-
 	private Maze[][] maze;
 
 	public GameRunner() throws Exception{
@@ -33,6 +37,8 @@ public class GameRunner implements KeyListener{
 		sprites = getSprites();
 		view.setSprites(sprites);
 		placePlayer();
+		StartMonsters();
+
 
 		view.toggleZoom(); //testing only ******* REMOVE	
 
@@ -50,28 +56,97 @@ public class GameRunner implements KeyListener{
 		f.setLocation(100,100);
 		f.pack();
 		f.setVisible(true);    
+		updateView();	
 	}
 
+
+	private void StartMonsters() {
+		Random r = new Random();
+		Monster monster;
+		Thread t;
+		for (int row = 0; row < maze.length; row++){
+			for (int col = 0; col < maze[row].length; col++){
+				char ch = maze[row][col].getMapItem(); //Index 0 is a hedge
+
+				switch(ch)
+				{
+				case '6':
+					monster = new Monster(r.nextDouble()*10, r.nextDouble()*100, ch, row, col, maze);
+					monster.setMaze((Maze[][])copy(maze));//Deep Copy
+					//scheduledExecutorService.schedule(m, 1, TimeUnit.SECONDS);
+					t = new Thread(monster);
+					t.setName("Spider 1");
+					t.start();
+					break;
+				case '7':
+					monster = new Monster(r.nextDouble()*10, r.nextDouble()*100, ch, row, col,maze);
+					monster.setMaze((Maze[][])copy(maze));
+					//scheduledExecutorService.schedule(m, 1, TimeUnit.SECONDS);
+					t = new Thread(monster);
+					t.setName("Spider 2");
+					t.start();
+					break;					
+				default:
+					break;
+
+				}
+			}
+		}
+	}
+
+
+	public static Object copy(Object orig) {
+		Object obj = null;
+		try {
+			// Write the object out to a byte array
+			ByteArrayOutputStream bos = new ByteArrayOutputStream();
+			ObjectOutputStream out = new ObjectOutputStream(bos);
+			out.writeObject(orig);
+			out.flush();
+			out.close();
+
+			// Make an input stream from the byte array and read
+			// a copy of the object back in.
+			ObjectInputStream in = new ObjectInputStream(
+					new ByteArrayInputStream(bos.toByteArray()));
+			obj = in.readObject();
+		}
+		catch(IOException e) {
+			e.printStackTrace();
+		}
+		catch(ClassNotFoundException cnfe) {
+			cnfe.printStackTrace();
+		}
+		return obj;
+	}
+
+
+
 	//Places the player in the maze
+
 	private void placePlayer(){   	
 		currentRow = (int) (MAZE_DIMENSION * Math.random());
 		currentCol = (int) (MAZE_DIMENSION * Math.random());
 		maze[currentRow][currentCol].setMapItem('5'); //A Spartan warrior is at index 5
 		maze[currentRow][currentCol].setGoal(true);
 
-		goal = maze[currentRow][currentCol];
+		//goal = maze[currentRow][currentCol];
 		updateView();		
 	}
 
+
 	//Update the View
+
 	private void updateView(){
 		view.setCurrentRow(currentRow);
 		view.setCurrentCol(currentCol);
 		player.setPlayerNode(maze[currentRow][currentCol]);
 
-		System.out.println(player.getPlayerNode().toString());
+		//StartMonsters() ; Creates lots of threads
+		System.out.println("Player at Location :"+player.getPlayerNode().toString());
 		//goal = player.getPlayerNode();
 	}
+
 
 	// Get the key Down Event
 	public void keyPressed(KeyEvent e) {
@@ -103,11 +178,10 @@ public class GameRunner implements KeyListener{
 
 			maze[row][col].setMapItem('5');//Hero Char	
 			maze[row][col].setGoal(true);
-
 			return true;
 		}else{			
 			char item =  maze[row][col].getMapItem();
-
+			//Pick up the Item if valid
 			checkItemFound(item, row, col);			
 			return false; //Can't move
 		}

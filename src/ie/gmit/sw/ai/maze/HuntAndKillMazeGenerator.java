@@ -57,53 +57,11 @@ public class HuntAndKillMazeGenerator extends AbstractMazeGenerator {
 				switch(feature)
 				{
 				case '6':
-					m = new Monster(r.nextDouble()*10, r.nextDouble()*100, feature, row, col);
+					m = new Monster(r.nextDouble()*10, r.nextDouble()*100, feature, row, col,maze);
 					t = new Thread(m);
 					m.setMaze(maze);
 					t.start();
 					break;
-					/*case '7':
-					m = new Monster(r.nextDouble()*10, r.nextDouble()*100, feature, row, col);
-					t = new Thread(m);
-					m.setMaze(maze);
-					t.start();
-					break;
-				case '8':
-					m = new Monster(r.nextDouble()*10, r.nextDouble()*100, feature, row, col);
-					t = new Thread(m);
-					m.setMaze(maze);
-					t.start();
-					break;
-				case '9':
-					m = new Monster(r.nextDouble()*10, r.nextDouble()*100, feature, row, col);
-					t = new Thread(m);
-					m.setMaze(maze);
-					t.start();
-					break;
-				case ':':
-					m = new Monster(r.nextDouble()*10, r.nextDouble()*100, feature, row, col);
-					t = new Thread(m);
-					m.setMaze(maze);
-					t.start();
-					break;
-				case ';':
-					m = new Monster(r.nextDouble()*10, r.nextDouble()*100, feature, row, col);
-					t = new Thread(m);
-					m.setMaze(maze);
-					t.start();
-					break;
-				case '<':
-					m = new Monster(r.nextDouble()*10, r.nextDouble()*100, feature, row, col);
-					t = new Thread(m);
-					m.setMaze(maze);
-					t.start();
-					break;
-				case '=':
-					m = new Monster(r.nextDouble()*10, r.nextDouble()*100, feature, row, col);
-					t = new Thread(m);
-					m.setMaze(maze);
-					t.start();
-					break;*/
 				default:
 					break;
 				}			
@@ -124,7 +82,7 @@ public class HuntAndKillMazeGenerator extends AbstractMazeGenerator {
 		
 		//Start random walk
 		while (node != null){			
-			node.setVisited(true);
+			//node.setVisited(true);
 			Maze[] adjacents = node.adjacentNodes(maze);
 			super.shuffle(adjacents);
 
@@ -133,13 +91,10 @@ public class HuntAndKillMazeGenerator extends AbstractMazeGenerator {
 				if (!adjacents[i].isVisited()){
 					Direction dir = getDirection(node, adjacents[i]);
 					node.addPath(dir);
-					adjacents[i].addPath(opposite(dir));
-					
-
+					adjacents[i].addPath(opposite(dir));					
 					node = adjacents[i];
 				}
 			}
-
 			if (look) node = hunt();			
 		}
 	}

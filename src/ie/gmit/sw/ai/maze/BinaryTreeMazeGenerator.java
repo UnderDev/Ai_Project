@@ -1,14 +1,8 @@
 package ie.gmit.sw.ai.maze;
 
-import java.util.*;
-
-import ie.gmit.sw.ai.Monster;
-
 public class BinaryTreeMazeGenerator extends AbstractMazeGenerator {
-
 	private Maze [][] maze;
-	private Monster m;
-	private Thread t;
+
 	public BinaryTreeMazeGenerator(int rows, int cols) 
 	{
 		super(rows, cols);
@@ -42,68 +36,12 @@ public class BinaryTreeMazeGenerator extends AbstractMazeGenerator {
 
 	private void addFeature(char feature, char replace, int number){
 		int counter = 0;
-		Random r = new Random();
-
 		while (counter < number){
 			int row = (int) (maze.length * Math.random());
 			int col = (int) (maze[0].length * Math.random());
 
 			if (maze[row][col].getMapItem() == replace){
-				maze[row][col].setMapItem(feature);
-
-				switch(feature)
-				{
-				case '6':
-					m = new Monster(r.nextDouble()*10, r.nextDouble()*100, feature, row, col);
-					m.setMaze(maze.clone());
-					t = new Thread(m);
-					t.start();
-					break;
-				case '7':
-					m = new Monster(r.nextDouble()*10, r.nextDouble()*100, feature, row, col);
-					m.setMaze(maze.clone());
-					t = new Thread(m);
-					t.start();
-					break;
-					/*case '8':
-					m = new Monster(r.nextDouble()*10, r.nextDouble()*100, feature, row, col);
-					m.setMaze(maze);
-					t = new Thread(m);
-					t.start();
-					break;
-				case '9':
-					m = new Monster(r.nextDouble()*10, r.nextDouble()*100, feature, row, col);
-					m.setMaze(maze);
-					t = new Thread(m);
-					t.start();
-					break;
-				case ':':
-					m = new Monster(r.nextDouble()*10, r.nextDouble()*100, feature, row, col);
-					m.setMaze(maze);
-					t = new Thread(m);
-					t.start();
-					break;
-				case ';':
-					m = new Monster(r.nextDouble()*10, r.nextDouble()*100, feature, row, col);
-					m.setMaze(maze);
-					t = new Thread(m);
-					t.start();
-					break;
-				case '<':
-					m = new Monster(r.nextDouble()*10, r.nextDouble()*100, feature, row, col);
-					m.setMaze(maze);
-					t = new Thread(m);
-					t.start();
-					break;
-				case '=':
-					m = new Monster(r.nextDouble()*10, r.nextDouble()*100, feature, row, col);
-					m.setMaze(maze);
-					t = new Thread(m);
-					t.start();
-					break;*/
-				default:
-					break;
-				}			
+				maze[row][col].setMapItem(feature);	
 				counter++;
 			}
 		}
@@ -125,8 +63,6 @@ public class BinaryTreeMazeGenerator extends AbstractMazeGenerator {
 		}		
 	}*/
 
-
-
 	/*public void generateMaze(){
 		this.maze = super.getMaze();
 		for (int row = 0; row < maze.length; row++){
@@ -140,7 +76,6 @@ public class BinaryTreeMazeGenerator extends AbstractMazeGenerator {
 			}
 		}
 	}*/
-
 
 	public void generateMaze(){ 
 		this.maze = super.getMaze();
