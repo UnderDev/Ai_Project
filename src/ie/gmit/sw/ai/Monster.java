@@ -6,6 +6,8 @@ import java.util.Collections;
 
 import ie.gmit.sw.ai.maze.Maze;
 import ie.gmit.sw.ai.traversers.BFS;
+import ie.gmit.sw.ai.traversers.BruteForceTraversator;
+import ie.gmit.sw.ai.traversers.RecursiveDFSTraversator;
 import ie.gmit.sw.ai.traversers.Traversator;
 
 public class Monster implements Interact, Runnable{
@@ -15,14 +17,26 @@ public class Monster implements Interact, Runnable{
 	private double result;
 	private double angerLevel;
 	private boolean found = false;
+	private int damage;
+	private Traversator t;
+	private Maze[][] m;
+	private ArrayList<Maze> path = new ArrayList<Maze>();
+
+	public int getDamage() {
+		return damage;
+	}
+
+	public void setDamage(int damage) {
+		this.damage = damage;
+	}
 
 	public void setFound(boolean found) {
 		this.found = found;
 	}
 
-	Traversator t;
-	Maze[][] m;
-	ArrayList<Maze> path = new ArrayList<Maze>();
+	public boolean isFound() {
+		return found;
+	}
 
 	public void setPath(ArrayList<Maze> path) {
 		this.path = path;
@@ -67,11 +81,12 @@ public class Monster implements Interact, Runnable{
 
 	}
 
-	public double fight(double angerLevel, double weapon) {
+	public double fight(double angerLevel, double damage) {
 
 		ffight = new FuzzyFight();
-		result = Math.round(ffight.getFuzzy(angerLevel, weapon));
+		result = Math.round(ffight.getFuzzy(angerLevel, damage));
 		adjustHealth(result);
+		System.out.println("Monster: "+Thread.currentThread().getName()+" Health Remaining: " + this.health + " Damage: "+ damage);
 		return result;
 	}
 
@@ -96,15 +111,18 @@ public class Monster implements Interact, Runnable{
 		this.m=m;
 	}
 
-	public void run() {		
-		t = new BFS();
+	public void run() {	
+		System.out.println("Starting: "+ Thread.currentThread().getName());
+		//if(Thread.currentThread().getName() == "Spider 1")
+		t = new BFS();		
 		//t = new BruteForceTraversator(true);
+		//else
 		//t = new RecursiveDFSTraversator();
+
 		t.traverse(m, m[x][y], this);
 
-		//while (found){
-		if(!path.isEmpty() && path != null){		
-			Collections.reverse(path);
+		if (found){	
+			//Collections.reverse(path);
 			path.remove(0);// Takes out the position it currently is in
 			for (Maze node :path) {
 
@@ -118,8 +136,8 @@ public class Monster implements Interact, Runnable{
 				m[x][y].setMapItem(' ');
 				this.setPos(node.getRow(),node.getCol());
 			}
+			fight(this.angerLevel, 5);
 		}
-		//	}
 	}
 }
 

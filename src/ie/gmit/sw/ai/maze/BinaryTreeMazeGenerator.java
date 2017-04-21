@@ -1,14 +1,18 @@
 package ie.gmit.sw.ai.maze;
 
 import java.util.*;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 import ie.gmit.sw.ai.Monster;
 
 public class BinaryTreeMazeGenerator extends AbstractMazeGenerator {
 
 	private Maze [][] maze;
-	private Monster m;
 	private Thread t;
+	private Monster m;
+
 	public BinaryTreeMazeGenerator(int rows, int cols) 
 	{
 		super(rows, cols);
@@ -39,11 +43,10 @@ public class BinaryTreeMazeGenerator extends AbstractMazeGenerator {
 			}
 		}
 	}
-
+	private ScheduledExecutorService scheduledExecutorService = Executors.newScheduledThreadPool(5);
 	private void addFeature(char feature, char replace, int number){
 		int counter = 0;
 		Random r = new Random();
-
 		while (counter < number){
 			int row = (int) (maze.length * Math.random());
 			int col = (int) (maze[0].length * Math.random());
@@ -55,15 +58,19 @@ public class BinaryTreeMazeGenerator extends AbstractMazeGenerator {
 				{
 				case '6':
 					m = new Monster(r.nextDouble()*10, r.nextDouble()*100, feature, row, col);
-					m.setMaze(maze.clone());
-					t = new Thread(m);
-					t.start();
+					m.setMaze(maze);
+					scheduledExecutorService.schedule(m, 1, TimeUnit.SECONDS);
+					//t = new Thread(m);
+					//t.setName("Spider 1");
+					//t.start();
 					break;
 				case '7':
 					m = new Monster(r.nextDouble()*10, r.nextDouble()*100, feature, row, col);
-					m.setMaze(maze.clone());
-					t = new Thread(m);
-					t.start();
+					m.setMaze(maze);
+					scheduledExecutorService.schedule(m, 1, TimeUnit.SECONDS);
+					//t = new Thread(m);
+					//t.setName("Spider 2");
+					//t.start();
 					break;
 					/*case '8':
 					m = new Monster(r.nextDouble()*10, r.nextDouble()*100, feature, row, col);

@@ -7,8 +7,6 @@ import javax.swing.*;
 import ie.gmit.sw.ai.maze.Maze;
 import ie.gmit.sw.ai.maze.MazeGenerator;
 
-
-
 public class GameRunner implements KeyListener{
 	private static final int MAZE_DIMENSION = 50;
 	private static final int IMAGE_COUNT = 14;
@@ -20,7 +18,6 @@ public class GameRunner implements KeyListener{
 	private Maze goal;
 
 	private Sprite[] sprites;
-
 	private Maze[][] maze;
 
 	public GameRunner() throws Exception{
@@ -59,7 +56,7 @@ public class GameRunner implements KeyListener{
 		maze[currentRow][currentCol].setMapItem('5'); //A Spartan warrior is at index 5
 		maze[currentRow][currentCol].setGoal(true);
 
-		goal = maze[currentRow][currentCol];
+		//goal = maze[currentRow][currentCol];
 		updateView();		
 	}
 
@@ -69,7 +66,7 @@ public class GameRunner implements KeyListener{
 		view.setCurrentCol(currentCol);
 		player.setPlayerNode(maze[currentRow][currentCol]);
 
-		System.out.println(player.getPlayerNode().toString());
+		System.out.println("Player at Location :"+player.getPlayerNode().toString());
 		//goal = player.getPlayerNode();
 	}
 
@@ -103,11 +100,10 @@ public class GameRunner implements KeyListener{
 
 			maze[row][col].setMapItem('5');//Hero Char	
 			maze[row][col].setGoal(true);
-
 			return true;
 		}else{			
 			char item =  maze[row][col].getMapItem();
-
+			//Pick up the Item if valid
 			checkItemFound(item, row, col);			
 			return false; //Can't move
 		}
