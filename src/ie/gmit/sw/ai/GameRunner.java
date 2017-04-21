@@ -8,6 +8,9 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.Random;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ThreadPoolExecutor;
 
 import javax.swing.*;
 
@@ -23,6 +26,7 @@ public class GameRunner implements KeyListener{
 
 	private Player player;
 	private Maze goal;
+	private ThreadPoolExecutor executor;
 
 	private Sprite[] sprites;
 	private Maze[][] maze;
@@ -61,35 +65,25 @@ public class GameRunner implements KeyListener{
 
 
 	private void StartMonsters() {
+		
+		executor = (ThreadPoolExecutor) Executors.newFixedThreadPool(20);
 		Random r = new Random();
 		Monster monster;
 		Thread t;
+		int spiderNum =1;
 		for (int row = 0; row < maze.length; row++){
 			for (int col = 0; col < maze[row].length; col++){
 				char ch = maze[row][col].getMapItem(); //Index 0 is a hedge
-
-				switch(ch)
-				{
-				case '6':
+				
+				if(ch > '5'){
 					monster = new Monster(r.nextDouble()*10, r.nextDouble()*100, ch, row, col, maze);
 					monster.setMaze((Maze[][])copy(maze));//Deep Copy
 					//scheduledExecutorService.schedule(m, 1, TimeUnit.SECONDS);
-					t = new Thread(monster);
-					t.setName("Spider 1");
-					t.start();
-					break;
-				case '7':
-					monster = new Monster(r.nextDouble()*10, r.nextDouble()*100, ch, row, col,maze);
-					monster.setMaze((Maze[][])copy(maze));
-					//scheduledExecutorService.schedule(m, 1, TimeUnit.SECONDS);
-					t = new Thread(monster);
-					t.setName("Spider 2");
-					t.start();
-					break;					
-				default:
-					break;
-
-				}
+					executor.execute(monster);
+					//t = new Thread(monster);
+					//t.setName("Spider "+ spiderNum++);
+					//t.start();
+				}								
 			}
 		}
 	}

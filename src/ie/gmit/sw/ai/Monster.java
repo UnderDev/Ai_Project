@@ -135,14 +135,15 @@ public class Monster implements Interact, Runnable{
 			for (Maze node :path) {
 
 				try { //Simulate processing each expanded node
-					Thread.sleep(100);
+					Thread.sleep(800);
 				} catch (InterruptedException e) {
 					e.printStackTrace();
 				}
-
-				mainMaze[node.getRow()][node.getCol()].setMapItem(this.ch);
-				mainMaze[x][y].setMapItem(' ');
-				this.setPos(node.getRow(),node.getCol());
+				if(mainMaze[node.getRow()][node.getCol()].getMapItem() == ' '){
+					mainMaze[node.getRow()][node.getCol()].setMapItem(this.ch);
+					mainMaze[x][y].setMapItem(' ');
+					this.setPos(node.getRow(),node.getCol());
+				}
 			}
 			fight(this.angerLevel, 5);
 		}
