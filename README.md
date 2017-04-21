@@ -27,7 +27,7 @@ The maze is generated with a number of features included:
   * Traversal algorithms are one of three - AStar, Breath First Search and Recursive Depth First Search.  These find paths to the Spartan and send the spiders after him even when he moves
   * AI type is either fuzzy logic or neural networks - this control how the spider fights
   
-  ### AI Features
+### AI Features
   The AI functionality of the game is seen in the ferocious battle scenes between the Spartan and the spiders.
   * If a spider is a fuzzy logic type of spider he will start a fuzzyfight with the Spartan
     * The input values for the fight function block are the value of the Spartans weapon and the spiders anger leverl
@@ -44,8 +44,8 @@ The maze is generated with a number of features included:
      * 3 hidden nodes 
      * 3 output nodes which tell the spider how to react - either Panic (deducts health), Attack (deducts from weapon) or Hide (which deducts from health because no one likes a sissy)
    * Training data and expected data are contained inside the fight class and are used to train the Back Propogation Trainer
-     
-   
+
+
    
 
   
