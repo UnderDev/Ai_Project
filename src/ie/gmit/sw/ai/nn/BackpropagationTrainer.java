@@ -14,13 +14,13 @@ public class BackpropagationTrainer implements Trainator{
 	private NeuralNetwork net;
 	private double[] err_out; //Error values in the output layer
 	private double[] err_hidden; //Error values in the hidden layer
-	
+
 	public BackpropagationTrainer(NeuralNetwork network){
 		this.net = network;
 		err_out = new double[net.getOutputLayer().length];
 		err_hidden = new double[net.getHiddenLayer().length];
 	}
-	
+
 	public void train(double[][] trainingData, double[][] desired, double alpha, int epochs) {
 		DecimalFormat df = new DecimalFormat("#.#########"); //Formatter for nice output
 		long startTime = System.currentTimeMillis(); //Start the clock
@@ -28,32 +28,26 @@ public class BackpropagationTrainer implements Trainator{
 		double sumOfSquaresError = 0.0d; //Stop training when this is tolerable
 		boolean hasError = true;
 		int epoch = 0;
-		
+
 		for (; epoch < epochs && hasError; epoch++){
 			sumOfSquaresError = 0.0d; //Root mean square error for each epoch
-			
+
 			for (int index = 0; index < trainingData.length; index++){// loops over rows - to loop over columns trainingData[0].length
 				double[] sample = trainingData[index];
 				double[] expected = desired[index];
-				
+
 				for (int i = 0; i < net.getInputLayer().length; i++) net.getInputLayer()[i] = sample[i];
 				for (int i = 0; i < net.getOutputLayer().length; i++) net.getOutputLayer()[i] = expected[i];
-				
+
 				net.feedForward();
 				backpropagate(expected, alpha);
-			}
-			
-			for (int i = 0; i < err_out.length; i++) sumOfSquaresError += Math.pow(err_out[i], 2);
-			
-			//if (epoch % 1000 == 0) System.out.println(epoch + "," + sumOfSquaresError);
+			}			
+			for (int i = 0; i < err_out.length; i++) sumOfSquaresError += Math.pow(err_out[i], 2);			
 			if (Math.abs(sumOfSquaresError) <= errTolerance) hasError = false; //Bail out of training
 		}
-//		System.out.println("[INFO] Training completed in " + ((System.currentTimeMillis() - startTime)/1000) + " seconds.");
-//		System.out.println("[INFO] Epochs: " + epoch);
-//		System.out.println("[INFO] Sum of Squares Error: " + df.format(sumOfSquaresError));
 	}
-	
-	
+
+
 	//The comments use the same notation as used in the lecture notes 
 	private void backpropagate(double[] expected, double alpha){ //
 		//Compute the error gradient in the output layer
@@ -61,7 +55,7 @@ public class BackpropagationTrainer implements Trainator{
 			//delta_k(p) = y_k(p) x (1 - y_k(p)) * e_k(p)
 			err_out[out] =  net.getActivator().derivative(net.getOutputLayer()[out]) * (expected[out] - net.getOutputLayer()[out]);
 		}
-		
+
 		//Compute the error gradient in the hidden layer
 		for (int hid = 0; hid < net.getHiddenLayer().length; hid++){
 			err_hidden[hid] = 0.0d;
@@ -71,8 +65,8 @@ public class BackpropagationTrainer implements Trainator{
 			}
 			err_hidden[hid] *= net.getActivator().derivative(net.getHiddenLayer()[hid]);
 		}
-		
-		
+
+
 		//Update the weights in the output layer
 		for (int out = 0; out < net.getOutputLayer().length; out++){
 			for (int hid = 0; hid < net.getHiddenLayer().length; hid++){
@@ -81,8 +75,8 @@ public class BackpropagationTrainer implements Trainator{
 			}
 			net.getOutputWeights()[net.getHiddenLayer().length][out] += (MOMENTUM * alpha * err_out[out]);
 		}
-		
-		
+
+
 		//Update the weights in the hidden layer
 		for (int hid = 0; hid < net.getHiddenLayer().length; hid++){
 			for (int in = 0; in < net.getInputLayer().length; in++){

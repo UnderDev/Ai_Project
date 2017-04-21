@@ -5,6 +5,13 @@ import java.util.*;
 import ie.gmit.sw.ai.Monster;
 import ie.gmit.sw.ai.maze.Maze;
 
+/*
+ * Breadth-first search (BFS) is an algorithm that explores a semantic network or search
+ *  tree by iteratively expanding each level or ply of a starting node until a goal node has
+ *  been located. It is an optimal and complete algorithm, meaning that it will always find
+ *  the best path to a goal node.
+ */
+
 public class BFS implements Traversator{
 	private LinkedList<Maze> queue = new LinkedList<Maze>();
 	private ArrayList <Maze> path;

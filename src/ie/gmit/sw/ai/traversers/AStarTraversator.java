@@ -4,6 +4,12 @@ import ie.gmit.sw.ai.Monster;
 import ie.gmit.sw.ai.maze.*;
 
 import java.util.*;
+
+/*
+ * A* is an informed search algorithm, or a best-first search, meaning that it solves problems by searching among 
+ * all possible paths to the solution (goal) for the one that incurs the smallest cost (least distance travelled, 
+ * shortest time, etc.), and among these paths it first considers the ones that appear to lead most quickly to the solution. 
+ */
 public class AStarTraversator implements Traversator{
 	private Maze goal;
 	private final ArrayList <Maze> path = new ArrayList<Maze>();
@@ -57,7 +63,6 @@ public class AStarTraversator implements Traversator{
 			}
 		}
 	}
-
 
 	private void unvisit(Maze node, Maze[][] maze){
 		for (int i = 0; i < maze.length; i++){

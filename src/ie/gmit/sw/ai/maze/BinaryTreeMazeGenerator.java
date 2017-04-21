@@ -1,5 +1,9 @@
 package ie.gmit.sw.ai.maze;
 
+
+/*
+ * This class extends AbstractMazeGenerator and is used to generate the Maze for the Game
+ */
 public class BinaryTreeMazeGenerator extends AbstractMazeGenerator {
 	private Maze [][] maze;
 
@@ -25,6 +29,7 @@ public class BinaryTreeMazeGenerator extends AbstractMazeGenerator {
 		addFeature('\u003D', '0', 1); //= is a Pink Spider, 0 is a hedge
 	}
 
+	//Creates all the Hedges
 	private void ini(){
 		for (int row = 0; row < maze.length; row++){
 			for (int col = 0; col < maze[row].length; col++){
@@ -33,6 +38,7 @@ public class BinaryTreeMazeGenerator extends AbstractMazeGenerator {
 		}
 	}
 
+	//Adds all the features to the Maze, spiders and items
 	private void addFeature(char feature, char replace, int number){
 		int counter = 0;
 		while (counter < number){
@@ -46,6 +52,7 @@ public class BinaryTreeMazeGenerator extends AbstractMazeGenerator {
 		}
 	}
 
+	//Generates the Maze
 	public void generateMaze(){ 
 		this.maze = super.getMaze();
 		for (int row = 1; row < maze.length - 1; row++){
@@ -60,6 +67,7 @@ public class BinaryTreeMazeGenerator extends AbstractMazeGenerator {
 		}		
 	}	
 
+	//Returns The Maze
 	public Maze[][] getMaze(){
 		return this.maze;
 	}
