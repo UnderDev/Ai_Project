@@ -10,7 +10,6 @@ public  class Maze implements  Serializable{
 
 	public enum Direction {North, South, East, West};
 	private Maze parent;
-	//private Color color = Color.BLACK;
 	private Direction[] paths = null;
 	private boolean visited =  false;
 	private boolean goal;
@@ -18,7 +17,6 @@ public  class Maze implements  Serializable{
 	private int row = -1;
 	private int col = -1;
 	private char mapItem;
-
 
 	public Maze(int row, int col){
 		this.row = row;

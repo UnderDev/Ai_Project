@@ -64,12 +64,12 @@ public class RecursiveDFSTraversator implements Traversator{
 				for (int i = 0; i < children.length; i++) {
 					if ((children[i].getRow() <= maze.length - 1) && (children[i].getCol() <= maze[children[i].getRow()].length - 1)
 							&& ((children[i].getMapItem() == ' ') || (children[i].getMapItem() == '5'))){
-						
+
 						if(Thread.currentThread().getName() =="Spider 1")
 							children[i].setMapItem('\u0036');//spider Char
 						else 
 							children[i].setMapItem('\u0037');//spider Char
-						
+
 						children[i].setParent(node);
 						dfs(children[i]);}
 				}

@@ -19,8 +19,22 @@ public class Monster implements Interact, Runnable{
 	private boolean found = false;
 	private int damage;
 	private Traversator t;
-	private Maze[][] m;
+	private Maze[][] mazeCopy;
+	private Maze[][] mainMaze;
 	private ArrayList<Maze> path = new ArrayList<Maze>();
+	private char ch;
+	private int x;
+	private int y;
+
+	public Monster(double health, double angerLevel, char ch, int x, int y, Maze[][] maze){
+		this.health=health;
+		this.angerLevel=angerLevel;
+		this.ch=ch;
+		this.x=x;
+		this.y=y;
+		this.mainMaze = maze;
+	}
+
 
 	public int getDamage() {
 		return damage;
@@ -42,16 +56,10 @@ public class Monster implements Interact, Runnable{
 		this.path = path;
 	}
 
-	private char ch;
-	private int x;
-	private int y;
-
-	public Monster(double health, double angerLevel, char ch, int x, int y){
-		this.health=health;
-		this.angerLevel=angerLevel;
-		this.ch=ch;
-		this.x=x;
-		this.y=y;
+	public ArrayList<Maze> getPath() {
+		Collections.reverse(path);
+		path.remove(0);// Takes out the position it currently is in
+		return path;
 	}
 
 	public void setHealth(double health)
@@ -108,7 +116,7 @@ public class Monster implements Interact, Runnable{
 
 	public void setMaze(Maze[][] m)
 	{
-		this.m=m;
+		this.mazeCopy=m;
 	}
 
 	public void run() {	
@@ -119,7 +127,7 @@ public class Monster implements Interact, Runnable{
 		//else
 		//t = new RecursiveDFSTraversator();
 
-		t.traverse(m, m[x][y], this);
+		t.traverse(mazeCopy, mazeCopy[x][y], this);
 
 		if (found){	
 			Collections.reverse(path);
@@ -132,8 +140,8 @@ public class Monster implements Interact, Runnable{
 					e.printStackTrace();
 				}
 
-				m[node.getRow()][node.getCol()].setMapItem(this.ch);
-				m[x][y].setMapItem(' ');
+				mainMaze[node.getRow()][node.getCol()].setMapItem(this.ch);
+				mainMaze[x][y].setMapItem(' ');
 				this.setPos(node.getRow(),node.getCol());
 			}
 			fight(this.angerLevel, 5);

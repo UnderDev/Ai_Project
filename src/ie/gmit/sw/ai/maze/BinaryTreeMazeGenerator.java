@@ -1,31 +1,14 @@
 package ie.gmit.sw.ai.maze;
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.util.*;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.TimeUnit;
-
-import ie.gmit.sw.ai.Monster;
-import ie.gmit.sw.ai.Player;
-
 public class BinaryTreeMazeGenerator extends AbstractMazeGenerator {
-
 	private Maze [][] maze;
-	private Thread t;
-	private Monster m;
 
 	public BinaryTreeMazeGenerator(int rows, int cols) 
 	{
 		super(rows, cols);
 		ini();
 		generateMaze();
-		player = new Player();
-		//placePlayer();
+
 		int featureNumber = (int)((rows * cols) * 0.01);
 		addFeature('\u0031', '0', featureNumber); //1 is a sword, 0 is a hedge
 		addFeature('\u0032', '0', featureNumber); //2 is help, 0 is a hedge
@@ -50,122 +33,20 @@ public class BinaryTreeMazeGenerator extends AbstractMazeGenerator {
 			}
 		}
 	}
-	private ScheduledExecutorService scheduledExecutorService = Executors.newScheduledThreadPool(5);
+
 	private void addFeature(char feature, char replace, int number){
 		int counter = 0;
-		Random r = new Random();
 		while (counter < number){
 			int row = (int) (maze.length * Math.random());
 			int col = (int) (maze[0].length * Math.random());
 
 			if (maze[row][col].getMapItem() == replace){
-				maze[row][col].setMapItem(feature);
-
-				switch(feature)
-				{
-				case '6':
-					m = new Monster(r.nextDouble()*10, r.nextDouble()*100, feature, row, col);
-					m.setMaze((Maze[][])copy(maze));
-					//scheduledExecutorService.schedule(m, 1, TimeUnit.SECONDS);
-					t = new Thread(m);
-					t.setName("Spider 1");
-					t.start();
-					break;
-				case '7':
-					m = new Monster(r.nextDouble()*10, r.nextDouble()*100, feature, row, col);
-					m.setMaze((Maze[][])copy(maze));
-					//scheduledExecutorService.schedule(m, 1, TimeUnit.SECONDS);
-					t = new Thread(m);
-					t.setName("Spider 2");
-					t.start();
-					break;
-					/*case '8':
-					m = new Monster(r.nextDouble()*10, r.nextDouble()*100, feature, row, col);
-					m.setMaze(maze);
-					t = new Thread(m);
-					t.start();
-					break;
-				case '9':
-					m = new Monster(r.nextDouble()*10, r.nextDouble()*100, feature, row, col);
-					m.setMaze(maze);
-					t = new Thread(m);
-					t.start();
-					break;
-				case ':':
-					m = new Monster(r.nextDouble()*10, r.nextDouble()*100, feature, row, col);
-					m.setMaze(maze);
-					t = new Thread(m);
-					t.start();
-					break;
-				case ';':
-					m = new Monster(r.nextDouble()*10, r.nextDouble()*100, feature, row, col);
-					m.setMaze(maze);
-					t = new Thread(m);
-					t.start();
-					break;
-				case '<':
-					m = new Monster(r.nextDouble()*10, r.nextDouble()*100, feature, row, col);
-					m.setMaze(maze);
-					t = new Thread(m);
-					t.start();
-					break;
-				case '=':
-					m = new Monster(r.nextDouble()*10, r.nextDouble()*100, feature, row, col);
-					m.setMaze(maze);
-					t = new Thread(m);
-					t.start();
-					break;*/
-				default:
-					break;
-				}			
+				maze[row][col].setMapItem(feature);	
 				counter++;
 			}
 		}
 	}
-	private Player player;
-	private void placePlayer(){   	
-		int currentRow = (int) (50 * Math.random());
-		int currentCol = (int) (50 * Math.random());
-		maze[currentRow][currentCol].setMapItem('5'); //A Spartan warrior is at index 5
-		maze[currentRow][currentCol].setGoal(true);
 
-		
-		player.setPlayerNode(maze[currentRow][currentCol]);
-
-		System.out.println("Player at Location :"+player.getPlayerNode().toString());
-		//goal = maze[currentRow][currentCol];
-		//updateView();		
-	}
-
-	
-	 public static Object copy(Object orig) {
-	        Object obj = null;
-	        try {
-	            // Write the object out to a byte array
-	            ByteArrayOutputStream bos = new ByteArrayOutputStream();
-	            ObjectOutputStream out = new ObjectOutputStream(bos);
-	            out.writeObject(orig);
-	            out.flush();
-	            out.close();
-
-	            // Make an input stream from the byte array and read
-	            // a copy of the object back in.
-	            ObjectInputStream in = new ObjectInputStream(
-	                new ByteArrayInputStream(bos.toByteArray()));
-	            obj = in.readObject();
-	        }
-	        catch(IOException e) {
-	            e.printStackTrace();
-	        }
-	        catch(ClassNotFoundException cnfe) {
-	            cnfe.printStackTrace();
-	        }
-	        return obj;
-	    }
-	
-	
-	
-	
 	/*public void generateMaze(){ 
 		this.maze = super.getMaze();
 		for (int row = 1; row < maze.length - 1; row++){
@@ -182,8 +63,6 @@ public class BinaryTreeMazeGenerator extends AbstractMazeGenerator {
 		}		
 	}*/
 
-
-
 	/*public void generateMaze(){
 		this.maze = super.getMaze();
 		for (int row = 0; row < maze.length; row++){
@@ -197,7 +76,6 @@ public class BinaryTreeMazeGenerator extends AbstractMazeGenerator {
 			}
 		}
 	}*/
-
 
 	public void generateMaze(){ 
 		this.maze = super.getMaze();
