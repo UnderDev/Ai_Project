@@ -7,26 +7,26 @@ import ie.gmit.sw.ai.maze.Maze;
 
 public class BFS implements Traversator{
 	private LinkedList<Maze> queue = new LinkedList<Maze>();
-	private ArrayList <Maze> path = new ArrayList<Maze>();
+	private ArrayList <Maze> path;
 	private Maze[][] maze;
 	private boolean keepRunning = true;
 	private int visitCount = 0;
 	private long time = System.currentTimeMillis();
 	private Monster monster;
-	private Maze tempNode;
+	private Maze node;
 
 
 	public void traverse(Maze[][] maze, Maze node, Monster monster) {
 		this.maze = maze;
 		this.monster = monster;
-		this.tempNode = node;
+		this.node = node;
 		queue.addLast(node);
 		search(node);
 	}
 
 	public void search(Maze node){
-		System.out.println(Thread.currentThread().getName() +" Current Location : "+node.toString());
-
+		//System.out.println(Thread.currentThread().getName() +" Current Location : "+node.toString());
+		path = new ArrayList<Maze>();
 		while(!queue.isEmpty()){
 
 			if (!keepRunning) return;
@@ -35,10 +35,7 @@ public class BFS implements Traversator{
 			visitCount++;
 
 			if (node.isGoal()){
-				System.out.println(Thread.currentThread().getName()+" Found you at " + node.toString());
-				//path.add(node);			
-				//time = System.currentTimeMillis() - time; //Stop the clock
-				//TraversatorStats.printStats(node, time, visitCount);
+
 				while (node != null){			
 					node = node.getParent();
 					if (node != null){ 						
@@ -46,7 +43,6 @@ public class BFS implements Traversator{
 					}			
 				}								
 				monster.setPath(path);
-				monster.setFound(true);
 
 				keepRunning = false;
 				return;

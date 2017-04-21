@@ -32,6 +32,7 @@ public class GameRunner implements KeyListener{
 	private Sprite[] sprites;
 	private Maze[][] maze;
 	private ArrayList<Monster> monsters = new ArrayList<Monster>();
+	private Monster monster;
 
 	public GameRunner() throws Exception{
 		MazeGenerator m = new MazeGenerator(MAZE_DIMENSION, MAZE_DIMENSION);				
@@ -68,27 +69,23 @@ public class GameRunner implements KeyListener{
 	private void startMonsters() {
 		executor = (ThreadPoolExecutor) Executors.newFixedThreadPool(20);
 		Random r = new Random();
-		Monster monster;
-		Thread t;
 		int spiderNum =1;
 		for (int row = 0; row < maze.length; row++){
 			for (int col = 0; col < maze[row].length; col++){
 				char ch = maze[row][col].getMapItem(); //Index 0 is a hedge
 
 				if(ch > '5'){
-					monster = new Monster(r.nextDouble()*10, r.nextDouble()*100, ch, row, col, maze, "bfs", player);
+					monster = new Monster(5, r.nextDouble()*100, ch, row, col, maze, "bfs", player);
 					monster.setMaze((Maze[][])copy(maze));//Deep Copy
 					//scheduledExecutorService.schedule(m, 1, TimeUnit.SECONDS);
 					executor.execute(monster);
+					
+					monsters.add(monster);
 					//t = new Thread(monster);
 					//t.setName("Spider "+ spiderNum++);
 					//t.start();
 				}								
 			}
-		}
-
-		for (Monster tr: monsters) {
-			executor.execute(tr);
 		}
 	}
 
@@ -125,7 +122,7 @@ public class GameRunner implements KeyListener{
 		currentCol = (int) (MAZE_DIMENSION * Math.random());
 		maze[currentRow][currentCol].setMapItem('5'); //A Spartan warrior is at index 5
 		maze[currentRow][currentCol].setGoal(true);
-
+		System.out.println("Play first pos  " + maze[currentRow][currentCol]);
 		//goal = maze[currentRow][currentCol];
 		updateView();		
 	}
@@ -137,8 +134,9 @@ public class GameRunner implements KeyListener{
 		view.setCurrentCol(currentCol);
 		player.setPlayerNode(maze[currentRow][currentCol]);
 		//StartMonsters() ; Creates lots of threads
-		System.out.println("Player at Location :"+player.getPlayerNode().toString());
+//		System.out.println("Player at Location :"+player.getPlayerNode().toString());
 		//goal = player.getPlayerNode();
+
 	}
 
 
@@ -172,8 +170,11 @@ public class GameRunner implements KeyListener{
 
 			maze[row][col].setMapItem('5');//Hero Char	
 			maze[row][col].setGoal(true);
-			executor.shutdown();
-			//startMonsters();
+			System.out.println("Play new pos  " + maze[row][col]);
+			
+			for (Monster t: monsters) {
+				//t.setMaze((Maze[][])copy(maze));//Deep Copy
+			}
 			return true;
 		}else{			
 			char item =  maze[row][col].getMapItem();
@@ -205,6 +206,13 @@ public class GameRunner implements KeyListener{
 		case '4':
 			player.betterWeapon(20);
 			maze[row][col].setMapItem('0');
+			System.out.println("Weapon: " + player.getWeapon());
+		case '6':
+			System.out.println("Health" + player.getHealth());
+			player.fight(10, player.getWeapon());
+			System.out.println("Health" + player.getHealth());
+			maze[row][col].setMapItem(' ');
+			startMonsters();
 			System.out.println("Weapon: " + player.getWeapon());
 		default:
 			break;

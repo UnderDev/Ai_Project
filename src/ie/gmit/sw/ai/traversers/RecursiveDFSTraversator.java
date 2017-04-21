@@ -39,7 +39,7 @@ public class RecursiveDFSTraversator implements Traversator{
 		}
 
 		if (node.isGoal()){
-			System.out.println(Thread.currentThread().getName()+" Found you at " + node.toString());
+			//System.out.println(Thread.currentThread().getName()+" Found you at " + node.toString());
 			//time = System.currentTimeMillis() - time; //Stop the clock
 			//TraversatorStats.printStats(node, time, visitCount);
 			node.setGoal(true);
