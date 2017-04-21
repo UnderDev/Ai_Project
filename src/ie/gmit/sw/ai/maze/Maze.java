@@ -13,6 +13,7 @@ public  class Maze implements  Serializable{
 	private Direction[] paths = null;
 	private boolean visited =  false;
 	private boolean goal;
+	private int distance;
 
 	private int row = -1;
 	private int col = -1;
@@ -130,6 +131,14 @@ public  class Maze implements  Serializable{
 		double y2 = goal.getRow();
 		double d = 1;
 		return (int)(d * Math.abs(x1 - x2) - Math.abs(y1-y2));
+	}
+	
+	public int getPathCost() {
+		return distance;
+	}
+
+	public void setPathCost(int distance) {
+		this.distance = distance;
 	}
 
 	public String toString() {
