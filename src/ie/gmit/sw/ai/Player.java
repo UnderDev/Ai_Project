@@ -2,7 +2,7 @@ package ie.gmit.sw.ai;
 
 import ie.gmit.sw.ai.maze.Maze;
 
-public class Player{
+public class Player implements Interact{
 
 	private Maze playerNode;
 	private double weapon;
@@ -46,11 +46,10 @@ public class Player{
 		else return false;
 	}
 
-	public double fight(double angerLevel, double weapon) {		
+	public void fight(double angerLevel, double weapon) {		
 		ffight = new FuzzyFight();
 		result = Math.round(ffight.getFuzzy(angerLevel, weapon));
 		takeHeath(result);
-		return result;
 	}
 
 	public void giveHealth(double life)

@@ -26,6 +26,8 @@ public class BFS implements Traversator{
 			if (!keepRunning) return;
 
 			if (node.isGoal()){
+				path.add(node);
+
 				while (node != null){			
 					node = node.getParent();
 					if (node != null){ 						

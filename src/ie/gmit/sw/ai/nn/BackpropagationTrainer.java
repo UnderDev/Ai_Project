@@ -48,9 +48,9 @@ public class BackpropagationTrainer implements Trainator{
 			//if (epoch % 1000 == 0) System.out.println(epoch + "," + sumOfSquaresError);
 			if (Math.abs(sumOfSquaresError) <= errTolerance) hasError = false; //Bail out of training
 		}
-		System.out.println("[INFO] Training completed in " + ((System.currentTimeMillis() - startTime)/1000) + " seconds.");
-		System.out.println("[INFO] Epochs: " + epoch);
-		System.out.println("[INFO] Sum of Squares Error: " + df.format(sumOfSquaresError));
+//		System.out.println("[INFO] Training completed in " + ((System.currentTimeMillis() - startTime)/1000) + " seconds.");
+//		System.out.println("[INFO] Epochs: " + epoch);
+//		System.out.println("[INFO] Sum of Squares Error: " + df.format(sumOfSquaresError));
 	}
 	
 	

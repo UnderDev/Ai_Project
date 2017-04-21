@@ -72,10 +72,15 @@ public class GameRunner implements KeyListener{
 				char ch = maze[row][col].getMapItem(); //Index 0 is a hedge
 
 				if(ch > '5'){
-					monster = new Monster(5, r.nextDouble()*100, ch, row, col, maze, "bfs", player);
+					if(ch <= '7')
+						monster = new Monster(Math.round(r.nextDouble()*50), Math.round(r.nextDouble()*100), ch, row, col, maze, "bfs", player, "nn");
+					else if(ch <= '9')
+						monster = new Monster(Math.round(r.nextDouble()*50), Math.round(r.nextDouble()*50), ch, row, col, maze, "dfs", player, "fuzzy");
+					else
+						monster = new Monster(Math.round(r.nextDouble()*50), Math.round(r.nextDouble()*100), ch, row, col, maze, "aStar", player, "fuzzy");
 					executor.execute(monster);
-				}								
-			}
+				}			
+			}					
 		}
 	}
 
@@ -112,7 +117,6 @@ public class GameRunner implements KeyListener{
 		maze[currentRow][currentCol].setMapItem('5'); //A Spartan warrior is at index 5
 		maze[currentRow][currentCol].setGoal(true);
 		System.out.println("Play first pos  " + maze[currentRow][currentCol]);
-		//goal = maze[currentRow][currentCol];
 		updateView();		
 	}
 
@@ -121,10 +125,6 @@ public class GameRunner implements KeyListener{
 		view.setCurrentRow(currentRow);
 		view.setCurrentCol(currentCol);
 		player.setPlayerNode(maze[currentRow][currentCol]);
-		//StartMonsters() ; Creates lots of threads
-		//		System.out.println("Player at Location :"+player.getPlayerNode().toString());
-		//goal = player.getPlayerNode();
-
 	}
 
 	// Get the key Down Event
@@ -156,7 +156,9 @@ public class GameRunner implements KeyListener{
 			maze[currentRow][currentCol].setGoal(false);
 
 			maze[row][col].setMapItem('5');//Hero Char	
-			maze[row][col].setGoal(true);			
+			maze[row][col].setGoal(true);
+			System.out.println("Play new pos  " + maze[row][col]);
+
 			return true;
 		}else{			
 			char item =  maze[row][col].getMapItem();
@@ -188,12 +190,6 @@ public class GameRunner implements KeyListener{
 		case '4':
 			player.betterWeapon(20);
 			maze[row][col].setMapItem('0');
-			System.out.println("Weapon: " + player.getWeapon());
-		case '6':
-			System.out.println("Health" + player.getHealth());
-			player.fight(10, player.getWeapon());
-			System.out.println("Health" + player.getHealth());
-			maze[row][col].setMapItem(' ');
 			System.out.println("Weapon: " + player.getWeapon());
 		default:
 			break;
