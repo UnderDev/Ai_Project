@@ -5,6 +5,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 
+/*
+ * Maze implements Serializable, and is used to create a new Maze with paths, directions and other methods
+ */
 public  class Maze implements  Serializable{
 	private static final long serialVersionUID = 1L;
 

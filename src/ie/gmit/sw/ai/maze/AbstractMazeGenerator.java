@@ -4,6 +4,9 @@ import java.util.Random;
 
 import ie.gmit.sw.ai.maze.Maze.Direction;
 
+/*
+ * Abstract class implements MazeGenerator, contains useful methods needed in the MazeGenerator classes
+ */
 public abstract class AbstractMazeGenerator  implements MazeGenerator{
 	private Maze[][] maze;
 

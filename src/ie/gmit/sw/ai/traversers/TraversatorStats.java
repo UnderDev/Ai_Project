@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import ie.gmit.sw.ai.maze.Maze;
 
+//Not used, but prints out the stats of the node passed in, eg goal node
 public class TraversatorStats {
 	private ArrayList <Maze> path = new ArrayList<Maze>();
 	public void printStats(Maze node, long time, int visitCount){

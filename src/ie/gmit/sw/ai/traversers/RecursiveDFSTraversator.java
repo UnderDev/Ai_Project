@@ -5,7 +5,14 @@ import java.util.LinkedList;
 
 import ie.gmit.sw.ai.Monster;
 import ie.gmit.sw.ai.maze.Maze;
-
+/*
+ * A depth-first search (DFS) is a commonly used algorithm for traversing or searching a
+ * tree or semantic network (graph). DFS is an example of a “generate and test”
+ * approach to searching a state space. DFS also illustrates the use of brute-force or
+ * exhaustive search algorithms. Because it is memory efficient, DFS has been applied,
+ * in various forms, to a wide variety of search problems. These include file system
+ * searching and web spiders and indexers
+ */
 public class RecursiveDFSTraversator implements Traversator{
 	private Maze[][] maze;
 

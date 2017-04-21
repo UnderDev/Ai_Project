@@ -13,7 +13,12 @@ import ie.gmit.sw.ai.maze.Maze;
 import ie.gmit.sw.ai.nn.NnFight;
 import ie.gmit.sw.ai.traversers.*;
 
-
+/*
+ * Monster Class implements Interact and Runnable.
+ * This class is used for each spider in the game.
+ * Each monster gets its own Maze and traversal algo running on a separate thread.
+ * The thread returns when the spider or player is dead.
+ */
 public class Monster implements Interact, Runnable{
 
 	private double health;
@@ -22,7 +27,6 @@ public class Monster implements Interact, Runnable{
 	private double result;
 	private double angerLevel;
 	private double [] outcome;
-	private int damage;
 	private Maze[][] mainMaze;
 	private ArrayList<Maze> path = new ArrayList<Maze>();
 	private char ch;
@@ -42,14 +46,6 @@ public class Monster implements Interact, Runnable{
 		this.algo=algo;
 		this.player=player;
 		this.type=type;
-	}
-
-	public int getDamage() {
-		return damage;
-	}
-
-	public void setDamage(int damage) {
-		this.damage = damage;
 	}
 
 	public void setPath(ArrayList<Maze> path) {
@@ -145,9 +141,12 @@ public class Monster implements Interact, Runnable{
 		return obj;
 	}
 
+	/* Run method gets called from GameRunner when a new thread is started
+	 * This thread runs until the spider/player is dead.
+	 */
 	public void run() {	
 		while(this.isAlive()){
-			try { //Simulate processing each expanded node
+			try { //Slow down the thread to give the spider time to move/think
 				Thread.sleep(1000);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
@@ -155,6 +154,7 @@ public class Monster implements Interact, Runnable{
 
 			getAlgorithm().traverse((Maze[][])copy(mainMaze), (Maze)copy(mainMaze[x][y]), this);
 
+			//Reverse the path so the spider walks from his start to the player
 			Collections.reverse(path);
 			for (Maze node :path) {
 				if(mainMaze[node.getRow()][node.getCol()].getMapItem() == ' '){
@@ -173,6 +173,7 @@ public class Monster implements Interact, Runnable{
 					this.player.takeHeath(5);;
 					if(!this.isAlive())
 					{
+						System.out.println("Spider Defeated!!");
 						mainMaze[this.x][this.y].setMapItem(' ');
 						return;
 					}
@@ -184,7 +185,7 @@ public class Monster implements Interact, Runnable{
 						System.out.println("---------------------------------");
 
 						try {
-							Thread.sleep(1000);
+							Thread.sleep(2000);
 						} catch (InterruptedException e) {
 						}
 

@@ -5,6 +5,10 @@ import java.util.Random;
 import ie.gmit.sw.ai.Monster;
 import ie.gmit.sw.ai.maze.Maze.Direction;
 
+
+/*
+ * Not working correctly, Maze dosn't generate blank spaces
+ */
 public class HuntAndKillMazeGenerator extends AbstractMazeGenerator {
 	
 	private Maze [][] maze;
@@ -22,17 +26,17 @@ public class HuntAndKillMazeGenerator extends AbstractMazeGenerator {
 		addFeature('\u0033', '0', featureNumber); //3 is a bomb, 0 is a hedge
 		addFeature('\u0034', '0', featureNumber); //4 is a hydrogen bomb, 0 is a hedge
 
-		featureNumber = (int)((rows * cols) * 0.001);
 		addFeature('\u0036', '0', 1); //6 is a Black Spider, 0 is a hedge
-		//addFeature('\u0037', '0', featureNumber); //7 is a Blue Spider, 0 is a hedge
-		//addFeature('\u0038', '0', featureNumber); //8 is a Brown Spider, 0 is a hedge
-		//addFeature('\u0039', '0', featureNumber); //9 is a Green Spider, 0 is a hedge
-		//addFeature('\u003A', '0', featureNumber); //: is a Grey Spider, 0 is a hedge
-		//addFeature('\u003B', '0', featureNumber); //; is a Orange Spider, 0 is a hedge
-		//addFeature('\u003C', '0', featureNumber); //< is a Red Spider, 0 is a hedge
-		//addFeature('\u003D', '0', featureNumber); //= is a Yellow Spider, 0 is a hedge
+		addFeature('\u0037', '0', 1); //7 is a Blue Spider, 0 is a hedge
+		addFeature('\u0038', '0', 1); //8 is a Brown Spider, 0 is a hedge
+		addFeature('\u0039', '0', 1); //9 is a Green Spider, 0 is a hedge
+		addFeature('\u003A', '0', 1); //: is a Grey Spider, 0 is a hedge
+		addFeature('\u003B', '0', 1); //; is a Orange Spider, 0 is a hedge
+		addFeature('\u003C', '0', 1); //< is a Red Spider, 0 is a hedge
+		addFeature('\u003D', '0', 1); //= is a Yellow Spider, 0 is a hedge
 	}
 
+	//Creates all the Hedges
 	private void ini(){
 		for (int row = 0; row < maze.length; row++){
 			for (int col = 0; col < maze[row].length; col++){
@@ -41,16 +45,15 @@ public class HuntAndKillMazeGenerator extends AbstractMazeGenerator {
 		}
 	}
 
+	//Adds all the features to the Maze, spiders and items
 	private void addFeature(char feature, char replace, int number){
 		int counter = 0;
-		Random r = new Random();
-
 		while (counter < number){
 			int row = (int) (maze.length * Math.random());
 			int col = (int) (maze[0].length * Math.random());
 
 			if (maze[row][col].getMapItem() == replace){
-				maze[row][col].setMapItem(feature);
+				maze[row][col].setMapItem(feature);	
 				counter++;
 			}
 		}
@@ -68,7 +71,7 @@ public class HuntAndKillMazeGenerator extends AbstractMazeGenerator {
 		
 		//Start random walk
 		while (node != null){			
-			//node.setVisited(true);
+			node.setVisited(true);
 			Maze[] adjacents = node.adjacentNodes(maze);
 			super.shuffle(adjacents);
 
@@ -86,7 +89,7 @@ public class HuntAndKillMazeGenerator extends AbstractMazeGenerator {
 	}
 
 	private Maze hunt(){
-		Maze[][] maze = super.getMaze();
+		this.maze = super.getMaze();
 
 		for (int i = 0; i < maze.length; i++){
 			for (int j = 0; j < maze[i].length; j++){

@@ -17,6 +17,12 @@ import ie.gmit.sw.ai.maze.Maze;
 import ie.gmit.sw.ai.maze.MazeGenerator;
 import ie.gmit.sw.ai.maze.MazeGeneratorFactory;
 
+/*
+ * Game Runner Is used as the starting point of the game, 
+ * it calls all necessary methods to generate the maze, monsters and player etc
+ * Implements Game Runner
+ */
+
 public class GameRunner implements KeyListener{
 	private static final int MAZE_DIMENSION = 50;
 	private static final int IMAGE_COUNT = 14;
@@ -60,10 +66,11 @@ public class GameRunner implements KeyListener{
 		f.setSize(1000,1000);
 		f.setLocation(100,100);
 		f.pack();
-		f.setVisible(true);    
+		f.setVisible(true);   
 		updateView();	
 	}
 
+	//This method creates / starts the Monster objects in a new thread  
 	private void startMonsters() {
 		executor = (ThreadPoolExecutor) Executors.newFixedThreadPool(20);
 		Random r = new Random();
@@ -84,7 +91,8 @@ public class GameRunner implements KeyListener{
 		}
 	}
 
-	//Create a deep copy of the Maze
+	/*This Method creates the a DEEP copy of the Object passed in
+	Needed to give each Monster its own Maze to traverse*/
 	public static Object copy(Object orig) {
 		Object obj = null;
 		try {
@@ -110,7 +118,7 @@ public class GameRunner implements KeyListener{
 		return obj;
 	}
 
-	//Places the player in the maze
+	//Places the player in the maze at a random location
 	private void placePlayer(){   	
 		currentRow = (int) (MAZE_DIMENSION * Math.random());
 		currentCol = (int) (MAZE_DIMENSION * Math.random());
@@ -120,14 +128,14 @@ public class GameRunner implements KeyListener{
 		updateView();		
 	}
 
-	//Update the View
+	//Updates the current View
 	private void updateView(){
 		view.setCurrentRow(currentRow);
 		view.setCurrentCol(currentCol);
 		player.setPlayerNode(maze[currentRow][currentCol]);
 	}
 
-	// Get the key Down Event
+	// Get the key Down Events for moving: up, down, left right and zoom
 	public void keyPressed(KeyEvent e) {
 		if (e.getKeyCode() == KeyEvent.VK_RIGHT && currentCol < MAZE_DIMENSION - 1) {
 			if (isValidMove(currentRow, currentCol + 1)) currentCol++;   		
@@ -199,8 +207,7 @@ public class GameRunner implements KeyListener{
 	//Create the Sprite Array 
 	private Sprite[] getSprites() throws Exception{
 		//Read in the images from the resources directory as sprites. Note that each
-		//sprite will be referenced by its index in the array, e.g. a 3 implies a Bomb...
-		//Ideally, the array should dynamically created from the images... 
+		//sprite will be referenced by its index in the array, e.g. a 3 implies a Bomb... 
 		Sprite[] sprites = new Sprite[IMAGE_COUNT];
 		sprites[0] = new Sprite("Hedge", "resources/hedge.png");
 		sprites[1] = new Sprite("Sword", "resources/sword.png");
@@ -219,6 +226,7 @@ public class GameRunner implements KeyListener{
 		return sprites;
 	}
 
+	//Main Class that calls GameRunner()
 	public static void main(String[] args) throws Exception{
 		new GameRunner();
 	}

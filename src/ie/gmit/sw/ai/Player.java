@@ -2,6 +2,9 @@ package ie.gmit.sw.ai;
 
 import ie.gmit.sw.ai.maze.Maze;
 
+/*
+ * Player implements Interact, and is used to create the player on the map, and keep track of his health etc
+ */
 public class Player implements Interact{
 
 	private Maze playerNode;

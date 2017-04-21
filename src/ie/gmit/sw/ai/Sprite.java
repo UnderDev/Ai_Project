@@ -3,6 +3,9 @@ package ie.gmit.sw.ai;
 import javax.imageio.*;
 import java.awt.image.*;
 
+/*
+ * Sprite class , gets all the sprite's from the file and returns the BufferedImage array
+ */
 public class Sprite{
 
 	private String name; //The name of this sprite
