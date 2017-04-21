@@ -1,13 +1,15 @@
 package ie.gmit.sw.ai.maze;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 
-public class Maze {
+public  class Maze implements  Serializable{
+	private static final long serialVersionUID = 1L;
+
 	public enum Direction {North, South, East, West};
 	private Maze parent;
-	//private Color color = Color.BLACK;
 	private Direction[] paths = null;
 	private boolean visited =  false;
 	private boolean goal;
@@ -15,7 +17,6 @@ public class Maze {
 	private int row = -1;
 	private int col = -1;
 	private char mapItem;
-
 
 	public Maze(int row, int col){
 		this.row = row;

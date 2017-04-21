@@ -25,7 +25,7 @@ public class BruteForceTraversator implements Traversator{
 			
 			if (node.isGoal()){
 		        time = System.currentTimeMillis() - time; //Stop the clock
-		        TraversatorStats.printStats(node, time, visitCount);
+		        //TraversatorStats.printStats(node, time, visitCount);
 				break;
 			}
 			

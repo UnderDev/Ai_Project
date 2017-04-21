@@ -12,8 +12,8 @@ public class RecursiveDFSTraversator implements Traversator{
 	private boolean keepRunning = true;
 	private long time = System.currentTimeMillis();
 	private int visitCount = 0;
-	private LinkedList<Maze> queue = new LinkedList<Maze>();
-	private ArrayList <Maze> path = new ArrayList<Maze>();
+	private final  LinkedList<Maze> queue = new LinkedList<Maze>();
+	private final  ArrayList <Maze> path = new ArrayList<Maze>();
 	private Monster monster;
 	private Maze tempNode;
 
@@ -64,7 +64,12 @@ public class RecursiveDFSTraversator implements Traversator{
 				for (int i = 0; i < children.length; i++) {
 					if ((children[i].getRow() <= maze.length - 1) && (children[i].getCol() <= maze[children[i].getRow()].length - 1)
 							&& ((children[i].getMapItem() == ' ') || (children[i].getMapItem() == '5'))){
-						//children[i].setMapItem('\u003D');//spider Char
+
+						if(Thread.currentThread().getName() =="Spider 1")
+							children[i].setMapItem('\u0036');//spider Char
+						else 
+							children[i].setMapItem('\u0037');//spider Char
+
 						children[i].setParent(node);
 						dfs(children[i]);}
 				}

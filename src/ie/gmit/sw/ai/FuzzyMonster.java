@@ -2,7 +2,7 @@ package ie.gmit.sw.ai;
 
 public class FuzzyMonster extends Sprite implements Runnable{
 	
-	private static double Fullhealth = 20;
+	private double Fullhealth = 20;
 	private FuzzyFight ffight;
 	private double result;
 

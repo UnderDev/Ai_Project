@@ -26,19 +26,13 @@ public class BFS implements Traversator{
 
 	public void search(Maze node){
 		System.out.println(Thread.currentThread().getName() +" Current Location : "+node.toString());
+
 		while(!queue.isEmpty()){
 
 			if (!keepRunning) return;
 
 			//node.setVisited(true);
 			visitCount++;
-
-			try { //Simulate processing each expanded node
-				Thread.sleep(2);
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
-
 
 			if (node.isGoal()){
 				System.out.println(Thread.currentThread().getName()+" Found you at " + node.toString());
@@ -56,21 +50,20 @@ public class BFS implements Traversator{
 
 				keepRunning = false;
 				return;
-				//System.exit(0);
 			}else{
 				Maze[] children = node.children(maze);
 				queue.removeFirst();//Remove the starting Node
 				for (int i = 0; i < children.length; i++) {
 					//for (int i = children.length - 1; i >= 0; i--) {			
-					//if (children[i] != null && !children[i].isVisited()){
 					if ((children[i].getRow() <= maze.length - 1) && (children[i].getCol() <= maze[children[i].getRow()].length - 1)
 							&& ((children[i].getMapItem() == ' ') || (children[i].getMapItem() == '5'))){
 						children[i].setParent(node);
 						queue.addLast(children[i]);	
-						//if(Thread.currentThread().getName() =="Spider 2")
-						//children[i].setMapItem('\u0038');
 
-						//}
+						if(Thread.currentThread().getName() =="Spider 1")
+							children[i].setMapItem('\u0036');//spider Char
+						else if (Thread.currentThread().getName() =="Spider 2")
+							children[i].setMapItem('\u0037');//spider Char
 					}
 				}
 			}
@@ -78,13 +71,20 @@ public class BFS implements Traversator{
 			try {
 				node = queue.getFirst();
 			} catch (Exception e) {
-				System.out.println("Something went Wrong!");
+				System.out.println(Thread.currentThread().getName()+" Has no Valid Path");
+				//unvisit();
+				//queue.addLast(tempNode);
+				//search(tempNode);
 			}
 		}
-		if (!monster.isFound()){
-			System.out.println(Thread.currentThread().getName() + " Searching Again from Node: " +tempNode.toString());
-			queue.addLast(tempNode);
-			search(tempNode);
+	}
+
+	//Not really Needed
+	private void unvisit(){
+		for (int i = 0; i < maze.length; i++){
+			for (int j = 0; j < maze[i].length; j++){
+				maze[i][j].setParent(null);
+			}
 		}
 	}
 }
