@@ -32,7 +32,7 @@ The maze is generated with a number of features included:
   * If a spider is a fuzzy logic type of spider he will start a fuzzyfight with the Spartan
     * The input values for the fight function block are the value of the Spartans weapon and the spiders anger leverl
     * The output value is the damage that is caused to the spider
-    * The rules are as seen:
+    * The rules are as follows:
       * RULE 1 : IF weapon IS poor OR angerLevel IS low THEN damage IS low;
       * RULE 2 : IF weapon IS good THEN damage IS medium; 
       * RULE 3 : IF weapon IS excellent AND angerLevel IS high THEN damage IS high;
