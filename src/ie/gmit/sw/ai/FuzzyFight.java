@@ -31,7 +31,7 @@ public class FuzzyFight {
       //System.out.println(damage);
 		
 		
-		return damage.getValue();
+		return Math.round(damage.getValue());
 		
 	}
 
