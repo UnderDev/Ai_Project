@@ -8,7 +8,7 @@ This is a maze game starring you, as the dashing and brave Spartan Warrior stuck
 ## Maze Generation
 Maze is created using one of two types of maze generators - Binary Tree or Hunt and Kill
 * Binary Tree adds a bias into the maze by randomly creating passages either north or west but not both
-* Hunt  and Kill create mazes with a long passageways ("river factor".  By using the Hunt method, you can create mazes with shorter passageways - Could not quite implement this one
+* Hunt  and Kill create mazes with a long passageways ("river factor").  By using the Hunt method, you can create mazes with shorter passageways - Could not quite implement this one
 
 ### Map Features
 The maze is generated with a number of features included:
@@ -43,7 +43,7 @@ The maze is generated with a number of features included:
      * 3 input nodes which represent spider health, player sword and spider anger
      * 3 hidden nodes 
      * 3 output nodes which tell the spider how to react - either Panic (deducts health), Attack (deducts from weapon) or Hide (which deducts from health because no one likes a sissy)
-   * Training data and expected data are contained inside the fight class and are used to train the Back Propogation Trainer
+   * Training data and expected data are contained inside the fight class and are used to train the Back Propagation Trainer
 
 
    
