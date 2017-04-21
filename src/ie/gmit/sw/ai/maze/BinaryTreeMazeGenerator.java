@@ -15,7 +15,6 @@ public class BinaryTreeMazeGenerator extends AbstractMazeGenerator {
 		addFeature('\u0033', '0', featureNumber); //3 is a bomb, 0 is a hedge
 		addFeature('\u0034', '0', featureNumber); //4 is a hydrogen bomb, 0 is a hedge
 
-		featureNumber = (int)((rows * cols) * 0.001);
 		addFeature('\u0036', '0', 1); //6 is a Black Spider, 0 is a hedge
 		addFeature('\u0037', '0', 1); //7 is a Blue Spider, 0 is a hedge
 		addFeature('\u0038', '0', 1); //8 is a Brown Spider, 0 is a hedge
@@ -47,36 +46,6 @@ public class BinaryTreeMazeGenerator extends AbstractMazeGenerator {
 		}
 	}
 
-	/*public void generateMaze(){ 
-		this.maze = super.getMaze();
-		for (int row = 1; row < maze.length - 1; row++){
-			for (int col = 1; col < maze[row].length - 1; col++){
-				int num = (int) (Math.random() * 10);
-				if (num > 5 && col + 1 < maze[row].length - 1){
-					maze[row][col + 1].setMapItem('\u0020'); //\u0020 = 0x20 = 32 (base 10) = SPACE
-				}
-				else{
-					if (row + 1 < maze.length - 1) maze[row + 1][col].setMapItem('\u0020');
-					maze[row][col].addPath(Maze.Direction.West);
-				}
-			}
-		}		
-	}*/
-
-	/*public void generateMaze(){
-		this.maze = super.getMaze();
-		for (int row = 0; row < maze.length; row++){
-			for (int col = 0; col < maze[row].length; col++){
-				int num = (int) (Math.random() * 10);
-				if (col > 0 && (row == 0 || num >= 5)){
-					maze[row][col].addPath(Maze.Direction.West); 
-				}else{
-					maze[row][col].addPath(Maze.Direction.North);
-				}				
-			}
-		}
-	}*/
-
 	public void generateMaze(){ 
 		this.maze = super.getMaze();
 		for (int row = 1; row < maze.length - 1; row++){
@@ -90,7 +59,6 @@ public class BinaryTreeMazeGenerator extends AbstractMazeGenerator {
 			}
 		}		
 	}	
-
 
 	public Maze[][] getMaze(){
 		return this.maze;

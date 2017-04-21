@@ -10,32 +10,24 @@ public class BFS implements Traversator{
 	private ArrayList <Maze> path;
 	private Maze[][] maze;
 	private boolean keepRunning = true;
-	private int visitCount = 0;
-	private long time = System.currentTimeMillis();
 	private Monster monster;
-	private Maze node;
-
 
 	public void traverse(Maze[][] maze, Maze node, Monster monster) {
 		this.maze = maze;
 		this.monster = monster;
-		this.node = node;
 		queue.addLast(node);
 		search(node);
 	}
 
 	public void search(Maze node){
-		//System.out.println(Thread.currentThread().getName() +" Current Location : "+node.toString());
 		path = new ArrayList<Maze>();
+
 		while(!queue.isEmpty()){
-
 			if (!keepRunning) return;
-
-			//node.setVisited(true);
-			visitCount++;
 
 			if (node.isGoal()){
 				path.add(node);
+
 				while (node != null){			
 					node = node.getParent();
 					if (node != null){ 						
@@ -55,11 +47,6 @@ public class BFS implements Traversator{
 							&& ((children[i].getMapItem() == ' ') || (children[i].getMapItem() == '5'))){
 						children[i].setParent(node);
 						queue.addLast(children[i]);	
-
-						if(Thread.currentThread().getName() =="Spider 1")
-							children[i].setMapItem('\u0036');//spider Char
-						else if (Thread.currentThread().getName() =="Spider 2")
-							children[i].setMapItem('\u0037');//spider Char
 					}
 				}
 			}
@@ -67,19 +54,6 @@ public class BFS implements Traversator{
 			try {
 				node = queue.getFirst();
 			} catch (Exception e) {
-				//System.out.println(Thread.currentThread().getName()+" Has no Valid Path");
-				//unvisit();
-				//queue.addLast(tempNode);
-				//search(tempNode);
-			}
-		}
-	}
-
-	//Not really Needed
-	private void unvisit(){
-		for (int i = 0; i < maze.length; i++){
-			for (int j = 0; j < maze[i].length; j++){
-				maze[i][j].setParent(null);
 			}
 		}
 	}

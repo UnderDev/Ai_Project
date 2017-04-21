@@ -1,12 +1,9 @@
 package ie.gmit.sw.ai.traversers;
 
-import java.awt.Color;
 import java.util.ArrayList;
 import java.util.Collections;
-
-import ie.gmit.sw.ai.*;
 import ie.gmit.sw.ai.maze.Maze;
-//import ie.gmit.sw.ai.audio.*;
+
 public class TraversatorStats {
 	private ArrayList <Maze> path = new ArrayList<Maze>();
 	public void printStats(Maze node, long time, int visitCount){
@@ -26,7 +23,5 @@ public class TraversatorStats {
 		System.out.println("Found goal at a depth of " + String.format("%.0f", depth));    
 		System.out.println("EBF = B* = k^(1/d) = " + String.format("%.2f", Math.pow((double) visitCount, (1.00d / depth)))); 
 		System.out.println("Path To Goal Node: "+ path);
-		//SoundEffects.ALARM.play();
-
 	}
 }

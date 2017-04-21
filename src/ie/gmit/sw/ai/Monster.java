@@ -11,11 +11,8 @@ import java.util.Collections;
 
 import ie.gmit.sw.ai.maze.Maze;
 import ie.gmit.sw.ai.nn.NnFight;
-import ie.gmit.sw.ai.traversers.AStarTraversator;
-import ie.gmit.sw.ai.traversers.BFS;
-import ie.gmit.sw.ai.traversers.BruteForceTraversator;
-import ie.gmit.sw.ai.traversers.RecursiveDFSTraversator;
-import ie.gmit.sw.ai.traversers.Traversator;
+import ie.gmit.sw.ai.traversers.*;
+
 
 public class Monster implements Interact, Runnable{
 
@@ -25,10 +22,7 @@ public class Monster implements Interact, Runnable{
 	private double result;
 	private double angerLevel;
 	private double [] outcome;
-	private boolean found = false;
 	private int damage;
-	private Traversator t;
-	private Maze[][] mazeCopy;
 	private Maze[][] mainMaze;
 	private ArrayList<Maze> path = new ArrayList<Maze>();
 	private char ch;
@@ -58,22 +52,8 @@ public class Monster implements Interact, Runnable{
 		this.damage = damage;
 	}
 
-	public void setFound(boolean found) {
-		this.found = found;
-	}
-
-	public boolean isFound() {
-		return found;
-	}
-
 	public void setPath(ArrayList<Maze> path) {
 		this.path = path;
-	}
-
-	public ArrayList<Maze> getPath() {
-		Collections.reverse(path);
-		path.remove(0);// Takes out the position it currently is in
-		return path;
 	}
 
 	public void setHealth(double health)
@@ -100,11 +80,9 @@ public class Monster implements Interact, Runnable{
 	{
 		if(health > 0)return true;
 		else return false;
-
 	}
 
 	public void fight(double angerLevel, double weapon) {
-
 		if(this.type.equals("fuzzy"))
 		{
 			ffight = new FuzzyFight();
@@ -117,8 +95,6 @@ public class Monster implements Interact, Runnable{
 			try {
 				outcome = nnfight.action(this.getHealth(), player.getWeapon(), angerLevel);
 			} catch (Exception e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
 			}
 
 			this.health=outcome[0];
@@ -141,11 +117,6 @@ public class Monster implements Interact, Runnable{
 	{
 		this.x=x;
 		this.y=y;
-	}
-
-	public void setMaze(Maze[][] m)
-	{
-		this.mazeCopy=m;
 	}
 
 	//Create a deep copy of the Maze
@@ -175,35 +146,23 @@ public class Monster implements Interact, Runnable{
 	}
 
 	public void run() {	
-		//if(Thread.currentThread().getName() == "Spider 1")
 		while(this.isAlive()){
-			if(algo.equals("bfs")){
-				t = new BFS();	
-			}
-			else if(algo.equals("dfs")){
-				t = new RecursiveDFSTraversator();	
-			}
-			else if(algo.equals("aStar")){
-				t = new AStarTraversator(player.getPlayerNode());
-			}
-
 			try { //Simulate processing each expanded node
 				Thread.sleep(1000);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
-			t = new BFS();
-			//t.traverse(mazeCopy, mazeCopy[x][y], this);
-			t.traverse((Maze[][])copy(mainMaze), (Maze)copy(mainMaze[x][y]), this);
+
+			getAlgorithm().traverse((Maze[][])copy(mainMaze), (Maze)copy(mainMaze[x][y]), this);
+
 			Collections.reverse(path);
-			//path.remove(0);// Takes out the position it currently is in
 			for (Maze node :path) {
 				if(mainMaze[node.getRow()][node.getCol()].getMapItem() == ' '){
 					mainMaze[node.getRow()][node.getCol()].setMapItem(this.ch);
 					mainMaze[x][y].setMapItem(' ');
 					this.setPos(node.getRow(),node.getCol());
-					try { //Simulate processing each expanded node
-						Thread.sleep(100);
+					try { //Slow Down the spiders movement Speed
+						Thread.sleep(500);
 					} catch (InterruptedException e) {
 						e.printStackTrace();
 					}
@@ -214,15 +173,40 @@ public class Monster implements Interact, Runnable{
 					this.player.takeHeath(5);;
 					if(!this.isAlive())
 					{
-						System.out.println(this.isAlive());
 						mainMaze[this.x][this.y].setMapItem(' ');
 						return;
 					}
 
+					if(!player.isAlive()){
+						player.getPlayerNode().setMapItem(' ');
+						System.out.println("\n---------------------------------");
+						System.out.println("----       You Lose!      -------");
+						System.out.println("---------------------------------");
+
+						try {
+							Thread.sleep(1000);
+						} catch (InterruptedException e) {
+						}
+
+						System.exit(0);
+						return;
+					}
 				}
-
 			}
+		}
+	}
 
+	private Traversator getAlgorithm() {
+		Traversator t;
+		switch(algo){
+		case "bfs":
+			return t = new BFS();
+		case "aStar":
+			return t = new AStarTraversator(player.getPlayerNode());
+		case "rDfs":
+			return t = new RecursiveDFSTraversator();
+		default:
+			return t = new RecursiveDFSTraversator();
 		}
 	}
 }
