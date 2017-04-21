@@ -75,7 +75,12 @@ public class GameRunner implements KeyListener{
 				char ch = maze[row][col].getMapItem(); //Index 0 is a hedge
 
 				if(ch > '5'){
-					monster = new Monster(5, r.nextDouble()*100, ch, row, col, maze, "bfs", player);
+					
+					if(ch <= '9')
+						monster = new Monster(Math.round(r.nextDouble()*100), Math.round(r.nextDouble()*100), ch, row, col, maze, "bfs", player, "nn");
+					else
+						monster = new Monster(Math.round(r.nextDouble()*100), Math.round(r.nextDouble()*100), ch, row, col, maze, "dfs", player, "fuzzy");
+					
 					monster.setMaze((Maze[][])copy(maze));//Deep Copy
 					//scheduledExecutorService.schedule(m, 1, TimeUnit.SECONDS);
 					executor.execute(monster);
@@ -172,9 +177,6 @@ public class GameRunner implements KeyListener{
 			maze[row][col].setGoal(true);
 			System.out.println("Play new pos  " + maze[row][col]);
 			
-			for (Monster t: monsters) {
-				//t.setMaze((Maze[][])copy(maze));//Deep Copy
-			}
 			return true;
 		}else{			
 			char item =  maze[row][col].getMapItem();
@@ -206,13 +208,6 @@ public class GameRunner implements KeyListener{
 		case '4':
 			player.betterWeapon(20);
 			maze[row][col].setMapItem('0');
-			System.out.println("Weapon: " + player.getWeapon());
-		case '6':
-			System.out.println("Health" + player.getHealth());
-			player.fight(10, player.getWeapon());
-			System.out.println("Health" + player.getHealth());
-			maze[row][col].setMapItem(' ');
-			startMonsters();
 			System.out.println("Weapon: " + player.getWeapon());
 		default:
 			break;

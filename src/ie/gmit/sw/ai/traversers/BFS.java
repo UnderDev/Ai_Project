@@ -35,7 +35,7 @@ public class BFS implements Traversator{
 			visitCount++;
 
 			if (node.isGoal()){
-
+				path.add(node);
 				while (node != null){			
 					node = node.getParent();
 					if (node != null){ 						
@@ -67,7 +67,7 @@ public class BFS implements Traversator{
 			try {
 				node = queue.getFirst();
 			} catch (Exception e) {
-				System.out.println(Thread.currentThread().getName()+" Has no Valid Path");
+				//System.out.println(Thread.currentThread().getName()+" Has no Valid Path");
 				//unvisit();
 				//queue.addLast(tempNode);
 				//search(tempNode);

@@ -38,8 +38,6 @@ public class AStarTraversator implements Traversator{
 					}			
 				}	
 				monster.setPath(path);
-				monster.setFound(true);
-				unvisit(node, maze);
 				break;
 			}
 
