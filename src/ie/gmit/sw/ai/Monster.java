@@ -25,14 +25,18 @@ public class Monster implements Interact, Runnable{
 	private char ch;
 	private int x;
 	private int y;
+	private String algo;
+	Player player = new Player();
 
-	public Monster(double health, double angerLevel, char ch, int x, int y, Maze[][] maze){
+	public Monster(double health, double angerLevel, char ch, int x, int y, Maze[][] maze, String algo, Player player){
 		this.health=health;
 		this.angerLevel=angerLevel;
 		this.ch=ch;
 		this.x=x;
 		this.y=y;
 		this.mainMaze = maze;
+		this.algo=algo;
+		this.player=player;
 	}
 
 
@@ -89,12 +93,11 @@ public class Monster implements Interact, Runnable{
 
 	}
 
-	public double fight(double angerLevel, double damage) {
+	public double fight(double angerLevel, double weapon) {
 
 		ffight = new FuzzyFight();
-		result = Math.round(ffight.getFuzzy(angerLevel, damage));
+		result = Math.round(ffight.getFuzzy(angerLevel, weapon));
 		adjustHealth(result);
-		System.out.println("Monster: "+Thread.currentThread().getName()+" Health Remaining: " + this.health + " Damage: "+ damage);
 		return result;
 	}
 
@@ -122,14 +125,16 @@ public class Monster implements Interact, Runnable{
 	public void run() {	
 		System.out.println("Starting: "+ Thread.currentThread().getName());
 		//if(Thread.currentThread().getName() == "Spider 1")
-		t = new BFS();		
-		//t = new BruteForceTraversator(true);
-		//else
-		//t = new RecursiveDFSTraversator();
+			if(algo.equals("bfs")){
+				t = new BFS();	
+			}
+			else if(algo.equals("dfs")){
+				t = new RecursiveDFSTraversator();	
+			}
+			System.out.println("Pos " + x + " " + y);
+			t.traverse(mazeCopy, mazeCopy[x][y], this);
 
-		t.traverse(mazeCopy, mazeCopy[x][y], this);
 
-		if (found){	
 			Collections.reverse(path);
 			path.remove(0);// Takes out the position it currently is in
 			for (Maze node :path) {
@@ -144,8 +149,10 @@ public class Monster implements Interact, Runnable{
 				mainMaze[x][y].setMapItem(' ');
 				this.setPos(node.getRow(),node.getCol());
 			}
-			fight(this.angerLevel, 5);
-		}
+			fight(this.angerLevel, this.player.getWeapon());
+		
+			if(!this.isAlive())
+			mainMaze[this.x][this.y].setMapItem(' ');
 	}
 }
 

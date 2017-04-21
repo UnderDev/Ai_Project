@@ -12,6 +12,7 @@ public class Player{
 
 	public Player() {		
 		this.health=100;
+		this.weapon=5;
 	}
 
 	public Maze getPlayerNode()
@@ -39,7 +40,7 @@ public class Player{
 		this.weapon=weapon+power;
 	}
 
-	public boolean isAlive(double health)
+	public boolean isAlive()
 	{
 		if(health > 0) return true;
 		else return false;
