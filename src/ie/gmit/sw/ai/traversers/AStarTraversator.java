@@ -3,7 +3,6 @@ package ie.gmit.sw.ai.traversers;
 import ie.gmit.sw.ai.Monster;
 import ie.gmit.sw.ai.maze.*;
 
-import java.awt.Color;
 import java.util.*;
 public class AStarTraversator implements Traversator{
 	private Maze goal;
@@ -14,9 +13,6 @@ public class AStarTraversator implements Traversator{
 	}
 
 	public void traverse(Maze[][] maze, Maze node, Monster monster) {
-		long time = System.currentTimeMillis();
-		int visitCount = 0;
-
 		PriorityQueue<Maze> open = new PriorityQueue<Maze>(20, (Maze current, Maze next)-> (current.getPathCost() + current.getHeuristic(goal)) - (next.getPathCost() + next.getHeuristic(goal)));
 		java.util.List<Maze> closed = new ArrayList<Maze>();
 
@@ -25,12 +21,10 @@ public class AStarTraversator implements Traversator{
 		while(!open.isEmpty()){
 			node = open.poll();		
 			closed.add(node);
-			//node.setVisited(true);	
-			visitCount++;
+			node.setVisited(true);	
 
 			if (node.isGoal()){
-				time = System.currentTimeMillis() - time; //Stop the clock
-
+				path.add(node);
 				while (node != null){			
 					node = node.getParent();
 					if (node != null){ 						
@@ -38,39 +32,33 @@ public class AStarTraversator implements Traversator{
 					}			
 				}	
 				monster.setPath(path);
-				monster.setFound(true);
 				unvisit(node, maze);
 				break;
-			}
-
-			try { //Simulate processing each expanded node
-				Thread.sleep(1);
-			} catch (InterruptedException e) {
-				e.printStackTrace();
 			}
 
 			//Process adjacent nodes
 			Maze[] children = node.children(maze);
 			for (int i = 0; i < children.length; i++) {
-				Maze child = children[i];
-				int score = node.getPathCost() + 1 + child.getHeuristic(goal);
-				int existing = child.getPathCost() + child.getHeuristic(goal);
-
-				if ((open.contains(child) || closed.contains(child)) && existing < score){
-					continue;
-				}else{
-					open.remove(child);
-					closed.remove(child);
-					child.setParent(node);
-					child.setPathCost(node.getPathCost() + 1);
-					open.add(child);
+				if ((children[i].getRow() <= maze.length - 1) && (children[i].getCol() <= maze[children[i].getRow()].length - 1)
+						&& ((children[i].getMapItem() == ' ') || (children[i].getMapItem() == '5'))){
+					Maze child = children[i];
+					int score = node.getPathCost() + 1 + child.getHeuristic(goal);
+					int existing = child.getPathCost() + child.getHeuristic(goal);
+					if ((open.contains(child) || closed.contains(child)) && existing < score){
+						continue;
+					}else{
+						open.remove(child);
+						closed.remove(child);
+						child.setParent(node);
+						child.setPathCost(node.getPathCost() + 1);
+						open.add(child);
+					}
 				}
-
 			}
 		}
 	}
-	
-	
+
+
 	private void unvisit(Maze node, Maze[][] maze){
 		for (int i = 0; i < maze.length; i++){
 			for (int j = 0; j < maze.length; j++){
@@ -78,5 +66,5 @@ public class AStarTraversator implements Traversator{
 				maze[i][j].setParent(null);
 			}
 		}
-}
+	}
 }

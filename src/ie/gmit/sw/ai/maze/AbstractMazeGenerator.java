@@ -4,7 +4,7 @@ import java.util.Random;
 
 import ie.gmit.sw.ai.maze.Maze.Direction;
 
-public abstract class AbstractMazeGenerator {
+public abstract class AbstractMazeGenerator  implements MazeGenerator{
 	private Maze[][] maze;
 
 	public AbstractMazeGenerator(int rows, int cols) {

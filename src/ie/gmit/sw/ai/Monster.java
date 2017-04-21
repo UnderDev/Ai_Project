@@ -24,8 +24,6 @@ public class Monster implements Interact, Runnable{
 	private double angerLevel;
 	private boolean found = false;
 	private int damage;
-	private Traversator t;
-	private Maze[][] mazeCopy;
 	private Maze[][] mainMaze;
 	private ArrayList<Maze> path = new ArrayList<Maze>();
 	private char ch;
@@ -45,15 +43,6 @@ public class Monster implements Interact, Runnable{
 		this.player=player;
 	}
 
-	public Monster(double health, double angerLevel, char ch, int x, int y){
-		this.health=health;
-		this.angerLevel=angerLevel;
-		this.ch=ch;
-		this.x=x;
-		this.y=y;
-	}
-
-
 	public int getDamage() {
 		return damage;
 	}
@@ -62,13 +51,7 @@ public class Monster implements Interact, Runnable{
 		this.damage = damage;
 	}
 
-	public void setFound(boolean found) {
-		this.found = found;
-	}
 
-	public boolean isFound() {
-		return found;
-	}
 
 	public void setPath(ArrayList<Maze> path) {
 		this.path = path;
@@ -104,11 +87,9 @@ public class Monster implements Interact, Runnable{
 	{
 		if(health > 0)return true;
 		else return false;
-
 	}
 
 	public double fight(double angerLevel, double weapon) {
-
 		ffight = new FuzzyFight();
 		result = Math.round(ffight.getFuzzy(angerLevel, weapon));
 		adjustHealth(result);
@@ -129,11 +110,6 @@ public class Monster implements Interact, Runnable{
 	{
 		this.x=x;
 		this.y=y;
-	}
-
-	public void setMaze(Maze[][] m)
-	{
-		this.mazeCopy=m;
 	}
 
 	//Create a deep copy of the Maze
@@ -163,20 +139,6 @@ public class Monster implements Interact, Runnable{
 	}
 
 	public void run() {	
-		//if(Thread.currentThread().getName() == "Spider 1")
-		boolean rolo=true;
-
-		if(algo.equals("bfs")){
-			t = new BFS();	
-		}
-		else if(algo.equals("dfs")){
-			t = new RecursiveDFSTraversator();	
-		}
-		else if(algo.equals("aStar")){
-			t = new AStarTraversator(player.getPlayerNode());
-		}
-
-
 
 		while(this.isAlive()){
 			try { //Simulate processing each expanded node
@@ -184,19 +146,20 @@ public class Monster implements Interact, Runnable{
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
-			t = new BFS();
-			//t.traverse(mazeCopy, mazeCopy[x][y], this);
-			t.traverse((Maze[][])copy(mainMaze), (Maze)copy(mainMaze[x][y]), this);
-			Collections.reverse(path);
-			path.remove(0);// Takes out the position it currently is in
-			for (Maze node :path) {
 
+			getAlgorithm().traverse((Maze[][])copy(mainMaze), (Maze)copy(mainMaze[x][y]), this);
+
+			Collections.reverse(path);
+			if(!path.isEmpty())
+				path.remove(0);// Takes out the position it currently is in
+
+			for (Maze node :path) {
 				if(mainMaze[node.getRow()][node.getCol()].getMapItem() == ' '){
 					mainMaze[node.getRow()][node.getCol()].setMapItem(this.ch);
 					mainMaze[x][y].setMapItem(' ');
 					this.setPos(node.getRow(),node.getCol());
-					try { //Simulate processing each expanded node
-						Thread.sleep(100);
+					try { //Slow Down the spiders movement Speed
+						Thread.sleep(500);
 					} catch (InterruptedException e) {
 						e.printStackTrace();
 					}
@@ -210,11 +173,24 @@ public class Monster implements Interact, Runnable{
 						mainMaze[this.x][this.y].setMapItem(' ');
 						return;
 					}
-
 				}
-
 			}
+		}
+	}
 
+	private Traversator getAlgorithm() {
+		Traversator t;
+		switch(algo){
+		case "bfs":
+			return t = new BFS();
+		case "aStar":
+			return t = new AStarTraversator(player.getPlayerNode());
+		case "brut":
+			return t = new BruteForceTraversator(false);
+		case "rDfs":
+			return t = new RecursiveDFSTraversator();
+		default:
+			return t = new RecursiveDFSTraversator();
 		}
 	}
 }
