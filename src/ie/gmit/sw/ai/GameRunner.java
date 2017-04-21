@@ -29,7 +29,7 @@ public class GameRunner implements KeyListener{
 
 		sprites = getSprites();
 		view.setSprites(sprites);
-		placePlayer();
+		//placePlayer();
 
 		view.toggleZoom(); //testing only ******* REMOVE	
 
@@ -47,6 +47,7 @@ public class GameRunner implements KeyListener{
 		f.setLocation(100,100);
 		f.pack();
 		f.setVisible(true);    
+		updateView();	
 	}
 
 	//Places the player in the maze

@@ -8,8 +8,8 @@ import ie.gmit.sw.ai.*;
 import ie.gmit.sw.ai.maze.Maze;
 //import ie.gmit.sw.ai.audio.*;
 public class TraversatorStats {
-	private static ArrayList <Maze> path = new ArrayList<Maze>();
-	public static void printStats(Maze node, long time, int visitCount){
+	private ArrayList <Maze> path = new ArrayList<Maze>();
+	public void printStats(Maze node, long time, int visitCount){
 
 		double depth = 0;
 

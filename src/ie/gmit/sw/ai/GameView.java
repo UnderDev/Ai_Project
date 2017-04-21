@@ -79,12 +79,18 @@ public class GameView extends JPanel implements ActionListener{
 					if (ch >= '5'){
 						if (row == currentRow && col == currentCol){
 							g2.setColor(Color.YELLOW);
-						}else{
+						}/*else{
 							//g2.setColor(reds[(int) (Math.random() * 3)]);
 							g2.setColor(Color.MAGENTA);
+						}*/
+						else if (ch >= '7'){
+							g2.setColor(Color.blue);
+						}
+						else if (ch >= '6'){
+							g2.setColor(Color.ORANGE);
 						}
 						g2.fillRect(x1, y1, size, size);
-					}
+					}					
 				}else{
 					ch = maze[currentRow - cellpadding + row] [currentCol - cellpadding + col].getMapItem();
 				}

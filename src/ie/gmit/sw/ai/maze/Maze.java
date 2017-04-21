@@ -1,10 +1,13 @@
 package ie.gmit.sw.ai.maze;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 
-public class Maze {
+public  class Maze implements  Serializable{
+	private static final long serialVersionUID = 1L;
+
 	public enum Direction {North, South, East, West};
 	private Maze parent;
 	//private Color color = Color.BLACK;

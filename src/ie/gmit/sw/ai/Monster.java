@@ -122,7 +122,7 @@ public class Monster implements Interact, Runnable{
 		t.traverse(m, m[x][y], this);
 
 		if (found){	
-			//Collections.reverse(path);
+			Collections.reverse(path);
 			path.remove(0);// Takes out the position it currently is in
 			for (Maze node :path) {
 
